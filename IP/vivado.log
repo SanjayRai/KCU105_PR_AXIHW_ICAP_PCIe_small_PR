@@ -1,0 +1,65 @@
+#-----------------------------------------------------------
+# Vivado v2016.2 (64-bit)
+# SW Build 1577090 on Thu Jun  2 16:32:35 MDT 2016
+# IP Build 1577682 on Fri Jun  3 12:00:54 MDT 2016
+# Start of session at: Sun Jul 31 19:43:08 2016
+# Process ID: 18176
+# Current directory: /home/sanjayr/projects/Vivado_PR/GIT_TEST/KCU105_PR_AXIHW_ICAP_PCIe_small_PR/IP
+# Command line: vivado -source vivado_project.tcl
+# Log file: /home/sanjayr/projects/Vivado_PR/GIT_TEST/KCU105_PR_AXIHW_ICAP_PCIe_small_PR/IP/vivado.log
+# Journal file: /home/sanjayr/projects/Vivado_PR/GIT_TEST/KCU105_PR_AXIHW_ICAP_PCIe_small_PR/IP/vivado.jou
+#-----------------------------------------------------------
+start_gui
+source vivado_project.tcl
+# source ../device_type.tcl
+## proc DEVICE_TYPE {} {
+##     return xcku040-ffva1156-2-e
+## }
+## proc disp_hw {} {
+## open_hw
+## connect_hw_server -url mcmicro:3121
+## current_hw_target [get_hw_targets */xilinx_tcf/Digilent/210251893419]
+## set_property PARAM.FREQUENCY 15000000 [get_hw_targets */xilinx_tcf/Digilent/210251893419]
+## open_hw_target
+## current_hw_device [lindex [get_hw_devices] 0]
+## refresh_hw_device -update_hw_probes false [lindex [get_hw_devices] 0]
+## set_property PROBES.FILE  {./xilinx_pcie3_uscale_ep.ltx} [lindex [get_hw_devices] 0]
+## set_property PROGRAM.FILE {./xilinx_pcie3_uscale_ep.bin} [lindex [get_hw_devices] 0]
+## refresh_hw_device [lindex [get_hw_devices] 0]
+## set_property CONTROL.TRIGGER_POSITION 256 [get_hw_ilas -of_objects [get_hw_devices xcku040_0] -filter {CELL_NAME=~"pcie3_ultrascale_0_support_i/u_ila_ICAP"}]
+## run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xcku040_0] -filter {CELL_NAME=~"pcie3_ultrascale_0_support_i/u_ila_ICAP"}]
+## wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xcku040_0] -filter {CELL_NAME=~"pcie3_ultrascale_0_support_i/u_ila_ICAP"}]
+## display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xcku040_0] -filter {CELL_NAME=~"pcie3_ultrascale_0_support_i/u_ila_ICAP"}]]
+## }
+## proc prog_hw {} {
+## open_hw
+## connect_hw_server -url mcmicro:3121
+## current_hw_target [get_hw_targets */xilinx_tcf/Digilent/210251893419]
+## set_property PARAM.FREQUENCY 15000000 [get_hw_targets */xilinx_tcf/Digilent/210251893419]
+## open_hw_target
+## current_hw_device [lindex [get_hw_devices] 0]
+## refresh_hw_device -update_hw_probes false [lindex [get_hw_devices] 0]
+## set_property PROBES.FILE  {./xilinx_pcie3_uscale_ep.ltx} [lindex [get_hw_devices] 0]
+## set_property PROGRAM.FILE {./xilinx_pcie3_uscale_ep.bin} [lindex [get_hw_devices] 0]
+## program_hw_devices [lindex [get_hw_devices] 0]
+## refresh_hw_device [lindex [get_hw_devices] 0]
+## set_property CONTROL.TRIGGER_POSITION 256 [get_hw_ilas -of_objects [get_hw_devices xcku040_0] -filter {CELL_NAME=~"pcie3_ultrascale_0_support_i/u_ila_ICAP"}]
+## run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xcku040_0] -filter {CELL_NAME=~"pcie3_ultrascale_0_support_i/u_ila_ICAP"}]
+## wait_on_hw_ila [get_hw_ilas -of_objects [get_hw_devices xcku040_0] -filter {CELL_NAME=~"pcie3_ultrascale_0_support_i/u_ila_ICAP"}]
+## display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xcku040_0] -filter {CELL_NAME=~"pcie3_ultrascale_0_support_i/u_ila_ICAP"}]]
+## }
+# create_project project_X project_X -part [DEVICE_TYPE] 
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/home/applications/Xilinx/Vivado/2016.2/data/ip'.
+# set_property board_part xilinx.com:kcu105:part0:1.1 [current_project]
+# add_files -fileset sources_1 -norecurse {
+# ../IP/clk_100Mhz_out/clk_100Mhz_out.xci
+# ../IP/vio_x8/vio_x8.xci
+# ../IP/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.bd
+# }
+update_compile_order -fileset sources_1
+update_compile_order -fileset sim_1
+update_compile_order -fileset sources_1
+exit
+INFO: [Common 17-206] Exiting Vivado at Sun Jul 31 19:43:46 2016...
