@@ -1,4 +1,4 @@
-// (c) Copyright 1995-2016 Xilinx, Inc. All rights reserved.
+// (c) Copyright 1995-2017 Xilinx, Inc. All rights reserved.
 // 
 // This file contains confidential and proprietary information
 // of Xilinx, Inc. and is protected under U.S. and
@@ -48,7 +48,7 @@
 
 
 // IP VLNV: xilinx.com:ip:axi_register_slice:2.1
-// IP Revision: 9
+// IP Revision: 12
 
 `timescale 1ns/1ps
 
@@ -309,7 +309,7 @@ input wire m_axi_rvalid;
 (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 M_AXI RREADY" *)
 output wire m_axi_rready;
 
-  axi_register_slice_v2_1_9_axi_register_slice #(
+  axi_register_slice_v2_1_12_axi_register_slice #(
     .C_FAMILY("kintexu"),
     .C_AXI_PROTOCOL(0),
     .C_AXI_ID_WIDTH(3),

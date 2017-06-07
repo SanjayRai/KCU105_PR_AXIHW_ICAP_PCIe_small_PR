@@ -1,4 +1,4 @@
-// (c) Copyright 1995-2016 Xilinx, Inc. All rights reserved.
+// (c) Copyright 1995-2017 Xilinx, Inc. All rights reserved.
 // 
 // This file contains confidential and proprietary information
 // of Xilinx, Inc. and is protected under U.S. and
@@ -47,17 +47,17 @@
 // DO NOT MODIFY THIS FILE.
 
 
-// IP VLNV: xilinx.com:ip:axi_pcie3:2.1
-// IP Revision: 1
+// IP VLNV: xilinx.com:ip:axi_pcie3:3.0
+// IP Revision: 2
 
-(* X_CORE_INFO = "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_core_top,Vivado 2016.2" *)
+(* X_CORE_INFO = "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_core_top,Vivado 2017.1" *)
 (* CHECK_LICENSE_TYPE = "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0,PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_core_top,{}" *)
-(* CORE_GENERATION_INFO = "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0,PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_core_top,{x_ipProduct=Vivado 2016.2,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=axi_pcie3,x_ipVersion=2.1,x_ipCoreRevision=1,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,COMPONENT_NAME=axi_pcie3_v2_1,PL_UPSTREAM_FACING=true,TL_LEGACY_MODE_ENABLE=false,PCIE_BLK_LOCN=0,PL_LINK_CAP_MAX_LINK_WIDTH=8,PL_LINK_CAP_MAX_LINK_SPEED=4,REF_CLK_FREQ=0,AXI_ADDR_WIDTH=32,AXI_DATA_WIDTH=256,CORE_CLK_FREQ=2,PLL_TYPE=2,USER_\
+(* CORE_GENERATION_INFO = "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0,PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_core_top,{x_ipProduct=Vivado 2017.1,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=axi_pcie3,x_ipVersion=3.0,x_ipCoreRevision=2,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,COMPONENT_NAME=axi_pcie3_v3_0,PL_UPSTREAM_FACING=true,TL_LEGACY_MODE_ENABLE=false,PCIE_BLK_LOCN=0,PL_LINK_CAP_MAX_LINK_WIDTH=8,PL_LINK_CAP_MAX_LINK_SPEED=4,REF_CLK_FREQ=0,AXI_ADDR_WIDTH=32,AXI_DATA_WIDTH=256,CORE_CLK_FREQ=2,PLL_TYPE=2,USER_\
 CLK_FREQ=3,EN_AXI_SLAVE_IF=false,EN_AXI_MASTER_IF=true,SILICON_REV=Production,PIPE_SIM=false,EXT_CH_GT_DRP=false,PCIE3_DRP=false,DEDICATE_PERST=true,SYS_RESET_POLARITY=0,MCAP_ENABLEMENT=NONE,EXT_STARTUP_PRIMITIVE=false,PF0_VENDOR_ID=0x10EE,PF0_DEVICE_ID=0x8038,PF0_REVISION_ID=0x00,PF0_SUBSYSTEM_VENDOR_ID=0x10EE,PF0_SUBSYSTEM_ID=0x0007,PF0_CLASS_CODE=0x058000,PF0_BAR0_APERTURE_SIZE=0x09,PF0_BAR0_CONTROL=0x4,PF0_BAR1_APERTURE_SIZE=0x05,PF0_BAR1_CONTROL=0x0,PF0_BAR2_APERTURE_SIZE=0x05,PF0_BAR2_CONT\
 ROL=0x0,PF0_BAR3_APERTURE_SIZE=0x05,PF0_BAR3_CONTROL=0x0,PF0_BAR4_APERTURE_SIZE=0x05,PF0_BAR4_CONTROL=0x0,PF0_BAR5_APERTURE_SIZE=0x05,PF0_BAR5_CONTROL=0x0,PCIEBAR_NUM=1,C_PCIEBAR2AXIBAR_0=0x0000000000000000,C_PCIEBAR2AXIBAR_1=0x0000000000000000,C_PCIEBAR2AXIBAR_2=0x0000000000000000,C_PCIEBAR2AXIBAR_3=0x0000000000000000,C_PCIEBAR2AXIBAR_4=0x0000000000000000,C_PCIEBAR2AXIBAR_5=0x0000000000000000,PF0_INTERRUPT_PIN=0x1,PF0_MSI_CAP_MULTIMSGCAP=0,C_COMP_TIMEOUT=0,C_AXIBAR_NUM=1,C_AXIBAR_0=0x0000000000\
 000000,C_AXIBAR_1=0x0000000000000000,C_AXIBAR_2=0x0000000000000000,C_AXIBAR_3=0x0000000000000000,C_AXIBAR_4=0x0000000000000000,C_AXIBAR_5=0x0000000000000000,C_AXIBAR_HIGHADDR_0=0x000000000000FFFF,C_AXIBAR_HIGHADDR_1=0x0000000000000000,C_AXIBAR_HIGHADDR_2=0x0000000000000000,C_AXIBAR_HIGHADDR_3=0x0000000000000000,C_AXIBAR_HIGHADDR_4=0x0000000000000000,C_AXIBAR_HIGHADDR_5=0x0000000000000000,C_AXIBAR2PCIEBAR_0=0x0000000000000000,C_AXIBAR2PCIEBAR_1=0x0000000000000000,C_AXIBAR2PCIEBAR_2=0x000000000000\
-0000,C_AXIBAR2PCIEBAR_3=0x0000000000000000,C_AXIBAR2PCIEBAR_4=0x0000000000000000,C_AXIBAR2PCIEBAR_5=0x0000000000000000,C_INCLUDE_BAROFFSET_REG=1,C_BASEADDR=0x00000000,C_HIGHADDR=0x00000FFF,C_S_AXI_ID_WIDTH=4,C_M_AXI_ID_WIDTH=3,SHARED_LOGIC=1,SHARED_LOGIC_CLK=false,SHARED_LOGIC_BOTH=false,SHARED_LOGIC_GTC=false,EN_TRANSCEIVER_STATUS_PORTS=false,C_S_AXI_NUM_READ=8,C_M_AXI_NUM_READ=8,C_S_AXI_NUM_WRITE=8,C_M_AXI_NUM_WRITE=8,IS_BOARD_PROJECT=1,EN_GT_SELECTION=false,SELECT_QUAD=GTH_Quad_224,ULTRASCALE\
-=TRUE,MSI_ENABLED=TRUE,DEV_PORT_TYPE=0,MSIX_EN=FALSE,MSIX_IMPL_EXT=TRUE,RX_DETECT=0,C_ATS_ENABLE=FALSE,C_ATS_CAP_NEXTPTR=0x000,C_PRI_ENABLE=FALSE}" *)
+0000,C_AXIBAR2PCIEBAR_3=0x0000000000000000,C_AXIBAR2PCIEBAR_4=0x0000000000000000,C_AXIBAR2PCIEBAR_5=0x0000000000000000,C_INCLUDE_BAROFFSET_REG=1,C_BASEADDR=0x00001000,C_HIGHADDR=0x00001FFF,VU9P_BOARD=FALSE,VCU118_BOARD=FALSE,ENABLE_JTAG_DBG=FALSE,ENABLE_IBERT=false,C_S_AXI_ID_WIDTH=4,C_M_AXI_ID_WIDTH=3,SHARED_LOGIC=1,SHARED_LOGIC_CLK=false,SHARED_LOGIC_BOTH=false,SHARED_LOGIC_GTC=false,EN_TRANSCEIVER_STATUS_PORTS=false,C_S_AXI_NUM_READ=8,C_M_AXI_NUM_READ=8,C_S_AXI_NUM_WRITE=8,C_M_AXI_NUM_WRITE=8\
+,IS_BOARD_PROJECT=1,EN_GT_SELECTION=false,SELECT_QUAD=GTH_Quad_225,ULTRASCALE=TRUE,ULTRASCALE_PLUS=FALSE,MSI_ENABLED=TRUE,DEV_PORT_TYPE=0,MSIX_EN=FALSE,MSIX_IMPL_EXT=TRUE,RX_DETECT=0,C_ATS_ENABLE=FALSE,C_ATS_CAP_NEXTPTR=0x000,C_PRI_ENABLE=FALSE,AXI_ACLK_LOOPBACK=TRUE,CFG_EXT_IF=FALSE,C_S_AXI_SUPPORTS_NARROW_BURST=0,xlnx_ref_board=KCU105,NO_SLV_ERR=FALSE}" *)
 (* DowngradeIPIdentifiedWarnings = "yes" *)
 module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0 (
   sys_rst_n,
@@ -285,7 +285,7 @@ output wire [1 : 0] int_qpll1outrefclk_out;
 output wire [1 : 0] int_qpll1outclk_out;
 
   PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_core_top #(
-    .COMPONENT_NAME("axi_pcie3_v2_1"),
+    .COMPONENT_NAME("axi_pcie3_v3_0"),
     .PL_UPSTREAM_FACING("true"),
     .TL_LEGACY_MODE_ENABLE("false"),
     .PCIE_BLK_LOCN(0),
@@ -355,8 +355,12 @@ output wire [1 : 0] int_qpll1outclk_out;
     .C_AXIBAR2PCIEBAR_4(64'H0000000000000000),
     .C_AXIBAR2PCIEBAR_5(64'H0000000000000000),
     .C_INCLUDE_BAROFFSET_REG(1),
-    .C_BASEADDR(32'H00000000),
-    .C_HIGHADDR(32'H00000FFF),
+    .C_BASEADDR(32'H00001000),
+    .C_HIGHADDR(32'H00001FFF),
+    .VU9P_BOARD("FALSE"),
+    .VCU118_BOARD("FALSE"),
+    .ENABLE_JTAG_DBG("FALSE"),
+    .ENABLE_IBERT("false"),
     .C_S_AXI_ID_WIDTH(4),
     .C_M_AXI_ID_WIDTH(3),
     .SHARED_LOGIC(1),
@@ -370,8 +374,9 @@ output wire [1 : 0] int_qpll1outclk_out;
     .C_M_AXI_NUM_WRITE(8),
     .IS_BOARD_PROJECT(1),
     .EN_GT_SELECTION("false"),
-    .SELECT_QUAD("GTH_Quad_224"),
+    .SELECT_QUAD("GTH_Quad_225"),
     .ULTRASCALE("TRUE"),
+    .ULTRASCALE_PLUS("FALSE"),
     .MSI_ENABLED("TRUE"),
     .DEV_PORT_TYPE(0),
     .MSIX_EN("FALSE"),
@@ -379,7 +384,12 @@ output wire [1 : 0] int_qpll1outclk_out;
     .RX_DETECT(0),
     .C_ATS_ENABLE("FALSE"),
     .C_ATS_CAP_NEXTPTR(12'H000),
-    .C_PRI_ENABLE("FALSE")
+    .C_PRI_ENABLE("FALSE"),
+    .AXI_ACLK_LOOPBACK("TRUE"),
+    .CFG_EXT_IF("FALSE"),
+    .C_S_AXI_SUPPORTS_NARROW_BURST(0),
+    .xlnx_ref_board("KCU105"),
+    .NO_SLV_ERR("FALSE")
   ) inst (
     .sys_rst_n(sys_rst_n),
     .cfg_ltssm_state(cfg_ltssm_state),
@@ -511,6 +521,14 @@ output wire [1 : 0] int_qpll1outclk_out;
     .pipe_rx_5_sigs(84'B0),
     .pipe_rx_6_sigs(84'B0),
     .pipe_rx_7_sigs(84'B0),
+    .pipe_rx_8_sigs(84'B0),
+    .pipe_rx_9_sigs(84'B0),
+    .pipe_rx_10_sigs(84'B0),
+    .pipe_rx_11_sigs(84'B0),
+    .pipe_rx_12_sigs(84'B0),
+    .pipe_rx_13_sigs(84'B0),
+    .pipe_rx_14_sigs(84'B0),
+    .pipe_rx_15_sigs(84'B0),
     .common_commands_out(),
     .pipe_tx_0_sigs(),
     .pipe_tx_1_sigs(),
@@ -520,6 +538,14 @@ output wire [1 : 0] int_qpll1outclk_out;
     .pipe_tx_5_sigs(),
     .pipe_tx_6_sigs(),
     .pipe_tx_7_sigs(),
+    .pipe_tx_8_sigs(),
+    .pipe_tx_9_sigs(),
+    .pipe_tx_10_sigs(),
+    .pipe_tx_11_sigs(),
+    .pipe_tx_12_sigs(),
+    .pipe_tx_13_sigs(),
+    .pipe_tx_14_sigs(),
+    .pipe_tx_15_sigs(),
     .pipe_pclk_in(1'B0),
     .pipe_rxusrclk_in(1'B0),
     .pipe_rxoutclk_in(8'B0),
@@ -709,6 +735,15 @@ output wire [1 : 0] int_qpll1outclk_out;
     .cfg_status_set_rf(1'B0),
     .cfg_status_set_s(1'B0),
     .cfg_status_clr_s(1'B0),
-    .cfg_status_ost_pr_alloc()
+    .cfg_status_ost_pr_alloc(),
+    .cfg_ext_read_received(),
+    .cfg_ext_write_received(),
+    .cfg_ext_register_number(),
+    .cfg_ext_function_number(),
+    .cfg_ext_write_data(),
+    .cfg_ext_write_byte_enable(),
+    .cfg_ext_read_data(32'B0),
+    .cfg_ext_read_data_valid(1'B0),
+    .free_run_clock(1'B0)
   );
 endmodule

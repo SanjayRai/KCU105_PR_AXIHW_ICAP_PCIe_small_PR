@@ -1,4 +1,4 @@
--- (c) Copyright 1995-2016 Xilinx, Inc. All rights reserved.
+-- (c) Copyright 1995-2017 Xilinx, Inc. All rights reserved.
 -- 
 -- This file contains confidential and proprietary information
 -- of Xilinx, Inc. and is protected under U.S. and
@@ -47,14 +47,14 @@
 -- DO NOT MODIFY THIS FILE.
 
 -- IP VLNV: xilinx.com:ip:axi_bram_ctrl:4.0
--- IP Revision: 8
+-- IP Revision: 11
 
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 
-LIBRARY axi_bram_ctrl_v4_0_8;
-USE axi_bram_ctrl_v4_0_8.axi_bram_ctrl;
+LIBRARY axi_bram_ctrl_v4_0_11;
+USE axi_bram_ctrl_v4_0_11.axi_bram_ctrl;
 
 ENTITY PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_bram_ctrl_0_0 IS
   PORT (
@@ -123,6 +123,7 @@ ARCHITECTURE PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_bram_ctrl_0_0_arch OF PCIe_AXI_B
       C_S_AXI_SUPPORTS_NARROW_BURST : INTEGER;
       C_SINGLE_PORT_BRAM : INTEGER;
       C_FAMILY : STRING;
+      C_SELECT_XPM : INTEGER;
       C_S_AXI_CTRL_ADDR_WIDTH : INTEGER;
       C_S_AXI_CTRL_DATA_WIDTH : INTEGER;
       C_ECC : INTEGER;
@@ -203,12 +204,12 @@ ARCHITECTURE PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_bram_ctrl_0_0_arch OF PCIe_AXI_B
     );
   END COMPONENT axi_bram_ctrl;
   ATTRIBUTE X_CORE_INFO : STRING;
-  ATTRIBUTE X_CORE_INFO OF PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_bram_ctrl_0_0_arch: ARCHITECTURE IS "axi_bram_ctrl,Vivado 2016.2";
+  ATTRIBUTE X_CORE_INFO OF PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_bram_ctrl_0_0_arch: ARCHITECTURE IS "axi_bram_ctrl,Vivado 2017.1";
   ATTRIBUTE CHECK_LICENSE_TYPE : STRING;
   ATTRIBUTE CHECK_LICENSE_TYPE OF PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_bram_ctrl_0_0_arch : ARCHITECTURE IS "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_bram_ctrl_0_0,axi_bram_ctrl,{}";
   ATTRIBUTE CORE_GENERATION_INFO : STRING;
-  ATTRIBUTE CORE_GENERATION_INFO OF PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_bram_ctrl_0_0_arch: ARCHITECTURE IS "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_bram_ctrl_0_0,axi_bram_ctrl,{x_ipProduct=Vivado 2016.2,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=axi_bram_ctrl,x_ipVersion=4.0,x_ipCoreRevision=8,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,C_BRAM_INST_MODE=EXTERNAL,C_MEMORY_DEPTH=8192,C_BRAM_ADDR_WIDTH=13,C_S_AXI_ADDR_WIDTH=15,C_S_AXI_DATA_WIDTH=32,C_S_AXI_ID_WIDTH=1,C_S_AXI_PROTOCOL=AXI4,C_S_AXI_SUPPORTS_NARROW_BURST=0,C_SINGLE_PORT_BRAM=0,C_FAMILY=kintexu,C_S_AXI_CTRL_ADDR_WIDTH=32,C_S_AXI_CTRL_DATA_WIDTH" & 
-"=32,C_ECC=0,C_ECC_TYPE=0,C_FAULT_INJECT=0,C_ECC_ONOFF_RESET_VALUE=0}";
+  ATTRIBUTE CORE_GENERATION_INFO OF PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_bram_ctrl_0_0_arch: ARCHITECTURE IS "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_bram_ctrl_0_0,axi_bram_ctrl,{x_ipProduct=Vivado 2017.1,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=axi_bram_ctrl,x_ipVersion=4.0,x_ipCoreRevision=11,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,C_BRAM_INST_MODE=EXTERNAL,C_MEMORY_DEPTH=8192,C_BRAM_ADDR_WIDTH=13,C_S_AXI_ADDR_WIDTH=15,C_S_AXI_DATA_WIDTH=32,C_S_AXI_ID_WIDTH=1,C_S_AXI_PROTOCOL=AXI4,C_S_AXI_SUPPORTS_NARROW_BURST=0,C_SINGLE_PORT_BRAM=0,C_FAMILY=kintexu,C_SELECT_XPM=0,C_S_AXI_CTRL_ADDR_WIDTH=32,C_S_AXI" & 
+"_CTRL_DATA_WIDTH=32,C_ECC=0,C_ECC_TYPE=0,C_FAULT_INJECT=0,C_ECC_ONOFF_RESET_VALUE=0}";
   ATTRIBUTE X_INTERFACE_INFO : STRING;
   ATTRIBUTE X_INTERFACE_INFO OF s_axi_aclk: SIGNAL IS "xilinx.com:signal:clock:1.0 CLKIF CLK";
   ATTRIBUTE X_INTERFACE_INFO OF s_axi_aresetn: SIGNAL IS "xilinx.com:signal:reset:1.0 RSTIF RST";
@@ -270,6 +271,7 @@ BEGIN
       C_S_AXI_SUPPORTS_NARROW_BURST => 0,
       C_SINGLE_PORT_BRAM => 0,
       C_FAMILY => "kintexu",
+      C_SELECT_XPM => 0,
       C_S_AXI_CTRL_ADDR_WIDTH => 32,
       C_S_AXI_CTRL_DATA_WIDTH => 32,
       C_ECC => 0,

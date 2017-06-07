@@ -1,4 +1,4 @@
--- (c) Copyright 1995-2016 Xilinx, Inc. All rights reserved.
+-- (c) Copyright 1995-2017 Xilinx, Inc. All rights reserved.
 -- 
 -- This file contains confidential and proprietary information
 -- of Xilinx, Inc. and is protected under U.S. and
@@ -47,14 +47,14 @@
 -- DO NOT MODIFY THIS FILE.
 
 -- IP VLNV: xilinx.com:ip:blk_mem_gen:8.3
--- IP Revision: 3
+-- IP Revision: 6
 
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 
-LIBRARY blk_mem_gen_v8_3_3;
-USE blk_mem_gen_v8_3_3.blk_mem_gen_v8_3_3;
+LIBRARY blk_mem_gen_v8_3_6;
+USE blk_mem_gen_v8_3_6.blk_mem_gen_v8_3_6;
 
 ENTITY PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_blk_mem_64B_parity IS
   PORT (
@@ -72,7 +72,7 @@ END PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_blk_mem_64B_parity;
 ARCHITECTURE PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_blk_mem_64B_parity_arch OF PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_blk_mem_64B_parity IS
   ATTRIBUTE DowngradeIPIdentifiedWarnings : STRING;
   ATTRIBUTE DowngradeIPIdentifiedWarnings OF PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_blk_mem_64B_parity_arch: ARCHITECTURE IS "yes";
-  COMPONENT blk_mem_gen_v8_3_3 IS
+  COMPONENT blk_mem_gen_v8_3_6 IS
     GENERIC (
       C_FAMILY : STRING;
       C_XDEVICEFAMILY : STRING;
@@ -213,13 +213,13 @@ ARCHITECTURE PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_blk_mem_64B_parity_arc
       s_axi_dbiterr : OUT STD_LOGIC;
       s_axi_rdaddrecc : OUT STD_LOGIC_VECTOR(8 DOWNTO 0)
     );
-  END COMPONENT blk_mem_gen_v8_3_3;
+  END COMPONENT blk_mem_gen_v8_3_6;
   ATTRIBUTE X_CORE_INFO : STRING;
-  ATTRIBUTE X_CORE_INFO OF PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_blk_mem_64B_parity_arch: ARCHITECTURE IS "blk_mem_gen_v8_3_3,Vivado 2016.2";
+  ATTRIBUTE X_CORE_INFO OF PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_blk_mem_64B_parity_arch: ARCHITECTURE IS "blk_mem_gen_v8_3_6,Vivado 2017.1";
   ATTRIBUTE CHECK_LICENSE_TYPE : STRING;
-  ATTRIBUTE CHECK_LICENSE_TYPE OF PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_blk_mem_64B_parity_arch : ARCHITECTURE IS "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_blk_mem_64B_parity,blk_mem_gen_v8_3_3,{}";
+  ATTRIBUTE CHECK_LICENSE_TYPE OF PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_blk_mem_64B_parity_arch : ARCHITECTURE IS "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_blk_mem_64B_parity,blk_mem_gen_v8_3_6,{}";
   ATTRIBUTE CORE_GENERATION_INFO : STRING;
-  ATTRIBUTE CORE_GENERATION_INFO OF PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_blk_mem_64B_parity_arch: ARCHITECTURE IS "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_blk_mem_64B_parity,blk_mem_gen_v8_3_3,{x_ipProduct=Vivado 2016.2,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=blk_mem_gen,x_ipVersion=8.3,x_ipCoreRevision=3,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,C_FAMILY=kintexu,C_XDEVICEFAMILY=kintexu,C_ELABORATION_DIR=./,C_INTERFACE_TYPE=0,C_AXI_TYPE=1,C_AXI_SLAVE_TYPE=0,C_USE_BRAM_BLOCK=0,C_ENABLE_32BIT_ADDRESS=0,C_CTRL_ECC_ALGO=NONE,C_HAS_AXI_ID=0,C_AXI_ID_WIDTH=4,C_MEM_TYPE=1,C_BYTE_SIZE=9,C_ALGORITHM=1,C_P" & 
+  ATTRIBUTE CORE_GENERATION_INFO OF PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_blk_mem_64B_parity_arch: ARCHITECTURE IS "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_blk_mem_64B_parity,blk_mem_gen_v8_3_6,{x_ipProduct=Vivado 2017.1,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=blk_mem_gen,x_ipVersion=8.3,x_ipCoreRevision=6,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,C_FAMILY=kintexu,C_XDEVICEFAMILY=kintexu,C_ELABORATION_DIR=./,C_INTERFACE_TYPE=0,C_AXI_TYPE=1,C_AXI_SLAVE_TYPE=0,C_USE_BRAM_BLOCK=0,C_ENABLE_32BIT_ADDRESS=0,C_CTRL_ECC_ALGO=NONE,C_HAS_AXI_ID=0,C_AXI_ID_WIDTH=4,C_MEM_TYPE=1,C_BYTE_SIZE=9,C_ALGORITHM=1,C_P" & 
 "RIM_TYPE=1,C_LOAD_INIT_FILE=0,C_INIT_FILE_NAME=no_coe_file_loaded,C_INIT_FILE=PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_blk_mem_64B_parity.mem,C_USE_DEFAULT_DATA=0,C_DEFAULT_DATA=0,C_HAS_RSTA=0,C_RST_PRIORITY_A=CE,C_RSTRAM_A=0,C_INITA_VAL=0,C_HAS_ENA=0,C_HAS_REGCEA=0,C_USE_BYTE_WEA=0,C_WEA_WIDTH=1,C_WRITE_MODE_A=READ_FIRST,C_WRITE_WIDTH_A=72,C_READ_WIDTH_A=72,C_WRITE_DEPTH_A=512,C_READ_DEPTH_A=512,C_ADDRA_WIDTH=9,C_HAS_RSTB=0,C_RST_PRIORITY_B=CE,C_RSTRAM_B=0,C_INITB_VAL=0,C_HAS_ENB=1,C_HAS_RE" & 
 "GCEB=0,C_USE_BYTE_WEB=0,C_WEB_WIDTH=1,C_WRITE_MODE_B=READ_FIRST,C_WRITE_WIDTH_B=72,C_READ_WIDTH_B=72,C_WRITE_DEPTH_B=512,C_READ_DEPTH_B=512,C_ADDRB_WIDTH=9,C_HAS_MEM_OUTPUT_REGS_A=0,C_HAS_MEM_OUTPUT_REGS_B=0,C_HAS_MUX_OUTPUT_REGS_A=0,C_HAS_MUX_OUTPUT_REGS_B=0,C_MUX_PIPELINE_STAGES=0,C_HAS_SOFTECC_INPUT_REGS_A=0,C_HAS_SOFTECC_OUTPUT_REGS_B=0,C_USE_SOFTECC=0,C_USE_ECC=0,C_EN_ECC_PIPE=0,C_HAS_INJECTERR=0,C_SIM_COLLISION_CHECK=ALL,C_COMMON_CLK=1,C_DISABLE_WARN_BHV_COLL=0,C_EN_SLEEP_PIN=0,C_USE_URAM=" & 
 "0,C_EN_RDADDRA_CHG=0,C_EN_RDADDRB_CHG=0,C_EN_DEEPSLEEP_PIN=0,C_EN_SHUTDOWN_PIN=0,C_EN_SAFETY_CKT=0,C_DISABLE_WARN_BHV_RANGE=0,C_COUNT_36K_BRAM=1,C_COUNT_18K_BRAM=0,C_EST_POWER_SUMMARY=Estimated Power for IP     _     5.248936 mW}";
@@ -233,7 +233,7 @@ ARCHITECTURE PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_blk_mem_64B_parity_arc
   ATTRIBUTE X_INTERFACE_INFO OF addrb: SIGNAL IS "xilinx.com:interface:bram:1.0 BRAM_PORTB ADDR";
   ATTRIBUTE X_INTERFACE_INFO OF doutb: SIGNAL IS "xilinx.com:interface:bram:1.0 BRAM_PORTB DOUT";
 BEGIN
-  U0 : blk_mem_gen_v8_3_3
+  U0 : blk_mem_gen_v8_3_6
     GENERIC MAP (
       C_FAMILY => "kintexu",
       C_XDEVICEFAMILY => "kintexu",

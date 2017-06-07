@@ -1,4 +1,4 @@
-// (c) Copyright 1995-2016 Xilinx, Inc. All rights reserved.
+// (c) Copyright 1995-2017 Xilinx, Inc. All rights reserved.
 // 
 // This file contains confidential and proprietary information
 // of Xilinx, Inc. and is protected under U.S. and
@@ -48,7 +48,7 @@
 
 
 // IP VLNV: xilinx.com:ip:blk_mem_gen:8.3
-// IP Revision: 3
+// IP Revision: 6
 
 `timescale 1ns/1ps
 
@@ -99,7 +99,7 @@ input wire [31 : 0] dinb;
 (* X_INTERFACE_INFO = "xilinx.com:interface:bram:1.0 BRAM_PORTB DOUT" *)
 output wire [31 : 0] doutb;
 
-  blk_mem_gen_v8_3_3 #(
+  blk_mem_gen_v8_3_6 #(
     .C_FAMILY("kintexu"),
     .C_XDEVICEFAMILY("kintexu"),
     .C_ELABORATION_DIR("./"),

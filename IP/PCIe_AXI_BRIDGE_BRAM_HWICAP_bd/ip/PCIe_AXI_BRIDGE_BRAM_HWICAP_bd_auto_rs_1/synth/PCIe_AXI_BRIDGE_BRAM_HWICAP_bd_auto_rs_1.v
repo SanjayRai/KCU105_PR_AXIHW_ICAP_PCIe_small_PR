@@ -1,4 +1,4 @@
-// (c) Copyright 1995-2016 Xilinx, Inc. All rights reserved.
+// (c) Copyright 1995-2017 Xilinx, Inc. All rights reserved.
 // 
 // This file contains confidential and proprietary information
 // of Xilinx, Inc. and is protected under U.S. and
@@ -48,12 +48,12 @@
 
 
 // IP VLNV: xilinx.com:ip:axi_register_slice:2.1
-// IP Revision: 9
+// IP Revision: 12
 
-(* X_CORE_INFO = "axi_register_slice_v2_1_9_axi_register_slice,Vivado 2016.2" *)
-(* CHECK_LICENSE_TYPE = "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_1,axi_register_slice_v2_1_9_axi_register_slice,{}" *)
-(* CORE_GENERATION_INFO = "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_1,axi_register_slice_v2_1_9_axi_register_slice,{x_ipProduct=Vivado 2016.2,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=axi_register_slice,x_ipVersion=2.1,x_ipCoreRevision=9,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,C_FAMILY=kintexu,C_AXI_PROTOCOL=0,C_AXI_ID_WIDTH=1,C_AXI_ADDR_WIDTH=15,C_AXI_DATA_WIDTH=32,C_AXI_SUPPORTS_USER_SIGNALS=0,C_AXI_AWUSER_WIDTH=1,C_AXI_ARUSER_WIDTH=1,C_AXI_WUSER_WIDTH=1,C_AXI_RUSER_WIDTH=1,C_AXI_BUSER_WIDTH=1,C_REG_CONFIG_AW=7,C_R\
-EG_CONFIG_W=1,C_REG_CONFIG_B=7,C_REG_CONFIG_AR=7,C_REG_CONFIG_R=1}" *)
+(* X_CORE_INFO = "axi_register_slice_v2_1_12_axi_register_slice,Vivado 2017.1" *)
+(* CHECK_LICENSE_TYPE = "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_1,axi_register_slice_v2_1_12_axi_register_slice,{}" *)
+(* CORE_GENERATION_INFO = "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_1,axi_register_slice_v2_1_12_axi_register_slice,{x_ipProduct=Vivado 2017.1,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=axi_register_slice,x_ipVersion=2.1,x_ipCoreRevision=12,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,C_FAMILY=kintexu,C_AXI_PROTOCOL=0,C_AXI_ID_WIDTH=1,C_AXI_ADDR_WIDTH=15,C_AXI_DATA_WIDTH=32,C_AXI_SUPPORTS_USER_SIGNALS=0,C_AXI_AWUSER_WIDTH=1,C_AXI_ARUSER_WIDTH=1,C_AXI_WUSER_WIDTH=1,C_AXI_RUSER_WIDTH=1,C_AXI_BUSER_WIDTH=1,C_REG_CONFIG_AW=7,C\
+_REG_CONFIG_W=1,C_REG_CONFIG_B=7,C_REG_CONFIG_AR=7,C_REG_CONFIG_R=1}" *)
 (* DowngradeIPIdentifiedWarnings = "yes" *)
 module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_1 (
   aclk,
@@ -275,7 +275,7 @@ input wire m_axi_rvalid;
 (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 M_AXI RREADY" *)
 output wire m_axi_rready;
 
-  axi_register_slice_v2_1_9_axi_register_slice #(
+  axi_register_slice_v2_1_12_axi_register_slice #(
     .C_FAMILY("kintexu"),
     .C_AXI_PROTOCOL(0),
     .C_AXI_ID_WIDTH(1),

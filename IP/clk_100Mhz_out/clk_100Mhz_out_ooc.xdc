@@ -55,5 +55,5 @@
 # Clock Period Constraints                                 #
 ############################################################
 # Differential clock only needs one constraint
-#create_clock -period 3.333 [get_ports clk_in_300Mhz_p]
+#create_clock -period 3.333 [get_ports clk_in1_p]
 

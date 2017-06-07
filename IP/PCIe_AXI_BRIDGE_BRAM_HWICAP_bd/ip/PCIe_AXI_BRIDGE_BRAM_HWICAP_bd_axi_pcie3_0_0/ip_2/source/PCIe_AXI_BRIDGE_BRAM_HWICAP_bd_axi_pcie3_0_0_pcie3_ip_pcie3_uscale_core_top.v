@@ -77,8 +77,8 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_pcie3_uscale_core_t
   parameter  AXISTEN_IF_RC_ALIGNMENT_MODE = "FALSE",
   parameter  AXISTEN_IF_RC_STRADDLE = "FALSE",
   parameter  AXISTEN_IF_RQ_ALIGNMENT_MODE = "FALSE",
-  parameter [17:0] AXISTEN_IF_ENABLE_MSG_ROUTE = 18'h2FFFF,
-  parameter AXISTEN_IF_ENABLE_RX_MSG_INTFC = "FALSE",
+  parameter  AXISTEN_IF_ENABLE_MSG_ROUTE = 18'h2FFFF,
+  parameter  AXISTEN_IF_ENABLE_RX_MSG_INTFC = "FALSE",
   parameter  PF0_AER_CAP_ECRC_CHECK_CAPABLE = "FALSE",
   parameter  PF0_AER_CAP_ECRC_GEN_CAPABLE = "FALSE",
   parameter  PF0_AER_CAP_NEXTPTR = 12'h000,
@@ -399,6 +399,15 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_pcie3_uscale_core_t
   parameter  silicon_revision = "GES",
   parameter  DEV_PORT_TYPE = 0,
   parameter  RX_DETECT = 0,
+  parameter  ENABLE_IBERT="FALSE",
+  parameter  DBG_DESCRAMBLE_EN = "TRUE",
+  parameter  ENABLE_JTAG_DBG="FALSE",
+  parameter  AXISTEN_IF_CC_PARITY_CHK = "FALSE",
+  parameter  AXISTEN_IF_RQ_PARITY_CHK = "FALSE",
+  parameter  ENABLE_AUTO_RXEQ="FALSE",
+  parameter  GTWIZ_IN_CORE=1,
+  parameter  INS_LOSS_PROFILE="Add-in_Card",
+  parameter  PM_ENABLE_L23_ENTRY = "FALSE",
   parameter PIPE_PIPELINE_STAGES = 1,
   parameter MCAP_CONFIGURE_OVERRIDE = "FALSE",
   parameter MCAP_ENABLE = "FALSE",
@@ -409,8 +418,6 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_pcie3_uscale_core_t
   parameter MCAP_INPUT_GATE_DESIGN_SWITCH = "FALSE",
   parameter MCAP_INTERRUPT_ON_MCAP_ERROR = "FALSE",
   parameter MCAP_INTERRUPT_ON_MCAP_EOS = "FALSE",
-  parameter AXISTEN_IF_CC_PARITY_CHK = "FALSE",
-  parameter AXISTEN_IF_RQ_PARITY_CHK = "FALSE",
   parameter DEBUG_CFG_LOCAL_MGMT_REG_ACCESS_OVERRIDE = "FALSE",
   parameter DEBUG_PL_DISABLE_EI_INFER_IN_L0 = "FALSE",
   parameter DEBUG_TL_DISABLE_RX_TLP_ORDER_CHECKS = "FALSE",
@@ -741,7 +748,6 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_pcie3_uscale_core_t
   parameter PL_SIM_FAST_LINK_TRAINING = "TRUE",
   parameter [15:0] PM_ASPML0S_TIMEOUT = 16'h05dc,
   parameter [19:0] PM_ASPML1_ENTRY_DELAY = 20'h01D4C,
-  parameter PM_ENABLE_L23_ENTRY = "FALSE",
   parameter PM_ENABLE_SLOT_POWER_CAPTURE = "TRUE",
   parameter [31:0] PM_L1_REENTRY_DELAY = 32'h000061A8,
   parameter [19:0] PM_PME_SERVICE_TIMEOUT_DELAY = 20'h186a0,
@@ -842,8 +848,8 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_pcie3_uscale_core_t
   input  wire [(PL_LINK_CAP_MAX_LINK_WIDTH-1):0] pci_exp_rxn,
   input  wire [(PL_LINK_CAP_MAX_LINK_WIDTH-1):0] pci_exp_rxp,
   output wire         user_clk,
-  output wire         user_reset,
-  output wire         user_lnk_up,
+  output reg          user_reset,
+  output reg          user_lnk_up,
   input  wire [C_DATA_WIDTH-1:0] s_axis_rq_tdata,
   input  wire [KEEP_WIDTH-1:0] s_axis_rq_tkeep,
   input  wire         s_axis_rq_tlast,
@@ -1047,52 +1053,214 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_pcie3_uscale_core_t
  //--------------------------------------------------------------------------
  //  Transceiver Debug And Status Ports
  //--------------------------------------------------------------------------
-  input wire  [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_pcieuserratedone ,// ({PHY_LANE{1'd0}}),
-  input wire  [((PL_LINK_CAP_MAX_LINK_WIDTH*3)-1):0] gt_loopback         ,// ({PHY_LANE{3'd0}}),             
-  input wire  [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_txprbsforceerr   ,// ({PHY_LANE{1'd0}}),            
-  input wire  [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_txinhibit        ,// ({PHY_LANE{1'd0}}),            
-  input wire  [((PL_LINK_CAP_MAX_LINK_WIDTH*4)-1):0] gt_txprbssel        ,// ({PHY_LANE{4'd0}}),            
-  input wire  [((PL_LINK_CAP_MAX_LINK_WIDTH*4)-1):0] gt_rxprbssel        ,// ({PHY_LANE{4'd0}}),          
-  input wire  [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_rxprbscntreset   ,// ({PHY_LANE{1'd0}}),             
+  input wire  [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_pcieuserratedone ,
+  input wire  [((PL_LINK_CAP_MAX_LINK_WIDTH*3)-1):0] gt_loopback         ,
+  input wire  [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_txprbsforceerr   ,
+  input wire  [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_txinhibit        ,
+  input wire  [((PL_LINK_CAP_MAX_LINK_WIDTH*4)-1):0] gt_txprbssel        ,
+  input wire  [((PL_LINK_CAP_MAX_LINK_WIDTH*4)-1):0] gt_rxprbssel        ,
+  input wire  [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_rxprbscntreset   ,
 
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_txelecidle       ,//              
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_txresetdone      ,//     
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_rxresetdone      ,//         
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_rxpmaresetdone   ,//       
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_txphaligndone    ,//             
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_txphinitdone     ,//          
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_txdlysresetdone  ,//          
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_rxphaligndone    ,//         
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_rxdlysresetdone  ,//           
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_rxsyncdone       ,//         
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_eyescandataerror ,//                
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_rxprbserr        ,//            
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*17)-1):0] gt_dmonitorout      ,//            
-  input wire  [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_dmonfiforeset  ,
-  input wire  [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_dmonitorclk    ,
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_rxcommadet       ,//                    
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_phystatus        ,//                    
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_rxvalid          ,//               
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_rxcdrlock        ,//          
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_pcierateidle     ,// 
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_pcieuserratestart,// 
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_gtpowergood      ,//   
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_cplllock         ,//               
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_rxoutclk         ,//  
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_rxrecclkout      ,// // 
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH-1)>>2):0] gt_qpll1lock        ,//             
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*3)-1):0] gt_rxstatus         ,//             
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*3)-1):0] gt_rxbufstatus      ,//             
-  output wire [8:0]                                  gt_bufgtdiv         ,//                  
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*2)-1):0] phy_txeq_ctrl       ,//                   
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*4)-1):0] phy_txeq_preset     ,//                    
-  output wire [3:0]                                  phy_rst_fsm         ,//                  
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*3)-1):0] phy_txeq_fsm        ,//                   
-  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*3)-1):0] phy_rxeq_fsm        ,//                  
-  output wire                                        phy_rst_idle        ,//                               
-  output wire                                        phy_rrst_n          ,// 
-  output wire                                        phy_prst_n          ,// 
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_txelecidle       ,             
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_txresetdone      ,    
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_rxresetdone      ,        
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_rxpmaresetdone   ,      
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_txphaligndone    ,            
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_txphinitdone     ,         
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_txdlysresetdone  ,         
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_rxphaligndone    ,        
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_rxdlysresetdone  ,          
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_rxsyncdone       ,        
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_eyescandataerror ,               
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_rxprbserr        ,           
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*17)-1):0] gt_dmonitorout     ,             
+  input wire  [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_dmonfiforeset    ,
+  input wire  [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_dmonitorclk      ,
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_rxcommadet       ,                   
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_phystatus        ,                   
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_rxvalid          ,              
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_rxcdrlock        ,         
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_pcierateidle     ,
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_pcieuserratestart,
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_gtpowergood      ,  
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_cplllock         ,              
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_rxoutclk         , 
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*1)-1):0] gt_rxrecclkout      ,
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH-1)>>2):0] gt_qpll1lock       ,            
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*3)-1):0] gt_rxstatus         ,            
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*3)-1):0] gt_rxbufstatus      ,            
+  output wire [8:0]                                  gt_bufgtdiv         ,                 
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*2)-1):0] phy_txeq_ctrl       ,                  
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*4)-1):0] phy_txeq_preset     ,                   
+  output wire [3:0]                                  phy_rst_fsm         ,                 
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*3)-1):0] phy_txeq_fsm        ,                  
+  output wire [((PL_LINK_CAP_MAX_LINK_WIDTH*3)-1):0] phy_rxeq_fsm        ,                 
+  output wire                                        phy_rst_idle        ,                              
+  output wire                                        phy_rrst_n          ,
+  output wire                                        phy_prst_n          ,
+  input  wire                                       free_run_clock       ,
+ //--------------------------------------------------------------------------
+ //  GT WIZARD IP is not in the PCIe core
+ //--------------------------------------------------------------------------
+ input [(PL_LINK_CAP_MAX_LINK_WIDTH* 3)-1:0]    bufgtce_out ,
+ input [(PL_LINK_CAP_MAX_LINK_WIDTH* 3)-1:0]    bufgtcemask_out ,
+ input [(PL_LINK_CAP_MAX_LINK_WIDTH* 9)-1:0]    bufgtdiv_out ,
+ input [(PL_LINK_CAP_MAX_LINK_WIDTH* 3)-1:0]    bufgtreset_out ,
+ input [(PL_LINK_CAP_MAX_LINK_WIDTH* 3)-1:0]    bufgtrstmask_out ,
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         cplllock_out,  
+ input [(PL_LINK_CAP_MAX_LINK_WIDTH*17)-1:0]    dmonitorout_out,
+ input [(PL_LINK_CAP_MAX_LINK_WIDTH* 16)-1:0]   drpdo_out,
+ input [(PL_LINK_CAP_MAX_LINK_WIDTH* 1)-1:0]    drprdy_out,
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         eyescandataerror_out,
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         gthtxn_out,
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         gthtxp_out,
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         gtpowergood_out,
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         pcierategen3_out,  
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         pcierateidle_out,       
+ input [(PL_LINK_CAP_MAX_LINK_WIDTH*2)-1:0]     pcierateqpllpd_out,              
+ input [(PL_LINK_CAP_MAX_LINK_WIDTH*2)-1:0]     pcierateqpllreset_out,
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         pciesynctxsyncdone_out,                      
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         pcieusergen3rdy_out, 
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         pcieuserphystatusrst_out,  
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         pcieuserratestart_out,  
+ input [(PL_LINK_CAP_MAX_LINK_WIDTH*12)-1:0]    pcsrsvdout_out,
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         phystatus_out,
+ input [(PL_LINK_CAP_MAX_LINK_WIDTH*3)-1:0]     rxbufstatus_out,
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1 : 0]       rxbyteisaligned_out, 
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1 : 0]       rxbyterealign_out, 
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rxcdrlock_out,                                                          
+ input [(PL_LINK_CAP_MAX_LINK_WIDTH * 2)-1 : 0] rxclkcorcnt_out, 
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rxcommadet_out,
+ input [(PL_LINK_CAP_MAX_LINK_WIDTH*16)-1:0]    rxctrl0_out,  
+ input [(PL_LINK_CAP_MAX_LINK_WIDTH*16)-1:0]    rxctrl1_out,  
+ input [(PL_LINK_CAP_MAX_LINK_WIDTH*8)-1:0]     rxctrl2_out,  
+ input [(PL_LINK_CAP_MAX_LINK_WIDTH*8)-1:0]     rxctrl3_out,  
+ input [(PL_LINK_CAP_MAX_LINK_WIDTH*128)-1:0]   rxdata_out,  
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rxdlysresetdone_out,     
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rxelecidle_out,
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1 : 0]       rxoutclk_out, 
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rxphaligndone_out,
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rxpmaresetdone_out,           
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rxprbserr_out,                                        
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rxprbslocked_out,
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rxprgdivresetdone_out,    
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rxratedone_out,
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rxresetdone_out,              
+ input [(PL_LINK_CAP_MAX_LINK_WIDTH* 3)-1:0]    rxstatus_out,
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rxsyncdone_out,
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rxvalid_out,
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txdlysresetdone_out,     
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txoutclk_out,
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txphaligndone_out,  
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txphinitdone_out,
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1 : 0]       txpmaresetdone_out, 
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txprgdivresetdone_out,  
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txresetdone_out,
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txsyncout_out,  
+ input [PL_LINK_CAP_MAX_LINK_WIDTH-1 : 0]       txsyncdone_out, 
 
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         cpllpd_in,                                          
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         cpllreset_in,                                          
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         dmonfiforeset_in,
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         dmonitorclk_in,
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         drpclk_in,
+ output [(PL_LINK_CAP_MAX_LINK_WIDTH* 9)-1:0]    drpaddr_in,
+ output [(PL_LINK_CAP_MAX_LINK_WIDTH* 16)-1:0]   drpdi_in,
+ output [(PL_LINK_CAP_MAX_LINK_WIDTH* 1)-1:0]    drpen_in,
+ output [(PL_LINK_CAP_MAX_LINK_WIDTH* 1)-1:0]    drpwe_in,
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         eyescanreset_in,
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         gthrxn_in,                                          
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         gthrxp_in,                                          
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         gtrefclk0_in,
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         gtrxreset_in,                                          
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         gttxreset_in,                                          
+ output                        gtwiz_reset_rx_done_in,                                                                                      
+ output                        gtwiz_reset_tx_done_in,                                                
+ output                        gtwiz_userclk_rx_active_in ,                                                
+ output                        gtwiz_userclk_tx_active_in ,                                                
+ output                        gtwiz_userclk_tx_reset_in,
+ output [(PL_LINK_CAP_MAX_LINK_WIDTH* 3)-1:0]    loopback_in,                                               
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         pcieeqrxeqadaptdone_in ,                                          
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         pcierstidle_in,                                          
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         pciersttxsyncstart_in,                                          
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         pcieuserratedone_in,                                          
+ output [(PL_LINK_CAP_MAX_LINK_WIDTH*16)-1:0]    pcsrsvdin_in,
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rx8b10ben_in,                                                          
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rxbufreset_in,                                                
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rxcdrhold_in,                                          
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rxcommadeten_in,
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rxlpmen_in,                                                            
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rxmcommaalignen_in,                                                    
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rxpcommaalignen_in,                                                    
+ output [(PL_LINK_CAP_MAX_LINK_WIDTH* 2)-1:0]    rxpd_in,                                              
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rxpolarity_in,                                          
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rxprbscntreset_in, 
+ output [(PL_LINK_CAP_MAX_LINK_WIDTH* 4)-1:0]    rxprbssel_in,                                               
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rxprogdivreset_in,                                          
+ output [(PL_LINK_CAP_MAX_LINK_WIDTH* 3)-1:0]    rxrate_in,
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rxratemode_in,
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rxslide_in,                                                
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rxuserrdy_in,                                          
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rxusrclk2_in,                                          
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         rxusrclk_in,                                          
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         tx8b10ben_in,                                                          
+ output [(PL_LINK_CAP_MAX_LINK_WIDTH*16)-1:0]    txctrl0_in,
+ output [(PL_LINK_CAP_MAX_LINK_WIDTH*16)-1:0]    txctrl1_in,
+ output [(PL_LINK_CAP_MAX_LINK_WIDTH* 8)-1:0]    txctrl2_in,
+ output [(PL_LINK_CAP_MAX_LINK_WIDTH*128)-1:0]   txdata_in, 
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txdeemph_in,                                          
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txdetectrx_in,                                          
+ output [(PL_LINK_CAP_MAX_LINK_WIDTH*4)-1:0]     txdiffctrl_in,
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txdlybypass_in,                                                
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txdlyen_in,                                                
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txdlyhold_in,                                                
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txdlyovrden_in,                                                
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txdlysreset_in,                                                
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txdlyupdown_in,                                                
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txelecidle_in,                                          
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txinhibit_in,                                          
+ output [(PL_LINK_CAP_MAX_LINK_WIDTH* 7)-1:0]    txmaincursor_in,                                               
+ output [(PL_LINK_CAP_MAX_LINK_WIDTH* 3)-1:0]    txmargin_in,                                              
+ output [(PL_LINK_CAP_MAX_LINK_WIDTH* 3)-1:0]    txoutclksel_in,                                           
+ output [(PL_LINK_CAP_MAX_LINK_WIDTH* 2)-1:0]    txpd_in,                                              
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txphalign_in,                                                
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txphalignen_in,                                                
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txphdlypd_in,                                                
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txphdlyreset_in,                                                
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txphdlytstclk_in ,                                                
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txphinit_in,                                                
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txphovrden_in,                                                
+ output [(PL_LINK_CAP_MAX_LINK_WIDTH* 5)-1:0]    txpostcursor_in,                                               
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txprbsforceerr_in,                                          
+ output [(PL_LINK_CAP_MAX_LINK_WIDTH* 4)-1:0]    txprbssel_in,                                               
+ output [(PL_LINK_CAP_MAX_LINK_WIDTH* 5)-1:0]    txprecursor_in,                                               
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txprogdivreset_in,                                          
+ output [(PL_LINK_CAP_MAX_LINK_WIDTH* 3)-1:0]    txrate_in,
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txswing_in,                                          
+ output [(PL_LINK_CAP_MAX_LINK_WIDTH-1) : 0]     txsyncallin_in, 
+ output [(PL_LINK_CAP_MAX_LINK_WIDTH-1) : 0]     txsyncin_in,   
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txsyncmode_in,
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txuserrdy_in,                                          
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txusrclk2_in,                                          
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]         txusrclk_in,                                          
+
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1 : 0]       qpll0clk_in, 
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1 : 0]       qpll0refclk_in,
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1 : 0]       qpll1clk_in, 
+ output [PL_LINK_CAP_MAX_LINK_WIDTH-1 : 0]       qpll1refclk_in,
+
+ output [(PL_LINK_CAP_MAX_LINK_WIDTH-1)>>2:0]    gtrefclk01_in,
+ output [(PL_LINK_CAP_MAX_LINK_WIDTH-1)>>2:0]    qpll1pd_in,
+ output [(PL_LINK_CAP_MAX_LINK_WIDTH-1)>>2:0]    qpll1reset_in,
+ output [((((PL_LINK_CAP_MAX_LINK_WIDTH-1)>>2)+1)* 5)-1:0] qpllrsvd2_in,
+ output [((((PL_LINK_CAP_MAX_LINK_WIDTH-1)>>2)+1)* 5)-1:0] qpllrsvd3_in,
+ input [(PL_LINK_CAP_MAX_LINK_WIDTH-1)>>2:0]     qpll1lock_out,
+ input [(PL_LINK_CAP_MAX_LINK_WIDTH-1)>>2:0]     qpll1outclk_out,
+ input [(PL_LINK_CAP_MAX_LINK_WIDTH-1)>>2:0]     qpll1outrefclk_out,
+
+ //--------------------------------------------------------------------------
+ //  
+ //--------------------------------------------------------------------------
   input  wire   [1:0] conf_req_type,
   input  wire   [3:0] conf_req_reg_num,
   input  wire  [31:0] conf_req_data,
@@ -1129,15 +1297,24 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_pcie3_uscale_core_t
   output wire   [1:0] pl_eq_phase,
   input  wire         pcie_perstn1_in, 
   output wire         pcie_perstn0_out,
-  output wire         pcie_perstn1_out
+  output wire         pcie_perstn1_out,
+  output wire         phy_rdy_out
   );
   localparam  [1:0]  AXISTEN_IF_WIDTH           = ((C_DATA_WIDTH == 256) ? 2'b10: ((C_DATA_WIDTH == 128) ? 2'b01 : 2'b00));
   localparam  [1:0]  CRM_USER_CLK_FREQ          = ((USER_CLK_FREQ == 3) ? 2'b10: ((USER_CLK_FREQ == 2) ? 2'b01 : 2'b00));
 
   localparam        CRM_CORE_CLK_FREQ_500      = ((PL_LINK_CAP_MAX_LINK_SPEED == 3'h4) ? "TRUE" : "FALSE");
 
+
+  wire [(PL_LINK_CAP_MAX_LINK_WIDTH*5)-1:0]  txeq_precursor_o; 
+  wire [(PL_LINK_CAP_MAX_LINK_WIDTH*5)-1:0]  txeq_postcursor_o; 
+  wire [PL_LINK_CAP_MAX_LINK_WIDTH-1:0]      gt_pcierategen3_o;  
+  wire [1:0]                                 pipe_tx_rate_o;
+
+  wire                                        pipe_clk;            
+  wire                                        sys_clk_bufg;        
+
   wire                rec_clk;
-  wire                pipe_clk;
   wire                mcap_clk;
   wire                core_clk;
   wire                gt_txoutclk;
@@ -1149,7 +1326,6 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_pcie3_uscale_core_t
   wire                pipe_tx0_reset;
   wire                pipe_tx0_deemph;
   wire                pipe_tx0_rcvr_det;
-  wire          [1:0] pipe_tx0_rate;
   wire          [2:0] pipe_tx0_margin;
   wire                pipe_tx0_swing;
   wire          [5:0] pipe_tx_eqfs;
@@ -1403,8 +1579,8 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_pcie3_uscale_core_t
   wire         [1:0] pipe_rx6_syncheader;
   wire         [1:0] pipe_rx7_syncheader;
   wire                sys_or_hot_rst;
-  wire                sys_clk_bufg;
   wire                user_lnk_up_int;
+  wire                user_lnk_up_cdc_o;
   wire                mcap_pcie_request;
   wire                mcap_external_request;
   wire         [15:0] cfg_dev_id_mux;
@@ -1450,6 +1626,7 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_pcie3_uscale_core_t
   wire                conf_mcap_design_switch_o;
   wire                conf_mcap_design_switch;
   wire                user_reset_int;
+  wire                user_reset_cdc_o;
 
   wire [15:0]  cfg_vend_id        = PF0_VENDOR_ID;
   wire [15:0]  cfg_dev_id         = PF0_DEVICE_ID;
@@ -1457,11 +1634,14 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_pcie3_uscale_core_t
 //  wire [15:0]  cfg_subsys_vend_id = PF0_SUBSYSTEM_VENDOR_ID;
   wire [15:0]  cfg_subsys_id      = PF0_SUBSYSTEM_ID;
 
+   wire [1:0]     pipe_tx_rate_i;
+
+  wire  phase1; 
 
   assign sys_rst_n = sys_reset_pt;
   assign pcie_perstn0_out = sys_reset_pt;
   assign sys_or_hot_rst = ~sys_rst_n || cfg_hot_reset_out;
-  assign user_lnk_up_int = (cfg_phy_link_status == 2'b11) ? 1'b1 : 1'b0;
+  assign user_lnk_up_int = (cfg_phy_link_status == 2'b11 && sys_rst_n) ? 1'b1 : 1'b0;
  
   wire sync_sc_ce;
   wire sync_sc_clr; 
@@ -1475,10 +1655,18 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_pcie3_uscale_core_t
     .DEST_SYNC_FF          (2),
     .RST_ACTIVE_HIGH       (0)
   ) user_lnk_up_cdc (
-    .src_arst              (user_lnk_up_int && sys_rst_n),
-    .dest_arst             (user_lnk_up),
+    .src_arst              (user_lnk_up_int),
+    .dest_arst             (user_lnk_up_cdc_o),
     .dest_clk              (user_clk)
   );
+  // Additional reset register that can be replicated by the tools to facilitate timing closure
+  always @(posedge user_clk or negedge user_lnk_up_int) begin
+    if(!user_lnk_up_int) begin
+      user_lnk_up <= #TCQ 1'b0;
+    end else begin
+      user_lnk_up <= #TCQ user_lnk_up_cdc_o;
+    end
+  end
 
   // CDC for the user_reset output
   // this will assert asynchronously with sys_rst_n and deassert synchronously
@@ -1488,9 +1676,18 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_pcie3_uscale_core_t
     .RST_ACTIVE_HIGH       (1)
   ) user_reset_cdc (
     .src_arst              (user_reset_int),
-    .dest_arst             (user_reset),
+    .dest_arst             (user_reset_cdc_o),
     .dest_clk              (user_clk)
   );
+  // Additional reset register that can be replicated by the tools to facilitate timing closure
+  always @(posedge user_clk or posedge user_reset_int) begin
+    if(user_reset_int) begin
+     user_reset <= #TCQ 1'b1;
+    end else begin
+      user_reset <= #TCQ user_reset_cdc_o;
+    end
+  end
+
 
   assign cap_req = mcap_pcie_request;
   assign mcap_external_request = (~cap_gnt) | cap_rel;
@@ -2912,7 +3109,6 @@ PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_rxcdrhold rxcdrhold_i
     .rxcdrhold_out                     (phy_rxcdrhold)
 );
 
-
 generate if (EXT_PIPE_SIM == "FALSE") 
 begin
 
@@ -2936,6 +3132,7 @@ PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_phy_wrapper #
 )                                                            
  gt_top_i 
 (                                         
+
     //--------------------------------------------------------------------------
     //  Clock & Reset Ports
     //--------------------------------------------------------------------------
@@ -2948,6 +3145,15 @@ PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_phy_wrapper #
     .PHY_USERCLK                       ( user_clk ),                          
     .mcap_clk			       ( mcap_clk ),
 
+    .ibert_txprecursor_in   (txeq_precursor_o), 
+    .ibert_txpostcursor_in  (txeq_postcursor_o), 
+    .ibert_eyescanreset_in  ({PL_LINK_CAP_MAX_LINK_WIDTH{1'b0}}), 
+    .ibert_rxlpmen_in       (~gt_pcierategen3_o), 
+    .ibert_txdiffctrl_in    ({PL_LINK_CAP_MAX_LINK_WIDTH{4'b1100}}),
+
+    .txeq_precursor         (txeq_precursor_o), 
+    .txeq_postcursor        (txeq_postcursor_o), 
+    .gt_pcierategen3        (gt_pcierategen3_o), 
     //--------------------------------------------------------------------------
     //  Serial Line Ports
     //--------------------------------------------------------------------------
@@ -2985,7 +3191,7 @@ PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_phy_wrapper #
     .PHY_TXCOMPLIANCE                  ( pipe_tx_compliance ),                          
     .PHY_RXPOLARITY                    ( pipe_rx_polarity),           
     .PHY_POWERDOWN                     ( pipe_tx0_powerdown ),                          
-    .PHY_RATE                          ( pipe_tx0_rate ),              
+    .PHY_RATE                          ( pipe_tx_rate_i ),              
     
     //--------------------------------------------------------------------------   
     //  PHY Status Ports
@@ -3100,6 +3306,7 @@ PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_phy_wrapper #
     //--------------------------------------------------------------------------
     //  PCIe State
     //--------------------------------------------------------------------------
+    .PHASE1                            (phase1),
     .cfg_ltssm_state                   ( cfg_ltssm_state )
     
 );
@@ -4028,7 +4235,7 @@ PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_phy_wrapper #
     .pipe_tx_eqfs_gt (pipe_tx_eqfs), 
     .pipe_tx_eqlf_gt (pipe_tx_eqlf), 
     .pipe_tx0_rcvr_det_gt (pipe_tx0_rcvr_det), 
-    .pipe_tx0_rate_gt (pipe_tx0_rate), 
+    .pipe_tx0_rate_gt (pipe_tx_rate_o), 
     .pipe_tx0_deemph_gt (pipe_tx0_deemph), 
     .pipe_tx0_margin_gt (pipe_tx0_margin), 
     .pipe_tx0_swing_gt (pipe_tx0_swing), 
@@ -4981,6 +5188,7 @@ begin
   assign s_axis_cc_tready = conf_mcap_design_switch ? s_axis_cc_tready_wire : 4'b0;
   assign conf_req_ready = conf_mcap_design_switch ? conf_req_ready_wire :1'b0;
 
+  assign phase1 = (cfg_ltssm_state == 6'h29) ? 1'b1 : 1'b0;
 //////////////////////////////////////////////STORE_LTSSM//////////////////////////////////////////////////
 
   (* mark_debug *) wire store_ltssm;
@@ -4997,5 +5205,13 @@ begin
 
   assign store_ltssm     = (ltssm_reg2 != cfg_ltssm_state) ? 1'b1 : 1'b0; 
 
+//
+
+
+
+  
+  assign pipe_tx_rate_i = pipe_tx_rate_o;
+ 
+ assign phy_rdy_out = phy_rdy;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 endmodule

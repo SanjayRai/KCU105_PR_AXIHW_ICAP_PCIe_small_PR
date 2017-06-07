@@ -65,12 +65,12 @@ read_xdc {
 synth_design -top $TOP_module -part [DEVICE_TYPE] 
 opt_design -verbose -directive Explore
 
-set_property mark_debug true [get_nets [list PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_i/axi_hwicap_0/U0/ICAP_NOT_SHARED.HWICAP_CTRL_I/icap_ce]]
-set_property mark_debug true [get_nets [list PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_i/axi_hwicap_0/U0/ICAP_NOT_SHARED.HWICAP_CTRL_I/icap_datain[*]]]
-set_property mark_debug true [get_nets [list PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_i/axi_hwicap_0/U0/ICAP_NOT_SHARED.HWICAP_CTRL_I/icap_we]]
+#set_property mark_debug true [get_nets [list PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_i/axi_hwicap_0/U0/ICAP_NOT_SHARED.HWICAP_CTRL_I/icap_ce]]
+#set_property mark_debug true [get_nets [list PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_i/axi_hwicap_0/U0/ICAP_NOT_SHARED.HWICAP_CTRL_I/icap_datain[*]]]
+#set_property mark_debug true [get_nets [list PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_i/axi_hwicap_0/U0/ICAP_NOT_SHARED.HWICAP_CTRL_I/icap_we]]
 
-create_icap_dbg
-implement_debug_core
+#create_icap_dbg
+#implement_debug_core
 write_checkpoint -force $TOP_module.post_synth_opt.dcp
 if (1) {
 place_design -verbose -directive Explore

@@ -1,14 +1,17 @@
 #-----------------------------------------------------------
-# Vivado v2016.2 (64-bit)
-# SW Build 1577090 on Thu Jun  2 16:32:35 MDT 2016
-# IP Build 1577682 on Fri Jun  3 12:00:54 MDT 2016
-# Start of session at: Sun Jul 31 19:43:08 2016
-# Process ID: 18176
-# Current directory: /home/sanjayr/projects/Vivado_PR/GIT_TEST/KCU105_PR_AXIHW_ICAP_PCIe_small_PR/IP
+# Vivado v2017.1 (64-bit)
+# SW Build 1846317 on Fri Apr 14 18:54:47 MDT 2017
+# IP Build 1846188 on Fri Apr 14 20:52:08 MDT 2017
+# Start of session at: Wed Jun  7 13:31:57 2017
+# Process ID: 30776
+# Current directory: /home/sanjayr/projects/KCU105/KCU105_PR_AXIHW_ICAP_PCIe_small_PR/IP
 # Command line: vivado -source vivado_project.tcl
-# Log file: /home/sanjayr/projects/Vivado_PR/GIT_TEST/KCU105_PR_AXIHW_ICAP_PCIe_small_PR/IP/vivado.log
-# Journal file: /home/sanjayr/projects/Vivado_PR/GIT_TEST/KCU105_PR_AXIHW_ICAP_PCIe_small_PR/IP/vivado.jou
+# Log file: /home/sanjayr/projects/KCU105/KCU105_PR_AXIHW_ICAP_PCIe_small_PR/IP/vivado.log
+# Journal file: /home/sanjayr/projects/KCU105/KCU105_PR_AXIHW_ICAP_PCIe_small_PR/IP/vivado.jou
 #-----------------------------------------------------------
+INFO: [Common 17-1460] Use of init.tcl in /home/sanjayr/.Xilinx/Vivado/init.tcl is deprecated. Please use Vivado_init.tcl 
+Sourcing tcl script '/home/sanjayr/.Xilinx/Vivado/init.tcl'
+308 Beta devices matching pattern found, 0 enabled.
 start_gui
 source vivado_project.tcl
 # source ../device_type.tcl
@@ -51,15 +54,31 @@ source vivado_project.tcl
 # create_project project_X project_X -part [DEVICE_TYPE] 
 INFO: [IP_Flow 19-234] Refreshing IP repositories
 INFO: [IP_Flow 19-1704] No user IP repositories specified
-INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/home/applications/Xilinx/Vivado/2016.2/data/ip'.
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/home/applications/Xilinx/Vivado/2017.1/data/ip'.
 # set_property board_part xilinx.com:kcu105:part0:1.1 [current_project]
 # add_files -fileset sources_1 -norecurse {
 # ../IP/clk_100Mhz_out/clk_100Mhz_out.xci
 # ../IP/vio_x8/vio_x8.xci
 # ../IP/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.bd
 # }
+add_files: Time (s): cpu = 00:00:09 ; elapsed = 00:00:06 . Memory (MB): peak = 6254.961 ; gain = 69.387 ; free physical = 24005 ; free virtual = 44226
 update_compile_order -fileset sources_1
-update_compile_order -fileset sim_1
 update_compile_order -fileset sources_1
-exit
-INFO: [Common 17-206] Exiting Vivado at Sun Jul 31 19:43:46 2016...
+open_bd_design {/home/sanjayr/projects/KCU105/KCU105_PR_AXIHW_ICAP_PCIe_small_PR/IP/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.bd}
+Adding cell -- xilinx.com:ip:axi_bram_ctrl:4.0 - axi_bram_ctrl_0
+Adding cell -- xilinx.com:ip:axi_hwicap:3.0 - axi_hwicap_0
+Adding cell -- xilinx.com:ip:axi_pcie3:3.0 - axi_pcie3_0
+Adding cell -- xilinx.com:ip:blk_mem_gen:8.3 - blk_mem_gen_0
+Adding cell -- xilinx.com:ip:ila:6.2 - ila_BRAM
+INFO: [xilinx.com:ip:ila:6.2-6] /ila_BRAM: Xilinx recommends using the System ILA IP in IP Integrator. The System ILA IP is functionally equivalent to an ILA and offers additional benefits in debugging interfaces both within IP Integrator and the Hardware Manager. Consult the Programming and Debug User Guide UG908 for further details.
+Adding cell -- xilinx.com:ip:ila:6.2 - ila_ICAP
+INFO: [xilinx.com:ip:ila:6.2-6] /ila_ICAP: Xilinx recommends using the System ILA IP in IP Integrator. The System ILA IP is functionally equivalent to an ILA and offers additional benefits in debugging interfaces both within IP Integrator and the Hardware Manager. Consult the Programming and Debug User Guide UG908 for further details.
+Adding cell -- xilinx.com:ip:axi_crossbar:2.1 - xbar
+Adding cell -- xilinx.com:ip:axi_dwidth_converter:2.1 - auto_ds
+Adding cell -- xilinx.com:ip:axi_register_slice:2.1 - auto_rs
+Adding cell -- xilinx.com:ip:axi_register_slice:2.1 - auto_rs_w
+Adding cell -- xilinx.com:ip:axi_dwidth_converter:2.1 - auto_ds
+Adding cell -- xilinx.com:ip:axi_protocol_converter:2.1 - auto_pc
+Adding cell -- xilinx.com:ip:axi_register_slice:2.1 - auto_rs
+Adding cell -- xilinx.com:ip:axi_register_slice:2.1 - auto_rs_w
+Successfully read diagram <PCIe_AXI_BRIDGE_BRAM_HWICAP_bd> from BD file </home/sanjayr/projects/KCU105/KCU105_PR_AXIHW_ICAP_PCIe_small_PR/IP/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.bd>

@@ -88,7 +88,7 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_phy_sync_cell #
     //-------------------------------------------------------------------------- 
     //  Synchronized Signals
     //--------------------------------------------------------------------------  
-    (* ASYNC_REG = "TRUE", SHIFT_EXTRACT = "NO" *) reg [STAGE:0] sync;                                                            
+    (* KEEP = "TRUE", ASYNC_REG = "TRUE", SHIFT_EXTRACT = "NO" *) reg [STAGE:0] sync;                                                            
 
 
 

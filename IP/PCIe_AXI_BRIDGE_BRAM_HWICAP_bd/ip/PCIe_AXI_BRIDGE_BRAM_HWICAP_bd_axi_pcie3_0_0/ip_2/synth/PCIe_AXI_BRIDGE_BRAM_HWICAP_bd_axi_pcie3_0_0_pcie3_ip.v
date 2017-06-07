@@ -1,4 +1,4 @@
-// (c) Copyright 1995-2016 Xilinx, Inc. All rights reserved.
+// (c) Copyright 1995-2017 Xilinx, Inc. All rights reserved.
 // 
 // This file contains confidential and proprietary information
 // of Xilinx, Inc. and is protected under U.S. and
@@ -47,12 +47,12 @@
 // DO NOT MODIFY THIS FILE.
 
 
-// IP VLNV: xilinx.com:ip:pcie3_ultrascale:4.2
-// IP Revision: 1
+// IP VLNV: xilinx.com:ip:pcie3_ultrascale:4.3
+// IP Revision: 0
 
-(* X_CORE_INFO = "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_pcie3_uscale_core_top,Vivado 2016.2" *)
+(* X_CORE_INFO = "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_pcie3_uscale_core_top,Vivado 2017.1" *)
 (* CHECK_LICENSE_TYPE = "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip,PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_pcie3_uscale_core_top,{}" *)
-(* CORE_GENERATION_INFO = "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip,PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_pcie3_uscale_core_top,{x_ipProduct=Vivado 2016.2,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=pcie3_ultrascale,x_ipVersion=4.2,x_ipCoreRevision=1,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,PL_LINK_CAP_MAX_LINK_SPEED=4,PL_LINK_CAP_MAX_LINK_WIDTH=8,USER_CLK_FREQ=3,CORE_CLK_FREQ=2,PLL_TYPE=2,PF0_LINK_CAP_ASPM_SUPPORT=0,C_DATA_WIDTH=256,REF_CLK_FREQ=0,PCIE_LINK_SPEED=3,KEEP_WIDTH=8,ARI_CAP_EN\
+(* CORE_GENERATION_INFO = "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip,PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_pcie3_uscale_core_top,{x_ipProduct=Vivado 2017.1,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=pcie3_ultrascale,x_ipVersion=4.3,x_ipCoreRevision=0,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,PL_LINK_CAP_MAX_LINK_SPEED=4,PL_LINK_CAP_MAX_LINK_WIDTH=8,USER_CLK_FREQ=3,CORE_CLK_FREQ=2,PLL_TYPE=2,PF0_LINK_CAP_ASPM_SUPPORT=0,C_DATA_WIDTH=256,REF_CLK_FREQ=0,PCIE_LINK_SPEED=3,KEEP_WIDTH=8,ARI_CAP_EN\
 ABLE=FALSE,PF0_ARI_CAP_NEXT_FUNC=0x00,AXISTEN_IF_CC_ALIGNMENT_MODE=TRUE,AXISTEN_IF_CQ_ALIGNMENT_MODE=TRUE,AXISTEN_IF_RC_ALIGNMENT_MODE=TRUE,AXISTEN_IF_RC_STRADDLE=FALSE,AXISTEN_IF_RQ_ALIGNMENT_MODE=TRUE,AXISTEN_IF_ENABLE_MSG_ROUTE=0x00000,AXISTEN_IF_ENABLE_RX_MSG_INTFC=FALSE,PF0_AER_CAP_ECRC_CHECK_CAPABLE=FALSE,PF0_AER_CAP_ECRC_GEN_CAPABLE=FALSE,PF0_AER_CAP_NEXTPTR=0x300,PF0_ARI_CAP_NEXTPTR=0x000,VF0_ARI_CAP_NEXTPTR=0x000,VF1_ARI_CAP_NEXTPTR=0x000,VF2_ARI_CAP_NEXTPTR=0x000,VF3_ARI_CAP_NEXTPTR=0x\
 000,VF4_ARI_CAP_NEXTPTR=0x000,VF5_ARI_CAP_NEXTPTR=0x000,PF0_BAR0_APERTURE_SIZE=0x09,PF0_BAR0_CONTROL=0x4,PF0_BAR1_APERTURE_SIZE=0x00,PF0_BAR1_CONTROL=0x0,PF0_BAR2_APERTURE_SIZE=0x00,PF0_BAR2_CONTROL=0x0,PF0_BAR3_APERTURE_SIZE=0x00,PF0_BAR3_CONTROL=0x0,PF0_BAR4_APERTURE_SIZE=0x00,PF0_BAR4_CONTROL=0x0,PF0_BAR5_APERTURE_SIZE=0x00,PF0_BAR5_CONTROL=0x0,PF0_CAPABILITY_POINTER=0x80,PF0_CLASS_CODE=0x058000,PF0_VENDOR_ID=0x10EE,PF0_DEVICE_ID=0x8038,PF0_DEV_CAP2_128B_CAS_ATOMIC_COMPLETER_SUPPORT=FALSE,PF0\
 _DEV_CAP2_32B_ATOMIC_COMPLETER_SUPPORT=FALSE,PF0_DEV_CAP2_64B_ATOMIC_COMPLETER_SUPPORT=FALSE,PF0_DEV_CAP2_LTR_SUPPORT=FALSE,PF0_DEV_CAP2_OBFF_SUPPORT=0x0,PF0_DEV_CAP2_TPH_COMPLETER_SUPPORT=FALSE,PF0_DEV_CAP_EXT_TAG_SUPPORTED=FALSE,PF0_DEV_CAP_FUNCTION_LEVEL_RESET_CAPABLE=FALSE,PF0_DEV_CAP_MAX_PAYLOAD_SIZE=0x2,PF0_DPA_CAP_NEXTPTR=0x300,PF0_DPA_CAP_SUB_STATE_POWER_ALLOCATION0=0x00,PF0_DPA_CAP_SUB_STATE_POWER_ALLOCATION1=0x00,PF0_DPA_CAP_SUB_STATE_POWER_ALLOCATION2=0x00,PF0_DPA_CAP_SUB_STATE_POWER_\
@@ -71,7 +71,8 @@ PHR_CAP_NEXTPTR=0x000,PL_UPSTREAM_FACING=TRUE,en_msi_per_vec_masking=FALSE,SRIOV
 P_MULTIMSGCAP=0,VF0_PM_CAP_NEXTPTR=0x00,VF1_MSIX_CAP_PBA_BIR=0,VF1_MSIX_CAP_PBA_OFFSET=0x00000000,VF1_MSIX_CAP_TABLE_BIR=0,VF1_MSIX_CAP_TABLE_OFFSET=0x00000000,VF1_MSIX_CAP_TABLE_SIZE=0x000,VF1_MSI_CAP_MULTIMSGCAP=0,VF1_PM_CAP_NEXTPTR=0x00,VF2_MSIX_CAP_PBA_BIR=0,VF2_MSIX_CAP_PBA_OFFSET=0x00000000,VF2_MSIX_CAP_TABLE_BIR=0,VF2_MSIX_CAP_TABLE_OFFSET=0x00000000,VF2_MSIX_CAP_TABLE_SIZE=0x000,VF2_MSI_CAP_MULTIMSGCAP=0,VF2_PM_CAP_NEXTPTR=0x00,VF3_MSIX_CAP_PBA_BIR=0,VF3_MSIX_CAP_PBA_OFFSET=0x00000000,VF\
 3_MSIX_CAP_TABLE_BIR=0,VF3_MSIX_CAP_TABLE_OFFSET=0x00000000,VF3_MSIX_CAP_TABLE_SIZE=0x000,VF3_MSI_CAP_MULTIMSGCAP=0,VF3_PM_CAP_NEXTPTR=0x00,VF4_MSIX_CAP_PBA_BIR=0,VF4_MSIX_CAP_PBA_OFFSET=0x00000000,VF4_MSIX_CAP_TABLE_BIR=0,VF4_MSIX_CAP_TABLE_OFFSET=0x00000000,VF4_MSIX_CAP_TABLE_SIZE=0x000,VF4_MSI_CAP_MULTIMSGCAP=0,VF4_PM_CAP_NEXTPTR=0x00,VF5_MSIX_CAP_PBA_BIR=0,VF5_MSIX_CAP_PBA_OFFSET=0x00000000,VF5_MSIX_CAP_TABLE_BIR=0,VF5_MSIX_CAP_TABLE_OFFSET=0x00000000,VF5_MSIX_CAP_TABLE_SIZE=0x000,VF5_MSI_CA\
 P_MULTIMSGCAP=0,VF5_PM_CAP_NEXTPTR=0x00,COMPLETION_SPACE=16KB,gen_x0y0_xdc=1,gen_x0y1_xdc=0,gen_x0y2_xdc=0,gen_x0y3_xdc=0,gen_x0y4_xdc=0,gen_x0y5_xdc=0,xlnx_ref_board=1,pcie_blk_locn=0,PIPE_SIM=FALSE,AXISTEN_IF_ENABLE_CLIENT_TAG=TRUE,PCIE_USE_MODE=2.0,PCIE_FAST_CONFIG=NONE,EXT_STARTUP_PRIMITIVE=FALSE,PL_INTERFACE=FALSE,PCIE_CONFIGURATION=FALSE,CFG_STATUS_IF=TRUE,TX_FC_IF=TRUE,CFG_EXT_IF=TRUE,CFG_FC_IF=TRUE,PER_FUNC_STATUS_IF=TRUE,CFG_MGMT_IF=TRUE,RCV_MSG_IF=TRUE,CFG_TX_MSG_IF=TRUE,CFG_CTL_IF=TRU\
-E,MSI_EN=TRUE,MSIX_EN=FALSE,PCIE3_DRP=FALSE,DIS_GT_WIZARD=FALSE,TRANSCEIVER_CTRL_STATUS_PORTS=FALSE,SHARED_LOGIC=1,DEDICATE_PERST=TRUE,SYS_RESET_POLARITY=0,MCAP_ENABLEMENT=NONE,PHY_LP_TXPRESET=4,EXT_CH_GT_DRP=FALSE,EN_GT_SELECTION=FALSE,SELECT_QUAD=GTH_Quad_225,silicon_revision=Production,DEV_PORT_TYPE=0,RX_DETECT=0}" *)
+E,MSI_EN=TRUE,MSIX_EN=FALSE,PCIE3_DRP=FALSE,DIS_GT_WIZARD=FALSE,TRANSCEIVER_CTRL_STATUS_PORTS=FALSE,SHARED_LOGIC=1,DEDICATE_PERST=TRUE,SYS_RESET_POLARITY=0,MCAP_ENABLEMENT=NONE,PHY_LP_TXPRESET=4,EXT_CH_GT_DRP=FALSE,EN_GT_SELECTION=FALSE,SELECT_QUAD=GTH_Quad_225,silicon_revision=Production,DEV_PORT_TYPE=0,RX_DETECT=0,ENABLE_IBERT=FALSE,DBG_DESCRAMBLE_EN=FALSE,ENABLE_JTAG_DBG=FALSE,AXISTEN_IF_CC_PARITY_CHK=FALSE,AXISTEN_IF_RQ_PARITY_CHK=FALSE,ENABLE_AUTO_RXEQ=FALSE,GTWIZ_IN_CORE=1,INS_LOSS_PROFILE\
+=Add-in_Card,PM_ENABLE_L23_ENTRY=FALSE}" *)
 (* DowngradeIPIdentifiedWarnings = "yes" *)
 module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip (
   pci_exp_txn,
@@ -221,7 +222,8 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip (
   pcie_perstn1_out,
   int_qpll1lock_out,
   int_qpll1outrefclk_out,
-  int_qpll1outclk_out
+  int_qpll1outclk_out,
+  phy_rdy_out
 );
 
 (* X_INTERFACE_INFO = "xilinx.com:interface:pcie_7x_mgt:1.0 pcie_7x_mgt txn" *)
@@ -516,6 +518,7 @@ output wire [1 : 0] int_qpll1lock_out;
 output wire [1 : 0] int_qpll1outrefclk_out;
 (* X_INTERFACE_INFO = "xilinx.com:display_pcie3_ultrascale:int_shared_logic:1.0 pcie3_us_int_shared_logic ints_qpll1outclk_out" *)
 output wire [1 : 0] int_qpll1outclk_out;
+output wire phy_rdy_out;
 
   PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_pcie3_uscale_core_top #(
     .PL_LINK_CAP_MAX_LINK_SPEED(4),
@@ -856,7 +859,16 @@ output wire [1 : 0] int_qpll1outclk_out;
     .SELECT_QUAD("GTH_Quad_225"),
     .silicon_revision("Production"),
     .DEV_PORT_TYPE(0),
-    .RX_DETECT(0)
+    .RX_DETECT(0),
+    .ENABLE_IBERT("FALSE"),
+    .DBG_DESCRAMBLE_EN("FALSE"),
+    .ENABLE_JTAG_DBG("FALSE"),
+    .AXISTEN_IF_CC_PARITY_CHK("FALSE"),
+    .AXISTEN_IF_RQ_PARITY_CHK("FALSE"),
+    .ENABLE_AUTO_RXEQ("FALSE"),
+    .GTWIZ_IN_CORE(1),
+    .INS_LOSS_PROFILE("Add-in_Card"),
+    .PM_ENABLE_L23_ENTRY("FALSE")
   ) inst (
     .pci_exp_txn(pci_exp_txn),
     .pci_exp_txp(pci_exp_txp),
@@ -1135,6 +1147,160 @@ output wire [1 : 0] int_qpll1outclk_out;
     .ext_ch_gt_drpdi(128'B0),
     .ext_ch_gt_drpwe(8'B0),
     .ext_ch_gt_drpdo(),
-    .ext_ch_gt_drprdy()
+    .ext_ch_gt_drprdy(),
+    .rxdlysresetdone_out(8'B0),
+    .rxelecidle_out(8'B0),
+    .rxoutclk_out(8'B0),
+    .rxphaligndone_out(8'B0),
+    .rxpmaresetdone_out(8'B0),
+    .rxprbserr_out(8'B0),
+    .rxprbslocked_out(8'B0),
+    .rxprgdivresetdone_out(8'B0),
+    .rxratedone_out(8'B0),
+    .rxresetdone_out(8'B0),
+    .rxsyncdone_out(8'B0),
+    .rxvalid_out(8'B0),
+    .txdlysresetdone_out(8'B0),
+    .txoutclk_out(8'B0),
+    .txphaligndone_out(8'B0),
+    .txphinitdone_out(8'B0),
+    .txpmaresetdone_out(8'B0),
+    .txprgdivresetdone_out(8'B0),
+    .txresetdone_out(8'B0),
+    .txsyncout_out(8'B0),
+    .txsyncdone_out(8'B0),
+    .cplllock_out(8'B0),
+    .eyescandataerror_out(8'B0),
+    .gtpowergood_out(8'B0),
+    .pcierategen3_out(8'B0),
+    .pcierateidle_out(8'B0),
+    .pciesynctxsyncdone_out(8'B0),
+    .pcieusergen3rdy_out(8'B0),
+    .pcieuserphystatusrst_out(8'B0),
+    .pcieuserratestart_out(8'B0),
+    .phystatus_out(8'B0),
+    .rxbyteisaligned_out(8'B0),
+    .rxbyterealign_out(8'B0),
+    .rxcdrlock_out(8'B0),
+    .rxcommadet_out(8'B0),
+    .gthtxn_out(8'B0),
+    .gthtxp_out(8'B0),
+    .drprdy_out(8'B0),
+    .pcierateqpllpd_out(16'B0),
+    .pcierateqpllreset_out(16'B0),
+    .rxclkcorcnt_out(16'B0),
+    .bufgtce_out(24'B0),
+    .bufgtcemask_out(24'B0),
+    .bufgtreset_out(24'B0),
+    .bufgtrstmask_out(24'B0),
+    .rxbufstatus_out(24'B0),
+    .rxstatus_out(24'B0),
+    .rxctrl2_out(64'B0),
+    .rxctrl3_out(64'B0),
+    .bufgtdiv_out(72'B0),
+    .pcsrsvdout_out(96'B0),
+    .drpdo_out(128'B0),
+    .rxctrl0_out(128'B0),
+    .rxctrl1_out(128'B0),
+    .dmonitorout_out(136'B0),
+    .rxdata_out(1024'B0),
+    .gtwiz_reset_rx_done_in(),
+    .gtwiz_reset_tx_done_in(),
+    .gtwiz_userclk_rx_active_in(),
+    .gtwiz_userclk_tx_active_in(),
+    .gtwiz_userclk_tx_reset_in(),
+    .cpllpd_in(),
+    .cpllreset_in(),
+    .dmonfiforeset_in(),
+    .dmonitorclk_in(),
+    .drpclk_in(),
+    .drpen_in(),
+    .drpwe_in(),
+    .eyescanreset_in(),
+    .gthrxn_in(),
+    .gthrxp_in(),
+    .gtrefclk0_in(),
+    .gtrxreset_in(),
+    .gttxreset_in(),
+    .pcieeqrxeqadaptdone_in(),
+    .pcierstidle_in(),
+    .pciersttxsyncstart_in(),
+    .pcieuserratedone_in(),
+    .rx8b10ben_in(),
+    .rxbufreset_in(),
+    .rxcdrhold_in(),
+    .rxcommadeten_in(),
+    .rxlpmen_in(),
+    .rxmcommaalignen_in(),
+    .rxpcommaalignen_in(),
+    .rxpolarity_in(),
+    .rxprbscntreset_in(),
+    .rxprogdivreset_in(),
+    .rxratemode_in(),
+    .rxslide_in(),
+    .rxuserrdy_in(),
+    .rxusrclk2_in(),
+    .rxusrclk_in(),
+    .tx8b10ben_in(),
+    .txdeemph_in(),
+    .txdetectrx_in(),
+    .txdlybypass_in(),
+    .txdlyen_in(),
+    .txdlyhold_in(),
+    .txdlyovrden_in(),
+    .txdlysreset_in(),
+    .txdlyupdown_in(),
+    .txelecidle_in(),
+    .txinhibit_in(),
+    .txphalign_in(),
+    .txphalignen_in(),
+    .txphdlypd_in(),
+    .txphdlyreset_in(),
+    .txphdlytstclk_in(),
+    .txphinit_in(),
+    .txphovrden_in(),
+    .txprbsforceerr_in(),
+    .txprogdivreset_in(),
+    .txswing_in(),
+    .txsyncallin_in(),
+    .txsyncin_in(),
+    .txsyncmode_in(),
+    .txuserrdy_in(),
+    .txusrclk2_in(),
+    .txusrclk_in(),
+    .rxpd_in(),
+    .txpd_in(),
+    .loopback_in(),
+    .rxrate_in(),
+    .txrate_in(),
+    .txmargin_in(),
+    .txoutclksel_in(),
+    .rxprbssel_in(),
+    .txdiffctrl_in(),
+    .txprbssel_in(),
+    .txprecursor_in(),
+    .txpostcursor_in(),
+    .txmaincursor_in(),
+    .txctrl2_in(),
+    .drpaddr_in(),
+    .drpdi_in(),
+    .pcsrsvdin_in(),
+    .txctrl0_in(),
+    .txctrl1_in(),
+    .txdata_in(),
+    .qpll0clk_in(),
+    .qpll0refclk_in(),
+    .qpll1clk_in(),
+    .qpll1refclk_in(),
+    .gtrefclk01_in(),
+    .qpll1pd_in(),
+    .qpll1reset_in(),
+    .qpll1lock_out(2'B0),
+    .qpll1outclk_out(2'B0),
+    .qpll1outrefclk_out(2'B0),
+    .qpllrsvd2_in(),
+    .qpllrsvd3_in(),
+    .free_run_clock(1'B0),
+    .phy_rdy_out(phy_rdy_out)
   );
 endmodule

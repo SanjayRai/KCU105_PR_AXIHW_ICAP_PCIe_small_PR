@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Tue Jun 28 15:22:23 2016" VIVADOVERSION="2016.2">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Tue Jun  6 22:41:36 2017" VIVADOVERSION="2017.1">
 
   <SYSTEMINFO ARCH="kintexu" BOARD="xilinx.com:kcu105:part0:1.1" DEVICE="xcku040" NAME="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd" PACKAGE="ffva1156" SPEEDGRADE="-2"/>
 
@@ -8,6 +8,23 @@
     <PORT DIR="I" LEFT="7" NAME="pci_express_x8_rxp" RIGHT="0" SIGIS="undef"/>
     <PORT DIR="O" LEFT="7" NAME="pci_express_x8_txn" RIGHT="0" SIGIS="undef"/>
     <PORT DIR="O" LEFT="7" NAME="pci_express_x8_txp" RIGHT="0" SIGIS="undef"/>
+    <PORT DIR="I" LEFT="11" NAME="S_AXI_CTL_araddr" RIGHT="0" SIGIS="undef"/>
+    <PORT DIR="O" NAME="S_AXI_CTL_arready" SIGIS="undef"/>
+    <PORT DIR="I" NAME="S_AXI_CTL_arvalid" SIGIS="undef"/>
+    <PORT DIR="I" LEFT="11" NAME="S_AXI_CTL_awaddr" RIGHT="0" SIGIS="undef"/>
+    <PORT DIR="O" NAME="S_AXI_CTL_awready" SIGIS="undef"/>
+    <PORT DIR="I" NAME="S_AXI_CTL_awvalid" SIGIS="undef"/>
+    <PORT DIR="I" NAME="S_AXI_CTL_bready" SIGIS="undef"/>
+    <PORT DIR="O" LEFT="1" NAME="S_AXI_CTL_bresp" RIGHT="0" SIGIS="undef"/>
+    <PORT DIR="O" NAME="S_AXI_CTL_bvalid" SIGIS="undef"/>
+    <PORT DIR="O" LEFT="31" NAME="S_AXI_CTL_rdata" RIGHT="0" SIGIS="undef"/>
+    <PORT DIR="I" NAME="S_AXI_CTL_rready" SIGIS="undef"/>
+    <PORT DIR="O" LEFT="1" NAME="S_AXI_CTL_rresp" RIGHT="0" SIGIS="undef"/>
+    <PORT DIR="O" NAME="S_AXI_CTL_rvalid" SIGIS="undef"/>
+    <PORT DIR="I" LEFT="31" NAME="S_AXI_CTL_wdata" RIGHT="0" SIGIS="undef"/>
+    <PORT DIR="O" NAME="S_AXI_CTL_wready" SIGIS="undef"/>
+    <PORT DIR="I" LEFT="3" NAME="S_AXI_CTL_wstrb" RIGHT="0" SIGIS="undef"/>
+    <PORT DIR="I" NAME="S_AXI_CTL_wvalid" SIGIS="undef"/>
     <PORT DIR="I" NAME="pcie_perstn" SIGIS="rst" SIGNAME="External_Ports_pcie_perstn">
       <CONNECTIONS>
         <CONNECTION INSTANCE="axi_pcie3_0" PORT="sys_rst_n"/>
@@ -38,23 +55,6 @@
         <CONNECTION INSTANCE="axi_hwicap_0" PORT="icap_clk"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="I" LEFT="11" NAME="S_AXI_CTL_araddr" RIGHT="0" SIGIS="undef"/>
-    <PORT DIR="O" NAME="S_AXI_CTL_arready" SIGIS="undef"/>
-    <PORT DIR="I" NAME="S_AXI_CTL_arvalid" SIGIS="undef"/>
-    <PORT DIR="I" LEFT="11" NAME="S_AXI_CTL_awaddr" RIGHT="0" SIGIS="undef"/>
-    <PORT DIR="O" NAME="S_AXI_CTL_awready" SIGIS="undef"/>
-    <PORT DIR="I" NAME="S_AXI_CTL_awvalid" SIGIS="undef"/>
-    <PORT DIR="I" NAME="S_AXI_CTL_bready" SIGIS="undef"/>
-    <PORT DIR="O" LEFT="1" NAME="S_AXI_CTL_bresp" RIGHT="0" SIGIS="undef"/>
-    <PORT DIR="O" NAME="S_AXI_CTL_bvalid" SIGIS="undef"/>
-    <PORT DIR="O" LEFT="31" NAME="S_AXI_CTL_rdata" RIGHT="0" SIGIS="undef"/>
-    <PORT DIR="I" NAME="S_AXI_CTL_rready" SIGIS="undef"/>
-    <PORT DIR="O" LEFT="1" NAME="S_AXI_CTL_rresp" RIGHT="0" SIGIS="undef"/>
-    <PORT DIR="O" NAME="S_AXI_CTL_rvalid" SIGIS="undef"/>
-    <PORT DIR="I" LEFT="31" NAME="S_AXI_CTL_wdata" RIGHT="0" SIGIS="undef"/>
-    <PORT DIR="O" NAME="S_AXI_CTL_wready" SIGIS="undef"/>
-    <PORT DIR="I" LEFT="3" NAME="S_AXI_CTL_wstrb" RIGHT="0" SIGIS="undef"/>
-    <PORT DIR="I" NAME="S_AXI_CTL_wvalid" SIGIS="undef"/>
   </EXTERNALPORTS>
 
   <EXTERNALINTERFACES>
@@ -93,6 +93,10 @@
       <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="1"/>
       <PARAMETER NAME="PHASE" VALUE="0.000"/>
       <PARAMETER NAME="CLK_DOMAIN"/>
+      <PARAMETER NAME="NUM_READ_THREADS" VALUE="1"/>
+      <PARAMETER NAME="NUM_WRITE_THREADS" VALUE="1"/>
+      <PARAMETER NAME="RUSER_BITS_PER_BYTE" VALUE="0"/>
+      <PARAMETER NAME="WUSER_BITS_PER_BYTE" VALUE="0"/>
       <PORTMAPS>
         <PORTMAP LOGICAL="ARADDR" PHYSICAL="S_AXI_CTL_araddr"/>
         <PORTMAP LOGICAL="ARREADY" PHYSICAL="S_AXI_CTL_arready"/>
@@ -443,6 +447,7 @@
         <PARAMETER NAME="C_S_AXI_SUPPORTS_NARROW_BURST" VALUE="0"/>
         <PARAMETER NAME="C_SINGLE_PORT_BRAM" VALUE="0"/>
         <PARAMETER NAME="C_FAMILY" VALUE="kintexu"/>
+        <PARAMETER NAME="C_SELECT_XPM" VALUE="0"/>
         <PARAMETER NAME="C_S_AXI_CTRL_ADDR_WIDTH" VALUE="32"/>
         <PARAMETER NAME="C_S_AXI_CTRL_DATA_WIDTH" VALUE="32"/>
         <PARAMETER NAME="C_ECC" VALUE="0"/>
@@ -632,12 +637,12 @@
             <CONNECTION INSTANCE="axi_pcie3_0_axi_periph" PORT="M01_AXI_rready"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" NAME="bram_rst_a" SIGIS="undef" SIGNAME="axi_bram_ctrl_0_bram_rst_a">
+        <PORT DIR="O" NAME="bram_rst_a" SIGIS="rst" SIGNAME="axi_bram_ctrl_0_bram_rst_a">
           <CONNECTIONS>
             <CONNECTION INSTANCE="blk_mem_gen_0" PORT="rsta"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" NAME="bram_clk_a" SIGIS="undef" SIGNAME="axi_bram_ctrl_0_bram_clk_a">
+        <PORT DIR="O" NAME="bram_clk_a" SIGIS="clk" SIGNAME="axi_bram_ctrl_0_bram_clk_a">
           <CONNECTIONS>
             <CONNECTION INSTANCE="blk_mem_gen_0" PORT="clka"/>
           </CONNECTIONS>
@@ -667,12 +672,12 @@
             <CONNECTION INSTANCE="blk_mem_gen_0" PORT="douta"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" NAME="bram_rst_b" SIGIS="undef" SIGNAME="axi_bram_ctrl_0_bram_rst_b">
+        <PORT DIR="O" NAME="bram_rst_b" SIGIS="rst" SIGNAME="axi_bram_ctrl_0_bram_rst_b">
           <CONNECTIONS>
             <CONNECTION INSTANCE="blk_mem_gen_0" PORT="rstb"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" NAME="bram_clk_b" SIGIS="undef" SIGNAME="axi_bram_ctrl_0_bram_clk_b">
+        <PORT DIR="O" NAME="bram_clk_b" SIGIS="clk" SIGNAME="axi_bram_ctrl_0_bram_clk_b">
           <CONNECTIONS>
             <CONNECTION INSTANCE="blk_mem_gen_0" PORT="clkb"/>
           </CONNECTIONS>
@@ -726,11 +731,15 @@
           <PARAMETER NAME="HAS_BRESP" VALUE="1"/>
           <PARAMETER NAME="HAS_RRESP" VALUE="1"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
-          <PARAMETER NAME="NUM_READ_OUTSTANDING" VALUE="2"/>
-          <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="2"/>
+          <PARAMETER NAME="NUM_READ_OUTSTANDING" VALUE="8"/>
+          <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="256"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_axi_aclk"/>
+          <PARAMETER NAME="NUM_READ_THREADS" VALUE="1"/>
+          <PARAMETER NAME="NUM_WRITE_THREADS" VALUE="1"/>
+          <PARAMETER NAME="RUSER_BITS_PER_BYTE" VALUE="0"/>
+          <PARAMETER NAME="WUSER_BITS_PER_BYTE" VALUE="0"/>
           <PORTMAPS>
             <PORTMAP LOGICAL="ARADDR" PHYSICAL="s_axi_araddr"/>
             <PORTMAP LOGICAL="ARBURST" PHYSICAL="s_axi_arburst"/>
@@ -770,6 +779,7 @@
           <PARAMETER NAME="MEM_SIZE" VALUE="32768"/>
           <PARAMETER NAME="MEM_WIDTH" VALUE="32"/>
           <PARAMETER NAME="MEM_ECC" VALUE="NONE"/>
+          <PARAMETER NAME="READ_WRITE_MODE" VALUE="WRITE_ONLY"/>
           <PORTMAPS>
             <PORTMAP LOGICAL="ADDR" PHYSICAL="bram_addr_a"/>
             <PORTMAP LOGICAL="CLK" PHYSICAL="bram_clk_a"/>
@@ -785,6 +795,7 @@
           <PARAMETER NAME="MEM_SIZE" VALUE="32768"/>
           <PARAMETER NAME="MEM_WIDTH" VALUE="32"/>
           <PARAMETER NAME="MEM_ECC" VALUE="NONE"/>
+          <PARAMETER NAME="READ_WRITE_MODE" VALUE="READ_ONLY"/>
           <PORTMAPS>
             <PORTMAP LOGICAL="ADDR" PHYSICAL="bram_addr_b"/>
             <PORTMAP LOGICAL="CLK" PHYSICAL="bram_clk_b"/>
@@ -952,11 +963,15 @@
           <PARAMETER NAME="HAS_BRESP" VALUE="1"/>
           <PARAMETER NAME="HAS_RRESP" VALUE="1"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
-          <PARAMETER NAME="NUM_READ_OUTSTANDING" VALUE="2"/>
-          <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="2"/>
+          <PARAMETER NAME="NUM_READ_OUTSTANDING" VALUE="8"/>
+          <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="1"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_axi_aclk"/>
+          <PARAMETER NAME="NUM_READ_THREADS" VALUE="1"/>
+          <PARAMETER NAME="NUM_WRITE_THREADS" VALUE="1"/>
+          <PARAMETER NAME="RUSER_BITS_PER_BYTE" VALUE="0"/>
+          <PARAMETER NAME="WUSER_BITS_PER_BYTE" VALUE="0"/>
           <PORTMAPS>
             <PORTMAP LOGICAL="ARADDR" PHYSICAL="s_axi_araddr"/>
             <PORTMAP LOGICAL="ARREADY" PHYSICAL="s_axi_arready"/>
@@ -979,12 +994,12 @@
         </BUSINTERFACE>
       </BUSINTERFACES>
     </MODULE>
-    <MODULE FULLNAME="/axi_pcie3_0" HWVERSION="2.1" INSTANCE="axi_pcie3_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="axi_pcie3" VLNV="xilinx.com:ip:axi_pcie3:2.1">
+    <MODULE FULLNAME="/axi_pcie3_0" HWVERSION="3.0" INSTANCE="axi_pcie3_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="axi_pcie3" VLNV="xilinx.com:ip:axi_pcie3:3.0">
       <DOCUMENTS>
-        <DOCUMENT SOURCE="http://www.xilinx.com/cgi-bin/docs/ipdoc?c=axi_pcie3;v=v2_1;d=pg194-axi-bridge-pcie-gen3.pdf"/>
+        <DOCUMENT SOURCE="http://www.xilinx.com/cgi-bin/docs/ipdoc?c=axi_pcie3;v=v3_0;d=pg194-axi-bridge-pcie-gen3.pdf"/>
       </DOCUMENTS>
       <PARAMETERS>
-        <PARAMETER NAME="COMPONENT_NAME" VALUE="axi_pcie3_v2_1"/>
+        <PARAMETER NAME="COMPONENT_NAME" VALUE="axi_pcie3_v3_0"/>
         <PARAMETER NAME="PL_UPSTREAM_FACING" VALUE="true"/>
         <PARAMETER NAME="TL_LEGACY_MODE_ENABLE" VALUE="false"/>
         <PARAMETER NAME="PCIE_BLK_LOCN" VALUE="0"/>
@@ -1054,6 +1069,10 @@
         <PARAMETER NAME="C_AXIBAR2PCIEBAR_4" VALUE="0x0000000000000000"/>
         <PARAMETER NAME="C_AXIBAR2PCIEBAR_5" VALUE="0x0000000000000000"/>
         <PARAMETER NAME="C_INCLUDE_BAROFFSET_REG" VALUE="1"/>
+        <PARAMETER NAME="VU9P_BOARD" VALUE="FALSE"/>
+        <PARAMETER NAME="VCU118_BOARD" VALUE="FALSE"/>
+        <PARAMETER NAME="ENABLE_JTAG_DBG" VALUE="FALSE"/>
+        <PARAMETER NAME="ENABLE_IBERT" VALUE="false"/>
         <PARAMETER NAME="C_S_AXI_ID_WIDTH" VALUE="4"/>
         <PARAMETER NAME="C_M_AXI_ID_WIDTH" VALUE="3"/>
         <PARAMETER NAME="SHARED_LOGIC" VALUE="1"/>
@@ -1067,8 +1086,9 @@
         <PARAMETER NAME="C_M_AXI_NUM_WRITE" VALUE="8"/>
         <PARAMETER NAME="IS_BOARD_PROJECT" VALUE="1"/>
         <PARAMETER NAME="EN_GT_SELECTION" VALUE="false"/>
-        <PARAMETER NAME="SELECT_QUAD" VALUE="GTH_Quad_224"/>
+        <PARAMETER NAME="SELECT_QUAD" VALUE="GTH_Quad_225"/>
         <PARAMETER NAME="ULTRASCALE" VALUE="TRUE"/>
+        <PARAMETER NAME="ULTRASCALE_PLUS" VALUE="FALSE"/>
         <PARAMETER NAME="MSI_ENABLED" VALUE="TRUE"/>
         <PARAMETER NAME="DEV_PORT_TYPE" VALUE="0"/>
         <PARAMETER NAME="MSIX_EN" VALUE="FALSE"/>
@@ -1077,6 +1097,11 @@
         <PARAMETER NAME="C_ATS_ENABLE" VALUE="FALSE"/>
         <PARAMETER NAME="C_ATS_CAP_NEXTPTR" VALUE="0x000"/>
         <PARAMETER NAME="C_PRI_ENABLE" VALUE="FALSE"/>
+        <PARAMETER NAME="AXI_ACLK_LOOPBACK" VALUE="TRUE"/>
+        <PARAMETER NAME="CFG_EXT_IF" VALUE="FALSE"/>
+        <PARAMETER NAME="C_S_AXI_SUPPORTS_NARROW_BURST" VALUE="0"/>
+        <PARAMETER NAME="xlnx_ref_board" VALUE="KCU105"/>
+        <PARAMETER NAME="NO_SLV_ERR" VALUE="FALSE"/>
         <PARAMETER NAME="Component_Name" VALUE="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0"/>
         <PARAMETER NAME="mode_selection" VALUE="Basic"/>
         <PARAMETER NAME="device_port_type" VALUE="PCI_Express_Endpoint_device"/>
@@ -1095,8 +1120,14 @@
         <PARAMETER NAME="en_ext_ch_gt_drp" VALUE="false"/>
         <PARAMETER NAME="en_pcie_drp" VALUE="false"/>
         <PARAMETER NAME="dedicate_perst" VALUE="true"/>
-        <PARAMETER NAME="sys_reset_polarity" VALUE="ACTIVE LOW"/>
+        <PARAMETER NAME="sys_reset_polarity" VALUE="ACTIVE_LOW"/>
         <PARAMETER NAME="mcap_enablement" VALUE="None"/>
+        <PARAMETER NAME="en_debug_ports" VALUE="false"/>
+        <PARAMETER NAME="vu9p_board" VALUE="FALSE"/>
+        <PARAMETER NAME="vcu118_board" VALUE="false"/>
+        <PARAMETER NAME="enable_jtag_dbg" VALUE="false"/>
+        <PARAMETER NAME="en_dbg_descramble" VALUE="false"/>
+        <PARAMETER NAME="enable_ibert" VALUE="false"/>
         <PARAMETER NAME="ext_startup_primitive" VALUE="false"/>
         <PARAMETER NAME="vendor_id" VALUE="10EE"/>
         <PARAMETER NAME="pf0_device_id" VALUE="8038"/>
@@ -1153,7 +1184,7 @@
         <PARAMETER NAME="pf0_msi_enabled" VALUE="true"/>
         <PARAMETER NAME="pf0_msi_cap_multimsgcap" VALUE="1_vector"/>
         <PARAMETER NAME="comp_timeout" VALUE="50us"/>
-        <PARAMETER NAME="axibar_num" VALUE="1"/>
+        <PARAMETER NAME="AXIBAR_NUM" VALUE="1"/>
         <PARAMETER NAME="axibar_0" VALUE="0x0000000000000000"/>
         <PARAMETER NAME="axibar_1" VALUE="0x0000000000000000"/>
         <PARAMETER NAME="axibar_2" VALUE="0x0000000000000000"/>
@@ -1173,6 +1204,8 @@
         <PARAMETER NAME="axibar2pciebar_4" VALUE="0x0000000000000000"/>
         <PARAMETER NAME="axibar2pciebar_5" VALUE="0x0000000000000000"/>
         <PARAMETER NAME="include_baroffset_reg" VALUE="true"/>
+        <PARAMETER NAME="BASEADDR" VALUE="00001000"/>
+        <PARAMETER NAME="HIGHADDR" VALUE="00001FFF"/>
         <PARAMETER NAME="s_axi_id_width" VALUE="4"/>
         <PARAMETER NAME="Shared_Logic" VALUE="1"/>
         <PARAMETER NAME="Shared_Logic_Clk" VALUE="false"/>
@@ -1190,7 +1223,7 @@
         <PARAMETER NAME="SYS_RST_N_BOARD_INTERFACE" VALUE="pcie_perstn"/>
         <PARAMETER NAME="PCIE_BOARD_INTERFACE" VALUE="pci_express_x8"/>
         <PARAMETER NAME="en_gt_selection" VALUE="false"/>
-        <PARAMETER NAME="select_quad" VALUE="GTH_Quad_224"/>
+        <PARAMETER NAME="select_quad" VALUE="GTH_Quad_225"/>
         <PARAMETER NAME="RX_PPM_OFFSET" VALUE="0"/>
         <PARAMETER NAME="RX_SSC_PPM" VALUE="0"/>
         <PARAMETER NAME="INS_LOSS_NYQ" VALUE="15"/>
@@ -1207,6 +1240,11 @@
         <PARAMETER NAME="c_ats_enable" VALUE="false"/>
         <PARAMETER NAME="c_pri_enable" VALUE="false"/>
         <PARAMETER NAME="ins_loss_profile" VALUE="Add-in_Card"/>
+        <PARAMETER NAME="axi_aclk_loopback" VALUE="true"/>
+        <PARAMETER NAME="cfg_ext_if" VALUE="false"/>
+        <PARAMETER NAME="c_s_axi_supports_narrow_burst" VALUE="false"/>
+        <PARAMETER NAME="en_l23_entry" VALUE="false"/>
+        <PARAMETER NAME="no_slv_err" VALUE="false"/>
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
         <PARAMETER NAME="baseaddr" VALUE="0x00000000"/>
         <PARAMETER NAME="highaddr" VALUE="0x00000FFF"/>
@@ -1317,23 +1355,23 @@
         <PORT DIR="I" NAME="s_axi_ctl_rready" SIGIS="undef"/>
         <PORT CLKFREQUENCY="250000000" DIR="O" NAME="axi_aclk" SIGIS="clk" SIGNAME="axi_pcie3_0_axi_aclk">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="axi_hwicap_0" PORT="s_axi_aclk"/>
             <CONNECTION INSTANCE="axi_bram_ctrl_0" PORT="s_axi_aclk"/>
-            <CONNECTION INSTANCE="ila_ICAPHW" PORT="clk"/>
-            <CONNECTION INSTANCE="ila_BRAM" PORT="clk"/>
+            <CONNECTION INSTANCE="axi_hwicap_0" PORT="s_axi_aclk"/>
             <CONNECTION INSTANCE="axi_pcie3_0" PORT="axi_ctl_aclk"/>
-            <CONNECTION INSTANCE="axi_pcie3_0_axi_periph" PORT="S00_ACLK"/>
+            <CONNECTION INSTANCE="ila_BRAM" PORT="clk"/>
             <CONNECTION INSTANCE="axi_pcie3_0_axi_periph" PORT="ACLK"/>
+            <CONNECTION INSTANCE="axi_pcie3_0_axi_periph" PORT="S00_ACLK"/>
             <CONNECTION INSTANCE="axi_pcie3_0_axi_periph" PORT="M00_ACLK"/>
             <CONNECTION INSTANCE="axi_pcie3_0_axi_periph" PORT="M01_ACLK"/>
+            <CONNECTION INSTANCE="ila_ICAP" PORT="clk"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" NAME="axi_aresetn" SIGIS="rst" SIGNAME="axi_pcie3_0_axi_aresetn">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="axi_hwicap_0" PORT="s_axi_aresetn"/>
             <CONNECTION INSTANCE="axi_bram_ctrl_0" PORT="s_axi_aresetn"/>
-            <CONNECTION INSTANCE="axi_pcie3_0_axi_periph" PORT="S00_ARESETN"/>
+            <CONNECTION INSTANCE="axi_hwicap_0" PORT="s_axi_aresetn"/>
             <CONNECTION INSTANCE="axi_pcie3_0_axi_periph" PORT="ARESETN"/>
+            <CONNECTION INSTANCE="axi_pcie3_0_axi_periph" PORT="S00_ARESETN"/>
             <CONNECTION INSTANCE="axi_pcie3_0_axi_periph" PORT="M00_ARESETN"/>
             <CONNECTION INSTANCE="axi_pcie3_0_axi_periph" PORT="M01_ARESETN"/>
           </CONNECTIONS>
@@ -1484,15 +1522,11 @@
       </PORTS>
       <BUSINTERFACES>
         <BUSINTERFACE BUSNAME="External_Interface_S_AXI_CTL" DATAWIDTH="32" NAME="S_AXI_CTL" TYPE="SLAVE" VLNV="xilinx.com:interface:aximm:1.0">
-          <PARAMETER NAME="FREQ_HZ" VALUE="250000000"/>
-          <PARAMETER NAME="ADDR_WIDTH" VALUE="12"/>
-          <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
-          <PARAMETER NAME="NUM_READ_OUTSTANDING" VALUE="1"/>
-          <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="1"/>
-          <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="1"/>
           <PARAMETER NAME="DATA_WIDTH" VALUE="32"/>
           <PARAMETER NAME="PROTOCOL" VALUE="AXI4LITE"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="250000000"/>
           <PARAMETER NAME="ID_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="ADDR_WIDTH" VALUE="12"/>
           <PARAMETER NAME="AWUSER_WIDTH" VALUE="0"/>
           <PARAMETER NAME="ARUSER_WIDTH" VALUE="0"/>
           <PARAMETER NAME="WUSER_WIDTH" VALUE="0"/>
@@ -1508,8 +1542,16 @@
           <PARAMETER NAME="HAS_WSTRB" VALUE="1"/>
           <PARAMETER NAME="HAS_BRESP" VALUE="1"/>
           <PARAMETER NAME="HAS_RRESP" VALUE="1"/>
+          <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
+          <PARAMETER NAME="NUM_READ_OUTSTANDING" VALUE="1"/>
+          <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="1"/>
+          <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="1"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_axi_aclk"/>
+          <PARAMETER NAME="NUM_READ_THREADS" VALUE="1"/>
+          <PARAMETER NAME="NUM_WRITE_THREADS" VALUE="1"/>
+          <PARAMETER NAME="RUSER_BITS_PER_BYTE" VALUE="0"/>
+          <PARAMETER NAME="WUSER_BITS_PER_BYTE" VALUE="0"/>
           <PORTMAPS>
             <PORTMAP LOGICAL="ARADDR" PHYSICAL="s_axi_ctl_araddr"/>
             <PORTMAP LOGICAL="ARREADY" PHYSICAL="s_axi_ctl_arready"/>
@@ -1531,32 +1573,36 @@
           </PORTMAPS>
         </BUSINTERFACE>
         <BUSINTERFACE BUSNAME="axi_pcie3_0_M_AXI" DATAWIDTH="256" NAME="M_AXI" TYPE="MASTER" VLNV="xilinx.com:interface:aximm:1.0">
-          <PARAMETER NAME="NUM_READ_OUTSTANDING" VALUE="2"/>
-          <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="2"/>
+          <PARAMETER NAME="NUM_READ_OUTSTANDING" VALUE="8"/>
+          <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
           <PARAMETER NAME="HAS_BURST" VALUE="0"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="250000000"/>
-          <PARAMETER NAME="PROTOCOL" VALUE="AXI4"/>
-          <PARAMETER NAME="READ_WRITE_MODE" VALUE="READ_WRITE"/>
           <PARAMETER NAME="DATA_WIDTH" VALUE="256"/>
+          <PARAMETER NAME="PROTOCOL" VALUE="AXI4"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="250000000"/>
+          <PARAMETER NAME="ID_WIDTH" VALUE="3"/>
           <PARAMETER NAME="ADDR_WIDTH" VALUE="32"/>
+          <PARAMETER NAME="AWUSER_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="ARUSER_WIDTH" VALUE="0"/>
           <PARAMETER NAME="WUSER_WIDTH" VALUE="32"/>
           <PARAMETER NAME="RUSER_WIDTH" VALUE="32"/>
-          <PARAMETER NAME="ID_WIDTH" VALUE="3"/>
+          <PARAMETER NAME="BUSER_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="READ_WRITE_MODE" VALUE="READ_WRITE"/>
           <PARAMETER NAME="HAS_LOCK" VALUE="1"/>
-          <PARAMETER NAME="HAS_CACHE" VALUE="1"/>
           <PARAMETER NAME="HAS_PROT" VALUE="1"/>
+          <PARAMETER NAME="HAS_CACHE" VALUE="1"/>
+          <PARAMETER NAME="HAS_QOS" VALUE="0"/>
+          <PARAMETER NAME="HAS_REGION" VALUE="0"/>
           <PARAMETER NAME="HAS_WSTRB" VALUE="1"/>
           <PARAMETER NAME="HAS_BRESP" VALUE="1"/>
           <PARAMETER NAME="HAS_RRESP" VALUE="1"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="256"/>
-          <PARAMETER NAME="AWUSER_WIDTH" VALUE="0"/>
-          <PARAMETER NAME="ARUSER_WIDTH" VALUE="0"/>
-          <PARAMETER NAME="BUSER_WIDTH" VALUE="0"/>
-          <PARAMETER NAME="HAS_QOS" VALUE="0"/>
-          <PARAMETER NAME="HAS_REGION" VALUE="0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_axi_aclk"/>
+          <PARAMETER NAME="NUM_READ_THREADS" VALUE="1"/>
+          <PARAMETER NAME="NUM_WRITE_THREADS" VALUE="1"/>
+          <PARAMETER NAME="RUSER_BITS_PER_BYTE" VALUE="0"/>
+          <PARAMETER NAME="WUSER_BITS_PER_BYTE" VALUE="0"/>
           <PORTMAPS>
             <PORTMAP LOGICAL="ARADDR" PHYSICAL="m_axi_araddr"/>
             <PORTMAP LOGICAL="ARBURST" PHYSICAL="m_axi_arburst"/>
@@ -2662,12 +2708,12 @@
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
       </PARAMETERS>
       <PORTS>
-        <PORT DIR="I" NAME="clka" SIGIS="undef" SIGNAME="axi_bram_ctrl_0_bram_clk_a">
+        <PORT DIR="I" NAME="clka" SIGIS="clk" SIGNAME="axi_bram_ctrl_0_bram_clk_a">
           <CONNECTIONS>
             <CONNECTION INSTANCE="axi_bram_ctrl_0" PORT="bram_clk_a"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="rsta" SIGIS="undef" SIGNAME="axi_bram_ctrl_0_bram_rst_a">
+        <PORT DIR="I" NAME="rsta" SIGIS="rst" SIGNAME="axi_bram_ctrl_0_bram_rst_a">
           <CONNECTIONS>
             <CONNECTION INSTANCE="axi_bram_ctrl_0" PORT="bram_rst_a"/>
           </CONNECTIONS>
@@ -2697,12 +2743,12 @@
             <CONNECTION INSTANCE="axi_bram_ctrl_0" PORT="bram_rddata_a"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="clkb" SIGIS="undef" SIGNAME="axi_bram_ctrl_0_bram_clk_b">
+        <PORT DIR="I" NAME="clkb" SIGIS="clk" SIGNAME="axi_bram_ctrl_0_bram_clk_b">
           <CONNECTIONS>
             <CONNECTION INSTANCE="axi_bram_ctrl_0" PORT="bram_clk_b"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="rstb" SIGIS="undef" SIGNAME="axi_bram_ctrl_0_bram_rst_b">
+        <PORT DIR="I" NAME="rstb" SIGIS="rst" SIGNAME="axi_bram_ctrl_0_bram_rst_b">
           <CONNECTIONS>
             <CONNECTION INSTANCE="axi_bram_ctrl_0" PORT="bram_rst_b"/>
           </CONNECTIONS>
@@ -2739,6 +2785,7 @@
           <PARAMETER NAME="MEM_WIDTH" VALUE="32"/>
           <PARAMETER NAME="MEM_ECC" VALUE="NONE"/>
           <PARAMETER NAME="MASTER_TYPE" VALUE="BRAM_CTRL"/>
+          <PARAMETER NAME="READ_WRITE_MODE" VALUE="READ_WRITE"/>
           <PORTMAPS>
             <PORTMAP LOGICAL="ADDR" PHYSICAL="addra"/>
             <PORTMAP LOGICAL="CLK" PHYSICAL="clka"/>
@@ -2754,6 +2801,7 @@
           <PARAMETER NAME="MEM_WIDTH" VALUE="32"/>
           <PARAMETER NAME="MEM_ECC" VALUE="NONE"/>
           <PARAMETER NAME="MASTER_TYPE" VALUE="BRAM_CTRL"/>
+          <PARAMETER NAME="READ_WRITE_MODE" VALUE="READ_WRITE"/>
           <PORTMAPS>
             <PORTMAP LOGICAL="ADDR" PHYSICAL="addrb"/>
             <PORTMAP LOGICAL="CLK" PHYSICAL="clkb"/>
@@ -2766,9 +2814,9 @@
         </BUSINTERFACE>
       </BUSINTERFACES>
     </MODULE>
-    <MODULE FULLNAME="/ila_BRAM" HWVERSION="6.1" INSTANCE="ila_BRAM" IPTYPE="MONITOR" IS_ENABLE="1" MODCLASS="MONITOR" MODTYPE="ila" VLNV="xilinx.com:ip:ila:6.1">
+    <MODULE FULLNAME="/ila_BRAM" HWVERSION="6.2" INSTANCE="ila_BRAM" IPTYPE="MONITOR" IS_ENABLE="1" MODCLASS="MONITOR" MODTYPE="ila" VLNV="xilinx.com:ip:ila:6.2">
       <DOCUMENTS>
-        <DOCUMENT SOURCE="http://www.xilinx.com/cgi-bin/docs/ipdoc?c=ila;v=v6_1;d=pg172-ila.pdf"/>
+        <DOCUMENT SOURCE="http://www.xilinx.com/cgi-bin/docs/ipdoc?c=ila;v=v6_2;d=pg172-ila.pdf"/>
       </DOCUMENTS>
       <PARAMETERS>
         <PARAMETER NAME="C_XLNX_HW_PROBE_INFO" VALUE="DEFAULT"/>
@@ -2788,8 +2836,8 @@
         <PARAMETER NAME="C_ENABLE_ILA_AXI_MON" VALUE="1"/>
         <PARAMETER NAME="C_NUM_OF_PROBES" VALUE="44"/>
         <PARAMETER NAME="C_DATA_DEPTH" VALUE="1024"/>
-        <PARAMETER NAME="C_MAJOR_VERSION" VALUE="2016"/>
-        <PARAMETER NAME="C_MINOR_VERSION" VALUE="2"/>
+        <PARAMETER NAME="C_MAJOR_VERSION" VALUE="2017"/>
+        <PARAMETER NAME="C_MINOR_VERSION" VALUE="1"/>
         <PARAMETER NAME="C_BUILD_REVISION" VALUE="0"/>
         <PARAMETER NAME="C_CORE_MAJOR_VER" VALUE="6"/>
         <PARAMETER NAME="C_CORE_MINOR_VER" VALUE="0"/>
@@ -5886,9 +5934,12 @@
         <PARAMETER NAME="C_EN_DDR_ILA" VALUE="0"/>
         <PARAMETER NAME="C_DDR_CLK_GEN" VALUE="0"/>
         <PARAMETER NAME="C_CLK_FREQ" VALUE="200"/>
+        <PARAMETER NAME="C_ILA_CLK_FREQ" VALUE="2000000"/>
         <PARAMETER NAME="C_CLK_PERIOD" VALUE="5.0"/>
         <PARAMETER NAME="C_INPUT_PIPE_STAGES" VALUE="0"/>
         <PARAMETER NAME="C_EN_STRG_QUAL" VALUE="0"/>
+        <PARAMETER NAME="C_EN_TIME_TAG" VALUE="0"/>
+        <PARAMETER NAME="C_TIME_TAG_WIDTH" VALUE="32"/>
         <PARAMETER NAME="C_CLKFBOUT_MULT_F" VALUE="10"/>
         <PARAMETER NAME="C_DIVCLK_DIVIDE" VALUE="3"/>
         <PARAMETER NAME="C_CLKOUT0_DIVIDE_F" VALUE="10"/>
@@ -5936,6 +5987,7 @@
         <PORT DIR="I" LEFT="1" NAME="probe24" RIGHT="0" SIGIS="undef"/>
         <PORT DIR="I" LEFT="0" NAME="probe25" RIGHT="0" SIGIS="undef"/>
         <PORT DIR="I" LEFT="0" NAME="probe26" RIGHT="0" SIGIS="undef"/>
+        <PORT DIR="I" LEFT="7" NAME="probe27" RIGHT="0" SIGIS="undef"/>
         <PORT DIR="I" LEFT="2" NAME="probe28" RIGHT="0" SIGIS="undef"/>
         <PORT DIR="I" LEFT="1" NAME="probe29" RIGHT="0" SIGIS="undef"/>
         <PORT DIR="I" LEFT="0" NAME="probe30" RIGHT="0" SIGIS="undef"/>
@@ -5952,7 +6004,6 @@
         <PORT DIR="I" LEFT="0" NAME="probe41" RIGHT="0" SIGIS="undef"/>
         <PORT DIR="I" LEFT="0" NAME="probe42" RIGHT="0" SIGIS="undef"/>
         <PORT DIR="I" LEFT="0" NAME="probe43" RIGHT="0" SIGIS="undef"/>
-        <PORT DIR="I" LEFT="7" NAME="probe27" RIGHT="0" SIGIS="undef"/>
       </PORTS>
       <BUSINTERFACES>
         <BUSINTERFACE BUSNAME="axi_pcie3_0_axi_periph_M01_AXI" DATAWIDTH="32" NAME="SLOT_0_AXI" TYPE="MONITOR" VLNV="xilinx.com:interface:aximm:1.0">
@@ -5977,11 +6028,15 @@
           <PARAMETER NAME="HAS_BRESP" VALUE="1"/>
           <PARAMETER NAME="HAS_RRESP" VALUE="1"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
-          <PARAMETER NAME="NUM_READ_OUTSTANDING" VALUE="2"/>
-          <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="2"/>
+          <PARAMETER NAME="NUM_READ_OUTSTANDING" VALUE="8"/>
+          <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="256"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_axi_aclk"/>
+          <PARAMETER NAME="NUM_READ_THREADS" VALUE="1"/>
+          <PARAMETER NAME="NUM_WRITE_THREADS" VALUE="1"/>
+          <PARAMETER NAME="RUSER_BITS_PER_BYTE" VALUE="0"/>
+          <PARAMETER NAME="WUSER_BITS_PER_BYTE" VALUE="0"/>
           <PORTMAPS>
             <PORTMAP LOGICAL="ARADDR" PHYSICAL="probe5"/>
             <PORTMAP LOGICAL="ARBURST" PHYSICAL="probe29"/>
@@ -6031,9 +6086,9 @@
         </BUSINTERFACE>
       </BUSINTERFACES>
     </MODULE>
-    <MODULE FULLNAME="/ila_ICAPHW" HWVERSION="6.1" INSTANCE="ila_ICAPHW" IPTYPE="MONITOR" IS_ENABLE="1" MODCLASS="MONITOR" MODTYPE="ila" VLNV="xilinx.com:ip:ila:6.1">
+    <MODULE FULLNAME="/ila_ICAP" HWVERSION="6.2" INSTANCE="ila_ICAP" IPTYPE="MONITOR" IS_ENABLE="1" MODCLASS="MONITOR" MODTYPE="ila" VLNV="xilinx.com:ip:ila:6.2">
       <DOCUMENTS>
-        <DOCUMENT SOURCE="http://www.xilinx.com/cgi-bin/docs/ipdoc?c=ila;v=v6_1;d=pg172-ila.pdf"/>
+        <DOCUMENT SOURCE="http://www.xilinx.com/cgi-bin/docs/ipdoc?c=ila;v=v6_2;d=pg172-ila.pdf"/>
       </DOCUMENTS>
       <PARAMETERS>
         <PARAMETER NAME="C_XLNX_HW_PROBE_INFO" VALUE="DEFAULT"/>
@@ -6052,9 +6107,9 @@
         <PARAMETER NAME="C_NUM_MONITOR_SLOTS" VALUE="1"/>
         <PARAMETER NAME="C_ENABLE_ILA_AXI_MON" VALUE="1"/>
         <PARAMETER NAME="C_NUM_OF_PROBES" VALUE="19"/>
-        <PARAMETER NAME="C_DATA_DEPTH" VALUE="32768"/>
-        <PARAMETER NAME="C_MAJOR_VERSION" VALUE="2016"/>
-        <PARAMETER NAME="C_MINOR_VERSION" VALUE="2"/>
+        <PARAMETER NAME="C_DATA_DEPTH" VALUE="1024"/>
+        <PARAMETER NAME="C_MAJOR_VERSION" VALUE="2017"/>
+        <PARAMETER NAME="C_MINOR_VERSION" VALUE="1"/>
         <PARAMETER NAME="C_BUILD_REVISION" VALUE="0"/>
         <PARAMETER NAME="C_CORE_MAJOR_VER" VALUE="6"/>
         <PARAMETER NAME="C_CORE_MINOR_VER" VALUE="0"/>
@@ -8123,25 +8178,25 @@
         <PARAMETER NAME="C_PROBE1021_TYPE" VALUE="0"/>
         <PARAMETER NAME="C_PROBE1022_TYPE" VALUE="0"/>
         <PARAMETER NAME="C_PROBE1023_TYPE" VALUE="0"/>
-        <PARAMETER NAME="C_PROBE0_MU_CNT" VALUE="4"/>
-        <PARAMETER NAME="C_PROBE1_MU_CNT" VALUE="4"/>
-        <PARAMETER NAME="C_PROBE2_MU_CNT" VALUE="4"/>
-        <PARAMETER NAME="C_PROBE3_MU_CNT" VALUE="4"/>
-        <PARAMETER NAME="C_PROBE4_MU_CNT" VALUE="4"/>
-        <PARAMETER NAME="C_PROBE5_MU_CNT" VALUE="4"/>
-        <PARAMETER NAME="C_PROBE6_MU_CNT" VALUE="4"/>
-        <PARAMETER NAME="C_PROBE7_MU_CNT" VALUE="4"/>
-        <PARAMETER NAME="C_PROBE8_MU_CNT" VALUE="4"/>
-        <PARAMETER NAME="C_PROBE9_MU_CNT" VALUE="4"/>
-        <PARAMETER NAME="C_PROBE10_MU_CNT" VALUE="4"/>
-        <PARAMETER NAME="C_PROBE11_MU_CNT" VALUE="4"/>
-        <PARAMETER NAME="C_PROBE12_MU_CNT" VALUE="4"/>
-        <PARAMETER NAME="C_PROBE13_MU_CNT" VALUE="4"/>
-        <PARAMETER NAME="C_PROBE14_MU_CNT" VALUE="4"/>
-        <PARAMETER NAME="C_PROBE15_MU_CNT" VALUE="4"/>
-        <PARAMETER NAME="C_PROBE16_MU_CNT" VALUE="4"/>
-        <PARAMETER NAME="C_PROBE17_MU_CNT" VALUE="4"/>
-        <PARAMETER NAME="C_PROBE18_MU_CNT" VALUE="4"/>
+        <PARAMETER NAME="C_PROBE0_MU_CNT" VALUE="1"/>
+        <PARAMETER NAME="C_PROBE1_MU_CNT" VALUE="1"/>
+        <PARAMETER NAME="C_PROBE2_MU_CNT" VALUE="1"/>
+        <PARAMETER NAME="C_PROBE3_MU_CNT" VALUE="1"/>
+        <PARAMETER NAME="C_PROBE4_MU_CNT" VALUE="1"/>
+        <PARAMETER NAME="C_PROBE5_MU_CNT" VALUE="1"/>
+        <PARAMETER NAME="C_PROBE6_MU_CNT" VALUE="1"/>
+        <PARAMETER NAME="C_PROBE7_MU_CNT" VALUE="1"/>
+        <PARAMETER NAME="C_PROBE8_MU_CNT" VALUE="1"/>
+        <PARAMETER NAME="C_PROBE9_MU_CNT" VALUE="1"/>
+        <PARAMETER NAME="C_PROBE10_MU_CNT" VALUE="1"/>
+        <PARAMETER NAME="C_PROBE11_MU_CNT" VALUE="1"/>
+        <PARAMETER NAME="C_PROBE12_MU_CNT" VALUE="1"/>
+        <PARAMETER NAME="C_PROBE13_MU_CNT" VALUE="1"/>
+        <PARAMETER NAME="C_PROBE14_MU_CNT" VALUE="1"/>
+        <PARAMETER NAME="C_PROBE15_MU_CNT" VALUE="1"/>
+        <PARAMETER NAME="C_PROBE16_MU_CNT" VALUE="1"/>
+        <PARAMETER NAME="C_PROBE17_MU_CNT" VALUE="1"/>
+        <PARAMETER NAME="C_PROBE18_MU_CNT" VALUE="1"/>
         <PARAMETER NAME="C_PROBE19_MU_CNT" VALUE="1"/>
         <PARAMETER NAME="C_PROBE20_MU_CNT" VALUE="1"/>
         <PARAMETER NAME="C_PROBE21_MU_CNT" VALUE="1"/>
@@ -9147,20 +9202,23 @@
         <PARAMETER NAME="C_PROBE1021_MU_CNT" VALUE="1"/>
         <PARAMETER NAME="C_PROBE1022_MU_CNT" VALUE="1"/>
         <PARAMETER NAME="C_PROBE1023_MU_CNT" VALUE="1"/>
-        <PARAMETER NAME="C_ADV_TRIGGER" VALUE="1"/>
+        <PARAMETER NAME="C_ADV_TRIGGER" VALUE="0"/>
         <PARAMETER NAME="C_EN_DDR_ILA" VALUE="0"/>
         <PARAMETER NAME="C_DDR_CLK_GEN" VALUE="0"/>
         <PARAMETER NAME="C_CLK_FREQ" VALUE="200"/>
+        <PARAMETER NAME="C_ILA_CLK_FREQ" VALUE="2000000"/>
         <PARAMETER NAME="C_CLK_PERIOD" VALUE="5.0"/>
-        <PARAMETER NAME="C_INPUT_PIPE_STAGES" VALUE="4"/>
-        <PARAMETER NAME="C_EN_STRG_QUAL" VALUE="1"/>
+        <PARAMETER NAME="C_INPUT_PIPE_STAGES" VALUE="0"/>
+        <PARAMETER NAME="C_EN_STRG_QUAL" VALUE="0"/>
+        <PARAMETER NAME="C_EN_TIME_TAG" VALUE="0"/>
+        <PARAMETER NAME="C_TIME_TAG_WIDTH" VALUE="32"/>
         <PARAMETER NAME="C_CLKFBOUT_MULT_F" VALUE="10"/>
         <PARAMETER NAME="C_DIVCLK_DIVIDE" VALUE="3"/>
         <PARAMETER NAME="C_CLKOUT0_DIVIDE_F" VALUE="10"/>
-        <PARAMETER NAME="Component_Name" VALUE="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_ila_0_0"/>
+        <PARAMETER NAME="Component_Name" VALUE="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_ila_BRAM_0"/>
         <PARAMETER NAME="EN_BRAM_DRC" VALUE="TRUE"/>
         <PARAMETER NAME="ALL_PROBE_SAME_MU" VALUE="TRUE"/>
-        <PARAMETER NAME="ALL_PROBE_SAME_MU_CNT" VALUE="4"/>
+        <PARAMETER NAME="ALL_PROBE_SAME_MU_CNT" VALUE="1"/>
         <PARAMETER NAME="C_SLOT_0_AXI_DATA_WIDTH" VALUE="32"/>
         <PARAMETER NAME="C_SLOT_0_AXI_ADDR_WIDTH" VALUE="9"/>
         <PARAMETER NAME="C_SLOT_0_AXIS_TDATA_WIDTH" VALUE="32"/>
@@ -9217,11 +9275,15 @@
           <PARAMETER NAME="HAS_BRESP" VALUE="1"/>
           <PARAMETER NAME="HAS_RRESP" VALUE="1"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
-          <PARAMETER NAME="NUM_READ_OUTSTANDING" VALUE="2"/>
-          <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="2"/>
+          <PARAMETER NAME="NUM_READ_OUTSTANDING" VALUE="8"/>
+          <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="1"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_axi_aclk"/>
+          <PARAMETER NAME="NUM_READ_THREADS" VALUE="1"/>
+          <PARAMETER NAME="NUM_WRITE_THREADS" VALUE="1"/>
+          <PARAMETER NAME="RUSER_BITS_PER_BYTE" VALUE="0"/>
+          <PARAMETER NAME="WUSER_BITS_PER_BYTE" VALUE="0"/>
           <PORTMAPS>
             <PORTMAP LOGICAL="ARADDR" PHYSICAL="probe5"/>
             <PORTMAP LOGICAL="ARPROT" PHYSICAL="probe17"/>

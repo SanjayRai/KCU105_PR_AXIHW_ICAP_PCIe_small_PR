@@ -1,160 +1,268 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Root MajorVersion="0" MinorVersion="33">
-  <CompositeFile CompositeFileTopName="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd" CanBeSetAsTop="true" CanDisplayChildGraph="true">
-    <Description>Composite Fileset</Description>
-    <Generation Name="SYNTHESIS" State="GENERATED" Timestamp="1467152545"/>
-    <Generation Name="IMPLEMENTATION" State="GENERATED" Timestamp="1467152545"/>
-    <Generation Name="SIMULATION" State="GENERATED" Timestamp="1467152545"/>
-    <FileCollection Name="SOURCES" Type="SOURCES">
-      <File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0.xci" Type="IP">
-        <Instance HierarchyPath="axi_pcie3_0"/>
-        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="true" IsStatusTracked="true"/>
-        <Library Name="xil_defaultlib"/>
-        <UsedIn Val="SYNTHESIS"/>
-        <UsedIn Val="IMPLEMENTATION"/>
-        <UsedIn Val="SIMULATION"/>
-      </File>
-      <File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_hwicap_0_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_hwicap_0_0.xci" Type="IP">
-        <Instance HierarchyPath="axi_hwicap_0"/>
-        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="true" IsStatusTracked="true"/>
-        <Library Name="xil_defaultlib"/>
-        <UsedIn Val="SYNTHESIS"/>
-        <UsedIn Val="IMPLEMENTATION"/>
-        <UsedIn Val="SIMULATION"/>
-      </File>
-      <File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_bram_ctrl_0_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_bram_ctrl_0_0.xci" Type="IP">
-        <Instance HierarchyPath="axi_bram_ctrl_0"/>
-        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="true" IsStatusTracked="true"/>
-        <Library Name="xil_defaultlib"/>
-        <UsedIn Val="SYNTHESIS"/>
-        <UsedIn Val="IMPLEMENTATION"/>
-        <UsedIn Val="SIMULATION"/>
-      </File>
-      <File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_axi_periph_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_axi_periph_0.xci" Type="IP">
-        <Instance HierarchyPath="axi_pcie3_0_axi_periph"/>
-        <Properties IsEditable="false" IsVisible="false" Timestamp="0" IsTrackable="true" IsStatusTracked="true"/>
-        <Library Name="xil_defaultlib"/>
-        <UsedIn Val="SYNTHESIS"/>
-        <UsedIn Val="IMPLEMENTATION"/>
-        <UsedIn Val="SIMULATION"/>
-      </File>
-      <File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_ila_0_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_ila_0_0.xci" Type="IP">
-        <Instance HierarchyPath="ila_ICAPHW"/>
-        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="true" IsStatusTracked="true"/>
-        <Library Name="xil_defaultlib"/>
-        <UsedIn Val="SYNTHESIS"/>
-        <UsedIn Val="IMPLEMENTATION"/>
-        <UsedIn Val="SIMULATION"/>
-      </File>
-      <File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_ila_ICAPHW_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_ila_ICAPHW_0.xci" Type="IP">
-        <Instance HierarchyPath="ila_BRAM"/>
-        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="true" IsStatusTracked="true"/>
-        <Library Name="xil_defaultlib"/>
-        <UsedIn Val="SYNTHESIS"/>
-        <UsedIn Val="IMPLEMENTATION"/>
-        <UsedIn Val="SIMULATION"/>
-      </File>
-      <File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_blk_mem_gen_0_1/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_blk_mem_gen_0_1.xci" Type="IP">
-        <Instance HierarchyPath="blk_mem_gen_0"/>
-        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="true" IsStatusTracked="true"/>
-        <Library Name="xil_defaultlib"/>
-        <UsedIn Val="SYNTHESIS"/>
-        <UsedIn Val="IMPLEMENTATION"/>
-        <UsedIn Val="SIMULATION"/>
-      </File>
-      <File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_xbar_1/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_xbar_1.xci" Type="IP">
-        <Instance HierarchyPath="axi_pcie3_0_axi_periph/xbar"/>
-        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="true" IsStatusTracked="true"/>
-        <Library Name="xil_defaultlib"/>
-        <UsedIn Val="SYNTHESIS"/>
-        <UsedIn Val="IMPLEMENTATION"/>
-        <UsedIn Val="SIMULATION"/>
-      </File>
-      <File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_ds_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_ds_0.xci" Type="IP">
-        <Instance HierarchyPath="axi_pcie3_0_axi_periph/m00_couplers/auto_ds"/>
-        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="true" IsStatusTracked="true"/>
-        <Library Name="xil_defaultlib"/>
-        <UsedIn Val="SYNTHESIS"/>
-        <UsedIn Val="IMPLEMENTATION"/>
-        <UsedIn Val="SIMULATION"/>
-      </File>
-      <File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_pc_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_pc_0.xci" Type="IP">
-        <Instance HierarchyPath="axi_pcie3_0_axi_periph/m00_couplers/auto_pc"/>
-        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="true" IsStatusTracked="true"/>
-        <Library Name="xil_defaultlib"/>
-        <UsedIn Val="SYNTHESIS"/>
-        <UsedIn Val="IMPLEMENTATION"/>
-        <UsedIn Val="SIMULATION"/>
-      </File>
-      <File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_0.xci" Type="IP">
-        <Instance HierarchyPath="axi_pcie3_0_axi_periph/m00_couplers/auto_rs"/>
-        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="true" IsStatusTracked="true"/>
-        <Library Name="xil_defaultlib"/>
-        <UsedIn Val="SYNTHESIS"/>
-        <UsedIn Val="IMPLEMENTATION"/>
-        <UsedIn Val="SIMULATION"/>
-      </File>
-      <File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_w_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_w_0.xci" Type="IP">
-        <Instance HierarchyPath="axi_pcie3_0_axi_periph/m00_couplers/auto_rs_w"/>
-        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="true" IsStatusTracked="true"/>
-        <Library Name="xil_defaultlib"/>
-        <UsedIn Val="SYNTHESIS"/>
-        <UsedIn Val="IMPLEMENTATION"/>
-        <UsedIn Val="SIMULATION"/>
-      </File>
-      <File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_ds_1/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_ds_1.xci" Type="IP">
-        <Instance HierarchyPath="axi_pcie3_0_axi_periph/m01_couplers/auto_ds"/>
-        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="true" IsStatusTracked="true"/>
-        <Library Name="xil_defaultlib"/>
-        <UsedIn Val="SYNTHESIS"/>
-        <UsedIn Val="IMPLEMENTATION"/>
-        <UsedIn Val="SIMULATION"/>
-      </File>
-      <File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_1/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_1.xci" Type="IP">
-        <Instance HierarchyPath="axi_pcie3_0_axi_periph/m01_couplers/auto_rs"/>
-        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="true" IsStatusTracked="true"/>
-        <Library Name="xil_defaultlib"/>
-        <UsedIn Val="SYNTHESIS"/>
-        <UsedIn Val="IMPLEMENTATION"/>
-        <UsedIn Val="SIMULATION"/>
-      </File>
-      <File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_w_1/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_w_1.xci" Type="IP">
-        <Instance HierarchyPath="axi_pcie3_0_axi_periph/m01_couplers/auto_rs_w"/>
-        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="true" IsStatusTracked="true"/>
-        <Library Name="xil_defaultlib"/>
-        <UsedIn Val="SYNTHESIS"/>
-        <UsedIn Val="IMPLEMENTATION"/>
-        <UsedIn Val="SIMULATION"/>
-      </File>
-      <File Name="hdl/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.v" Type="Verilog">
-        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="false" IsStatusTracked="false"/>
-        <Library Name="xil_defaultlib"/>
-        <UsedIn Val="SYNTHESIS"/>
-        <UsedIn Val="IMPLEMENTATION"/>
-        <UsedIn Val="SIMULATION"/>
-      </File>
-      <File Name="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_ooc.xdc" Type="XDC">
-        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="false" IsStatusTracked="false"/>
-        <Library Name="xil_defaultlib"/>
-        <UsedIn Val="SYNTHESIS"/>
-        <UsedIn Val="IMPLEMENTATION"/>
-        <UsedIn Val="OUT_OF_CONTEXT"/>
-      </File>
-      <File Name="hw_handoff/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.hwh" Type="HwHandoff">
-        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="false" IsStatusTracked="false"/>
-        <Library Name="xil_defaultlib"/>
-        <UsedIn Val="HW_HANDOFF"/>
-      </File>
-      <File Name="hw_handoff/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_bd.tcl">
-        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="false" IsStatusTracked="false"/>
-        <Library Name="xil_defaultlib"/>
-        <UsedIn Val="HW_HANDOFF"/>
-      </File>
-      <File Name="hdl/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.hwdef">
-        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="false" IsStatusTracked="false"/>
-        <Library Name="xil_defaultlib"/>
-        <UsedIn Val="HW_HANDOFF"/>
-      </File>
-    </FileCollection>
-  </CompositeFile>
+<Root MajorVersion="0"
+		MinorVersion="33">
+	<CompositeFile CompositeFileTopName="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd"
+			CanBeSetAsTop="true"
+			CanDisplayChildGraph="true">
+		<Description>Composite Fileset</Description>
+		<Generation Name="SYNTHESIS"
+				State="GENERATED"
+				Timestamp="1496814097"/>
+		<Generation Name="IMPLEMENTATION"
+				State="GENERATED"
+				Timestamp="1496814097"/>
+		<Generation Name="SIMULATION"
+				State="GENERATED"
+				Timestamp="1496814097"/>
+		<FileCollection Name="SOURCES"
+				Type="SOURCES">
+			<File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0.xci"
+					Type="IP">
+				<Instance HierarchyPath="axi_pcie3_0"/>
+				<Properties IsEditable="false"
+						IsVisible="true"
+						Timestamp="0"
+						IsTrackable="true"
+						IsStatusTracked="true"/>
+				<Library Name="xil_defaultlib"/>
+				<UsedIn Val="SYNTHESIS"/>
+				<UsedIn Val="IMPLEMENTATION"/>
+				<UsedIn Val="SIMULATION"/>
+			</File>
+			<File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_hwicap_0_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_hwicap_0_0.xci"
+					Type="IP">
+				<Instance HierarchyPath="axi_hwicap_0"/>
+				<Properties IsEditable="false"
+						IsVisible="true"
+						Timestamp="0"
+						IsTrackable="true"
+						IsStatusTracked="true"/>
+				<Library Name="xil_defaultlib"/>
+				<UsedIn Val="SYNTHESIS"/>
+				<UsedIn Val="IMPLEMENTATION"/>
+				<UsedIn Val="SIMULATION"/>
+			</File>
+			<File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_bram_ctrl_0_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_bram_ctrl_0_0.xci"
+					Type="IP">
+				<Instance HierarchyPath="axi_bram_ctrl_0"/>
+				<Properties IsEditable="false"
+						IsVisible="true"
+						Timestamp="0"
+						IsTrackable="true"
+						IsStatusTracked="true"/>
+				<Library Name="xil_defaultlib"/>
+				<UsedIn Val="SYNTHESIS"/>
+				<UsedIn Val="IMPLEMENTATION"/>
+				<UsedIn Val="SIMULATION"/>
+			</File>
+			<File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_axi_periph_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_axi_periph_0.xci"
+					Type="IP">
+				<Instance HierarchyPath="axi_pcie3_0_axi_periph"/>
+				<Properties IsEditable="false"
+						IsVisible="false"
+						Timestamp="0"
+						IsTrackable="true"
+						IsStatusTracked="true"/>
+				<Library Name="xil_defaultlib"/>
+				<UsedIn Val="SYNTHESIS"/>
+				<UsedIn Val="IMPLEMENTATION"/>
+				<UsedIn Val="SIMULATION"/>
+			</File>
+			<File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_ila_ICAPHW_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_ila_ICAPHW_0.xci"
+					Type="IP">
+				<Instance HierarchyPath="ila_BRAM"/>
+				<Properties IsEditable="false"
+						IsVisible="true"
+						Timestamp="0"
+						IsTrackable="true"
+						IsStatusTracked="true"/>
+				<Library Name="xil_defaultlib"/>
+				<UsedIn Val="SYNTHESIS"/>
+				<UsedIn Val="IMPLEMENTATION"/>
+				<UsedIn Val="SIMULATION"/>
+			</File>
+			<File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_blk_mem_gen_0_1/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_blk_mem_gen_0_1.xci"
+					Type="IP">
+				<Instance HierarchyPath="blk_mem_gen_0"/>
+				<Properties IsEditable="false"
+						IsVisible="true"
+						Timestamp="0"
+						IsTrackable="true"
+						IsStatusTracked="true"/>
+				<Library Name="xil_defaultlib"/>
+				<UsedIn Val="SYNTHESIS"/>
+				<UsedIn Val="IMPLEMENTATION"/>
+				<UsedIn Val="SIMULATION"/>
+			</File>
+			<File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_xbar_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_xbar_0.xci"
+					Type="IP">
+				<Instance HierarchyPath="axi_pcie3_0_axi_periph/xbar"/>
+				<Properties IsEditable="false"
+						IsVisible="true"
+						Timestamp="0"
+						IsTrackable="true"
+						IsStatusTracked="true"/>
+				<Library Name="xil_defaultlib"/>
+				<UsedIn Val="SYNTHESIS"/>
+				<UsedIn Val="IMPLEMENTATION"/>
+				<UsedIn Val="SIMULATION"/>
+			</File>
+			<File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_ila_BRAM_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_ila_BRAM_0.xci"
+					Type="IP">
+				<Instance HierarchyPath="ila_ICAP"/>
+				<Properties IsEditable="false"
+						IsVisible="true"
+						Timestamp="0"
+						IsTrackable="true"
+						IsStatusTracked="true"/>
+				<Library Name="xil_defaultlib"/>
+				<UsedIn Val="SYNTHESIS"/>
+				<UsedIn Val="IMPLEMENTATION"/>
+				<UsedIn Val="SIMULATION"/>
+			</File>
+			<File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_ds_1/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_ds_1.xci"
+					Type="IP">
+				<Instance HierarchyPath="axi_pcie3_0_axi_periph/m01_couplers/auto_ds"/>
+				<Properties IsEditable="false"
+						IsVisible="true"
+						Timestamp="0"
+						IsTrackable="true"
+						IsStatusTracked="true"/>
+				<Library Name="xil_defaultlib"/>
+				<UsedIn Val="SYNTHESIS"/>
+				<UsedIn Val="IMPLEMENTATION"/>
+				<UsedIn Val="SIMULATION"/>
+			</File>
+			<File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_1/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_1.xci"
+					Type="IP">
+				<Instance HierarchyPath="axi_pcie3_0_axi_periph/m01_couplers/auto_rs"/>
+				<Properties IsEditable="false"
+						IsVisible="true"
+						Timestamp="0"
+						IsTrackable="true"
+						IsStatusTracked="true"/>
+				<Library Name="xil_defaultlib"/>
+				<UsedIn Val="SYNTHESIS"/>
+				<UsedIn Val="IMPLEMENTATION"/>
+				<UsedIn Val="SIMULATION"/>
+			</File>
+			<File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_w_1/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_w_1.xci"
+					Type="IP">
+				<Instance HierarchyPath="axi_pcie3_0_axi_periph/m01_couplers/auto_rs_w"/>
+				<Properties IsEditable="false"
+						IsVisible="true"
+						Timestamp="0"
+						IsTrackable="true"
+						IsStatusTracked="true"/>
+				<Library Name="xil_defaultlib"/>
+				<UsedIn Val="SYNTHESIS"/>
+				<UsedIn Val="IMPLEMENTATION"/>
+				<UsedIn Val="SIMULATION"/>
+			</File>
+			<File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_ds_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_ds_0.xci"
+					Type="IP">
+				<Instance HierarchyPath="axi_pcie3_0_axi_periph/m00_couplers/auto_ds"/>
+				<Properties IsEditable="false"
+						IsVisible="true"
+						Timestamp="0"
+						IsTrackable="true"
+						IsStatusTracked="true"/>
+				<Library Name="xil_defaultlib"/>
+				<UsedIn Val="SYNTHESIS"/>
+				<UsedIn Val="IMPLEMENTATION"/>
+				<UsedIn Val="SIMULATION"/>
+			</File>
+			<File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_pc_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_pc_0.xci"
+					Type="IP">
+				<Instance HierarchyPath="axi_pcie3_0_axi_periph/m00_couplers/auto_pc"/>
+				<Properties IsEditable="false"
+						IsVisible="true"
+						Timestamp="0"
+						IsTrackable="true"
+						IsStatusTracked="true"/>
+				<Library Name="xil_defaultlib"/>
+				<UsedIn Val="SYNTHESIS"/>
+				<UsedIn Val="IMPLEMENTATION"/>
+				<UsedIn Val="SIMULATION"/>
+			</File>
+			<File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_0.xci"
+					Type="IP">
+				<Instance HierarchyPath="axi_pcie3_0_axi_periph/m00_couplers/auto_rs"/>
+				<Properties IsEditable="false"
+						IsVisible="true"
+						Timestamp="0"
+						IsTrackable="true"
+						IsStatusTracked="true"/>
+				<Library Name="xil_defaultlib"/>
+				<UsedIn Val="SYNTHESIS"/>
+				<UsedIn Val="IMPLEMENTATION"/>
+				<UsedIn Val="SIMULATION"/>
+			</File>
+			<File Name="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_w_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_w_0.xci"
+					Type="IP">
+				<Instance HierarchyPath="axi_pcie3_0_axi_periph/m00_couplers/auto_rs_w"/>
+				<Properties IsEditable="false"
+						IsVisible="true"
+						Timestamp="0"
+						IsTrackable="true"
+						IsStatusTracked="true"/>
+				<Library Name="xil_defaultlib"/>
+				<UsedIn Val="SYNTHESIS"/>
+				<UsedIn Val="IMPLEMENTATION"/>
+				<UsedIn Val="SIMULATION"/>
+			</File>
+			<File Name="hdl/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.v"
+					Type="Verilog">
+				<Properties IsEditable="false"
+						IsVisible="true"
+						Timestamp="0"
+						IsTrackable="false"
+						IsStatusTracked="false"/>
+				<Library Name="xil_defaultlib"/>
+				<UsedIn Val="SYNTHESIS"/>
+				<UsedIn Val="IMPLEMENTATION"/>
+				<UsedIn Val="SIMULATION"/>
+			</File>
+			<File Name="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_ooc.xdc"
+					Type="XDC">
+				<Properties IsEditable="false"
+						IsVisible="true"
+						Timestamp="0"
+						IsTrackable="false"
+						IsStatusTracked="false"/>
+				<Library Name="xil_defaultlib"/>
+				<UsedIn Val="SYNTHESIS"/>
+				<UsedIn Val="IMPLEMENTATION"/>
+				<UsedIn Val="OUT_OF_CONTEXT"/>
+			</File>
+			<File Name="hw_handoff/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.hwh"
+					Type="HwHandoff">
+				<Properties IsEditable="false"
+						IsVisible="true"
+						Timestamp="0"
+						IsTrackable="false"
+						IsStatusTracked="false"/>
+				<Library Name="xil_defaultlib"/>
+				<UsedIn Val="HW_HANDOFF"/>
+			</File>
+			<File Name="hw_handoff/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_bd.tcl">
+				<Properties IsEditable="false"
+						IsVisible="true"
+						Timestamp="0"
+						IsTrackable="false"
+						IsStatusTracked="false"/>
+				<Library Name="xil_defaultlib"/>
+				<UsedIn Val="HW_HANDOFF"/>
+			</File>
+			<File Name="hdl/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.hwdef">
+				<Properties IsEditable="false"
+						IsVisible="true"
+						Timestamp="0"
+						IsTrackable="false"
+						IsStatusTracked="false"/>
+				<Library Name="xil_defaultlib"/>
+				<UsedIn Val="HW_HANDOFF"/>
+			</File>
+		</FileCollection>
+	</CompositeFile>
 </Root>

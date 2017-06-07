@@ -76,7 +76,7 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_init_ctrl
 
   reg           [2:0] reg_state;
   reg           [2:0] reg_next_state;
-(* ASYNC_REG = "TRUE", SHIFT_EXTRACT = "NO" *)    reg           [1:0] reg_phy_rdy = 2'b11; 
+(* ASYNC_REG = "TRUE", SHIFT_EXTRACT = "NO" *)    reg           [1:0] reg_phy_rdy = 2'b00; 
   reg           [1:0] reg_cold_reset = 2'b11;
   reg                 reg_reset_n_o;
   reg                 reg_pipe_reset_n_o;
@@ -92,15 +92,12 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_init_ctrl
     
   // Generate PHY Ready
 
-  always @(posedge clk_i or negedge phy_rdy_i)
+  always @(posedge clk_i)
   begin
-    if (!phy_rdy_i)
-      reg_phy_rdy[1:0] <= #TCQ 2'b11;
-    else
-      reg_phy_rdy[1:0] <= #TCQ {reg_phy_rdy[0], 1'b0};
+    reg_phy_rdy[1:0] <= #TCQ {reg_phy_rdy[0], phy_rdy_i};
   end
 
-  assign phy_rdy = !reg_phy_rdy[1];
+  assign phy_rdy = reg_phy_rdy[1];
   
    // Generate Cold reset
 
@@ -116,9 +113,9 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_init_ctrl
   
   // Reset Timer
   
-  always @(posedge clk_i or negedge phy_rdy_i)
+  always @(posedge clk_i)
   begin
-    if (!phy_rdy_i)
+    if (!phy_rdy)
         reg_reset_timer <= #TCQ 2'b00;
     else if ((state_w == STATE_MGMT_RESET_DEASSERT) && (reset_timer_w != 2'b11))
         reg_reset_timer <= #TCQ reset_timer_w + 1'b1;

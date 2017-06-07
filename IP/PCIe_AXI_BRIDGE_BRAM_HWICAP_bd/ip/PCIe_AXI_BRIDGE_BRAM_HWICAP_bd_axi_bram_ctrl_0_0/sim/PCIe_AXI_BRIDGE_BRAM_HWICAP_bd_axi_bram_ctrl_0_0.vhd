@@ -1,4 +1,4 @@
--- (c) Copyright 1995-2016 Xilinx, Inc. All rights reserved.
+-- (c) Copyright 1995-2017 Xilinx, Inc. All rights reserved.
 -- 
 -- This file contains confidential and proprietary information
 -- of Xilinx, Inc. and is protected under U.S. and
@@ -47,14 +47,14 @@
 -- DO NOT MODIFY THIS FILE.
 
 -- IP VLNV: xilinx.com:ip:axi_bram_ctrl:4.0
--- IP Revision: 8
+-- IP Revision: 11
 
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 
-LIBRARY axi_bram_ctrl_v4_0_8;
-USE axi_bram_ctrl_v4_0_8.axi_bram_ctrl;
+LIBRARY axi_bram_ctrl_v4_0_11;
+USE axi_bram_ctrl_v4_0_11.axi_bram_ctrl;
 
 ENTITY PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_bram_ctrl_0_0 IS
   PORT (
@@ -123,6 +123,7 @@ ARCHITECTURE PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_bram_ctrl_0_0_arch OF PCIe_AXI_B
       C_S_AXI_SUPPORTS_NARROW_BURST : INTEGER;
       C_SINGLE_PORT_BRAM : INTEGER;
       C_FAMILY : STRING;
+      C_SELECT_XPM : INTEGER;
       C_S_AXI_CTRL_ADDR_WIDTH : INTEGER;
       C_S_AXI_CTRL_DATA_WIDTH : INTEGER;
       C_ECC : INTEGER;
@@ -263,6 +264,7 @@ BEGIN
       C_S_AXI_SUPPORTS_NARROW_BURST => 0,
       C_SINGLE_PORT_BRAM => 0,
       C_FAMILY => "kintexu",
+      C_SELECT_XPM => 0,
       C_S_AXI_CTRL_ADDR_WIDTH => 32,
       C_S_AXI_CTRL_DATA_WIDTH => 32,
       C_ECC => 0,

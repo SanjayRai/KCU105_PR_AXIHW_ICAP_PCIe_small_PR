@@ -1,4 +1,4 @@
--- (c) Copyright 1995-2016 Xilinx, Inc. All rights reserved.
+-- (c) Copyright 1995-2017 Xilinx, Inc. All rights reserved.
 -- 
 -- This file contains confidential and proprietary information
 -- of Xilinx, Inc. and is protected under U.S. and
@@ -47,14 +47,14 @@
 -- DO NOT MODIFY THIS FILE.
 
 -- IP VLNV: xilinx.com:ip:axi_hwicap:3.0
--- IP Revision: 13
+-- IP Revision: 16
 
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 
-LIBRARY axi_hwicap_v3_0_13;
-USE axi_hwicap_v3_0_13.axi_hwicap;
+LIBRARY axi_hwicap_v3_0_16;
+USE axi_hwicap_v3_0_16.axi_hwicap;
 
 ENTITY PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_hwicap_0_0 IS
   PORT (

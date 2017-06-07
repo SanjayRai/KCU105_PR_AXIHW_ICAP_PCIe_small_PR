@@ -62,25 +62,25 @@
 create_clock -name sys_clk -period 10 [get_ports sys_clk]
 create_clock -name sys_clk_gt -period 10 [get_ports sys_clk_gt]
 #
-set_case_analysis 1 [get_nets gt_top_i/PHY_TXOUTCLKSEL[2]] 
-set_case_analysis 0 [get_nets gt_top_i/PHY_TXOUTCLKSEL[1]]  
-set_case_analysis 1 [get_nets gt_top_i/PHY_TXOUTCLKSEL[0]]
+set_case_analysis 1 [get_nets  -hierarchical -filter {NAME =~ *gt_top_i/PHY_TXOUTCLKSEL[2]}] 
+set_case_analysis 0 [get_nets  -hierarchical -filter {NAME =~ *gt_top_i/PHY_TXOUTCLKSEL[1]}]  
+set_case_analysis 1 [get_nets  -hierarchical -filter {NAME =~ *gt_top_i/PHY_TXOUTCLKSEL[0]}]
 #
 # Set Divide By 2
-set_case_analysis 1 [get_pins gt_top_i/phy_clk_i/bufg_gt_userclk/DIV[0]]
-set_case_analysis 0 [get_pins gt_top_i/phy_clk_i/bufg_gt_userclk/DIV[1]]
-set_case_analysis 0 [get_pins gt_top_i/phy_clk_i/bufg_gt_userclk/DIV[2]]
+set_case_analysis 1 [get_pins  -hierarchical -filter {NAME =~ *gt_top_i/phy_clk_i/bufg_gt_userclk/DIV[0]}]
+set_case_analysis 0 [get_pins  -hierarchical -filter {NAME =~ *gt_top_i/phy_clk_i/bufg_gt_userclk/DIV[1]}]
+set_case_analysis 0 [get_pins  -hierarchical -filter {NAME =~ *gt_top_i/phy_clk_i/bufg_gt_userclk/DIV[2]}]
 # Set Divide By 2
-set_case_analysis 1 [get_pins gt_top_i/phy_clk_i/bufg_gt_pclk/DIV[0]]
-set_case_analysis 0 [get_pins gt_top_i/phy_clk_i/bufg_gt_pclk/DIV[1]]
-set_case_analysis 0 [get_pins gt_top_i/phy_clk_i/bufg_gt_pclk/DIV[2]]
+set_case_analysis 1 [get_pins  -hierarchical -filter {NAME =~ *gt_top_i/phy_clk_i/bufg_gt_pclk/DIV[0]}]
+set_case_analysis 0 [get_pins  -hierarchical -filter {NAME =~ *gt_top_i/phy_clk_i/bufg_gt_pclk/DIV[1]}]
+set_case_analysis 0 [get_pins  -hierarchical -filter {NAME =~ *gt_top_i/phy_clk_i/bufg_gt_pclk/DIV[2]}]
 # Set Divide By 4
-set_case_analysis 1 [get_pins gt_top_i/bufg_mcap_clk/DIV[0]]
-set_case_analysis 1 [get_pins gt_top_i/bufg_mcap_clk/DIV[1]]
-set_case_analysis 0 [get_pins gt_top_i/bufg_mcap_clk/DIV[2]]
+set_case_analysis 1 [get_pins  -hierarchical -filter {NAME =~ *gt_top_i/bufg_mcap_clk/DIV[0]}]
+set_case_analysis 1 [get_pins  -hierarchical -filter {NAME =~ *gt_top_i/bufg_mcap_clk/DIV[1]}]
+set_case_analysis 0 [get_pins  -hierarchical -filter {NAME =~ *gt_top_i/bufg_mcap_clk/DIV[2]}]
 # Set Divide By 1
-set_case_analysis 0 [get_pins gt_top_i/phy_clk_i/bufg_gt_coreclk/DIV[0]]
-set_case_analysis 0 [get_pins gt_top_i/phy_clk_i/bufg_gt_coreclk/DIV[1]]
-set_case_analysis 0 [get_pins gt_top_i/phy_clk_i/bufg_gt_coreclk/DIV[2]]
+set_case_analysis 0 [get_pins  -hierarchical -filter {NAME =~ *gt_top_i/phy_clk_i/bufg_gt_coreclk/DIV[0]}]
+set_case_analysis 0 [get_pins  -hierarchical -filter {NAME =~ *gt_top_i/phy_clk_i/bufg_gt_coreclk/DIV[1]}]
+set_case_analysis 0 [get_pins  -hierarchical -filter {NAME =~ *gt_top_i/phy_clk_i/bufg_gt_coreclk/DIV[2]}]
 #
  

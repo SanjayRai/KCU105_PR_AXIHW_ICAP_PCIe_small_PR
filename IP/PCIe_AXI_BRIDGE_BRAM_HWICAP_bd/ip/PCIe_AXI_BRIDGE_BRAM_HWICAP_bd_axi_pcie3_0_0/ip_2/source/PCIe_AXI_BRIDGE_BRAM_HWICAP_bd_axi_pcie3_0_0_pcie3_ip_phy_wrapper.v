@@ -148,6 +148,7 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_phy_wrapper #
     parameter integer PHY_LP_TXPRESET  = 4         
 )                                                            
 (                                         
+
     //--------------------------------------------------------------------------
     //  Clock & Reset Ports
     //--------------------------------------------------------------------------
@@ -195,7 +196,6 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_phy_wrapper #
     input       [PHY_LANE-1:0]          PHY_TXCOMPLIANCE,      
     input       [PHY_LANE-1:0]          PHY_RXPOLARITY,        
     input       [1:0]                   PHY_POWERDOWN,         
-    input       [1:0]                   PHY_RATE,              
     
     //--------------------------------------------------------------------------   
     //  PHY Status Ports
@@ -252,6 +252,19 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_phy_wrapper #
     input       [(PHY_LANE-1)>>2:0]             EXT_QPLL1LOCK_OUT,
     input       [(PHY_LANE-1)>>2:0]             EXT_QPLL1OUTCLK_OUT,
     input       [(PHY_LANE-1)>>2:0]             EXT_QPLL1OUTREFCLK_OUT,
+    //--------------------------------------------------------------------------   
+    //  IBERT ports 
+    //--------------------------------------------------------------------------                   
+     input [(PHY_LANE * 5) -1:0]          ibert_txprecursor_in, 
+     input [(PHY_LANE * 5) -1:0]          ibert_txpostcursor_in, 
+     input [PHY_LANE-1:0]                 ibert_eyescanreset_in, 
+     input [(PHY_LANE * 4) -1:0]          ibert_txdiffctrl_in, 
+     input [PHY_LANE-1:0]                 ibert_rxlpmen_in, 
+     input       [1:0]                    PHY_RATE,    
+
+    output        [(PHY_LANE*5)-1:0]      txeq_precursor, 
+    output        [(PHY_LANE*5)-1:0]      txeq_postcursor, 
+    output        [PHY_LANE-1:0]          gt_pcierategen3,  
     //--------------------------------------------------------------------------
     //  GT Debug Ports
     //--------------------------------------------------------------------------
@@ -316,6 +329,8 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_phy_wrapper #
     //--------------------------------------------------------------------------
     //  PCIe State
     //--------------------------------------------------------------------------
+    input                               PHASE1,
+
     input       [5:0]                   cfg_ltssm_state
 );
 
@@ -323,6 +338,7 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_phy_wrapper #
 //  Internal Signals
 //--------------------------------------------------------------------------------------------------
 
+    wire     [(PHY_LANE*4)-1:0]       DEBUG_OUT;
     //--------------------------------------------------------------------------
     //  Clock 
     //--------------------------------------------------------------------------
@@ -346,9 +362,7 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_phy_wrapper #
     //--------------------------------------------------------------------------
     //  TX Equalization (Gen3)
     //-------------------------------------------------------------------------- 
-    wire        [(PHY_LANE*5)-1:0]      txeq_precursor; 
     wire        [(PHY_LANE*7)-1:0]      txeq_maincursor; 
-    wire        [(PHY_LANE*5)-1:0]      txeq_postcursor; 
     wire        [(PHY_LANE*18)-1:0]     txeq_new_coeff; 
     wire        [PHY_LANE-1:0]          txeq_done;  
     
@@ -387,7 +401,6 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_phy_wrapper #
     wire        [(PHY_LANE*2)-1:0]      gt_pcierateqpllreset;               
     wire        [PHY_LANE-1:0]          gt_pcierateidle;            
     wire        [PHY_LANE-1:0]          gt_pciesynctxsyncdone;                    
-    wire        [PHY_LANE-1:0]          gt_pcierategen3;  
     wire        [PHY_LANE-1:0]          gt_pcieusergen3rdy; 
     wire        [PHY_LANE-1:0]          gt_pcieuserratestart;  
     
@@ -396,7 +409,28 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_phy_wrapper #
     
     wire        [PHY_LANE-1:0]          gt_cplllock;     
     wire        [PHY_LANE-1:0]          gt_rxcdrlock;    
-                                   
+    wire        [PHY_LANE-1:0]          gt_rxratedone;
+
+    wire        [PHY_LANE-1:0]          gt_rxlpmen;
+    wire        [PHY_LANE-1:0]          rxlpmen_set;
+    wire        [PHY_LANE-1:0]          gt_gtresetsel;
+    wire        [PHY_LANE-1:0]          gt_rxdfelpmreset;
+    reg         [PHY_LANE-1:0]          txpmaresetdone_deassert;
+    
+    wire        [PHY_LANE-1:0]          gt_txoutclkpcs_i;
+    wire        [PHY_LANE-1:0]          gt_txoutclkpcs_bufg_i;
+    
+    wire       [(PHY_LANE*17)-1:0]     gt_dmonitorout_i;
+    
+    wire        [(PHY_LANE*9)-1:0]      gt_drpaddr; 
+    wire        [PHY_LANE-1:0]          gt_drpen;
+    wire        [PHY_LANE-1:0]          gt_drpwe;
+    wire        [(PHY_LANE*16)-1:0]     gt_drpdi;
+
+    wire        [PHY_LANE-1:0]          gt_drprdy;
+    wire        [(PHY_LANE*16)-1:0]     gt_drpdo;   
+
+    wire        [PHY_LANE-1:0]          drp_done;
     //--------------------------------------------------------------------------
     //  GT Common
     //--------------------------------------------------------------------------
@@ -526,6 +560,10 @@ genvar i;
 generate for (i=0; i<PHY_LANE; i=i+1) 
 
     begin : phy_lane
+
+    assign rxlpmen_set[i] = gt_rxlpmen[i];
+    
+
 
     //----------------------------------------------------------------------------------------------
     //  PHY TX Equalization (Gen3)
@@ -938,6 +976,9 @@ PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gtwizard_top #
             .GT_GTREFCLK0                   (PHY_GTREFCLK),                     
             .GT_TXUSRCLK                    ({PHY_LANE{pclk}}),
             .GT_RXUSRCLK                    ({PHY_LANE{pclk}}), 
+
+            //------------------------------------------------------------------
+
             .GT_TXUSRCLK2                   ({PHY_LANE{pclk}}),
             .GT_RXUSRCLK2                   ({PHY_LANE{pclk}}), 
             
@@ -993,6 +1034,7 @@ PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gtwizard_top #
             .GTCOM_DRPRDY                   ( ),
             .GTCOM_DRPDO                    ( ),
             
+
             .GT_DRPCLK                      ({PHY_LANE{PHY_REFCLK}}),
             .GT_DRPADDR                     (GTW_DRPADDR ),
             .GT_DRPEN                       (GTW_DRPEN ),
@@ -1000,6 +1042,19 @@ PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gtwizard_top #
             .GT_DRPDI                       (GTW_DRPDI ),
             .GT_DRPRDY                      (GTW_DRPRDY ),
             .GT_DRPDO                       (GTW_DRPDO ),
+
+            .GT_RATE                        ({PHY_LANE{PHY_RATE}}),
+            .GT_EYESCANRESET                ( ibert_eyescanreset_in ),
+
+            //--------------------------------------------------------------
+            //  IBERT ports 
+            //--------------------------------------------------------------
+            .GT_TXPRECURSOR                 ( ibert_txprecursor_in ),  //(txeq_precursor),
+            .GT_TXPOSTCURSOR                ( ibert_txpostcursor_in ), //(txeq_postcursor),
+            .GT_TXDIFFCTRL                  ( ibert_txdiffctrl_in ),
+            .GT_RXLPMEN                     ( ibert_rxlpmen_in ),
+            .GT_PCIERATEGEN3                (gt_pcierategen3),    
+
             //------------------------------------------------------------------
             //  Serial Line Ports *
             //------------------------------------------------------------------
@@ -1035,7 +1090,6 @@ PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gtwizard_top #
             .GT_TXCOMPLIANCE                (PHY_TXCOMPLIANCE),
             .GT_RXPOLARITY                  (PHY_RXPOLARITY),
             .GT_POWERDOWN                   ({PHY_LANE{PHY_POWERDOWN}}),
-            .GT_RATE                        ({PHY_LANE{PHY_RATE}}),       
                 
             //------------------------------------------------------------------
             //  PHY Status Ports *
@@ -1057,9 +1111,7 @@ PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gtwizard_top #
             //------------------------------------------------------------------
             //  TX Equalization Ports (Gen3) *
             //------------------------------------------------------------------
-            .GT_TXPRECURSOR                 (txeq_precursor),
             .GT_TXMAINCURSOR                (txeq_maincursor),
-            .GT_TXPOSTCURSOR                (txeq_postcursor),
             
             //------------------------------------------------------------------
             //  PCIe PCS (Advance Feature) *
@@ -1074,7 +1126,6 @@ PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gtwizard_top #
             .GT_PCIERATEQPLLRESET           (gt_pcierateqpllreset), 
             .GT_PCIERATEIDLE                (gt_pcierateidle),            
             .GT_PCIESYNCTXSYNCDONE          (gt_pciesynctxsyncdone),  
-            .GT_PCIERATEGEN3                (gt_pcierategen3),    
             .GT_PCIEUSERGEN3RDY             (gt_pcieusergen3rdy),  
             .GT_PCIEUSERRATESTART           (gt_pcieuserratestart), 
             
@@ -1097,7 +1148,7 @@ PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gtwizard_top #
             .GT_TXDLYSRESETDONE             (GT_TXDLYSRESETDONE ),    
             .GT_RXSYNCDONE                  (GT_RXSYNCDONE ),
             .GT_EYESCANDATAERROR            (GT_EYESCANDATAERROR ),
-            .GT_DMONITOROUT                 (GT_DMONITOROUT ),
+            .GT_DMONITOROUT                 (gt_dmonitorout_i ),
             .GT_DMONFIFORESET               (GT_DMONFIFORESET),
             .GT_DMONITORCLK                 (GT_DMONITORCLK),
             .GT_TXPHINITDONE                (GT_TXPHINITDONE),
@@ -1107,7 +1158,10 @@ PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gtwizard_top #
             //  GT Status Ports *
             //------------------------------------------------------------------                                                   
             .GT_CPLLLOCK                    (gt_cplllock),  
-            .GT_RXCDRLOCK                   (gt_rxcdrlock)
+            .GT_RXCDRLOCK                   (gt_rxcdrlock),
+            .GT_RXRATEDONE                  (gt_rxratedone),
+            .GT_RXRATEMODE                  ({PHY_LANE{1'd0}})
+ 
         );
 end // gt_wizard
   endgenerate
@@ -1120,6 +1174,8 @@ assign qpll1lock_all   = &gtcom_qpll1lock;
 assign txsyncallin_all = &gt_txphaligndone;                            
 end // sls_d1
   endgenerate
+
+
 //--------------------------------------------------------------------------------------------------
 //  PHY Wrapper Outputs
 //--------------------------------------------------------------------------------------------------
@@ -1169,7 +1225,9 @@ assign TXEQ_PRESET = PHY_TXEQ_PRESET;
 assign PHY_RST_IDLE    = rst_idle;
 assign PHY_RRST_N      = rrst_n;   
 assign PHY_PRST_N      = prst_n;                 
-assign GTW_DRPCLK = PHY_REFCLK;
+assign GTW_DRPCLK = PHY_REFCLK; //mcap_clk;
+
+assign GT_DMONITOROUT = gt_dmonitorout_i;
 //--------------------------------------------------------------------------------------------------  
 
 endmodule

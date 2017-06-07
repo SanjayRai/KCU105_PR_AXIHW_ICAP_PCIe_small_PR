@@ -53,7 +53,8 @@
 # commented constraints can be used in the top level xdc 
 #----------------------------------------------------------------
 # Differential clock only needs one constraint
-create_clock -period 3.333 [get_ports clk_in_300Mhz_p]
-set_input_jitter [get_clocks -of_objects [get_ports clk_in_300Mhz_p]] 0.033330000000000005
+create_clock -period 3.333 [get_ports clk_in1_p]
+set_input_jitter [get_clocks -of_objects [get_ports clk_in1_p]] 0.033330000000000005
 
 
+set_property PHASESHIFT_MODE WAVEFORM [get_cells -hierarchical *adv*]

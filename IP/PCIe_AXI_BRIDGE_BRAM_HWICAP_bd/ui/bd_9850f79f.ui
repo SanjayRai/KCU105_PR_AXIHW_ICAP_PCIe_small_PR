@@ -1,5 +1,5 @@
 {
-   guistr: "# # String gsaved with Nlview 6.5.12  2016-01-29 bk=1.3547 VDI=39 GEI=35 GUI=JA:1.6
+   guistr: "# # String gsaved with Nlview 6.6.8  2016-12-21 bk=1.3817 VDI=40 GEI=35 GUI=JA:1.6
 #  -string -flagsOSRD
 preplace port pci_express_x8 -pg 1 -y 390 -defaultsOSRD
 preplace port icap_clk -pg 1 -y 280 -defaultsOSRD
@@ -12,26 +12,25 @@ preplace portBus msi_vector_num -pg 1 -y 520 -defaultsOSRD
 preplace inst ila_BRAM -pg 1 -lvl 3 -y 50 -defaultsOSRD -resize 120 80
 preplace inst axi_pcie3_0 -pg 1 -lvl 1 -y 480 -defaultsOSRD
 preplace inst blk_mem_gen_0 -pg 1 -lvl 4 -y 160 -defaultsOSRD
-preplace inst ila_ICAPHW -pg 1 -lvl 3 -y 450 -defaultsOSRD
 preplace inst axi_pcie3_0_axi_periph -pg 1 -lvl 2 -y 530 -defaultsOSRD
 preplace inst axi_hwicap_0 -pg 1 -lvl 3 -y 300 -defaultsOSRD
 preplace inst axi_bram_ctrl_0 -pg 1 -lvl 3 -y 160 -defaultsOSRD
 preplace netloc icap_clk_1 1 0 3 NJ 280 NJ 280 NJ
 preplace netloc S_AXI_CTL_1 1 0 1 N
-preplace netloc axi_pcie3_0_axi_aresetn 1 1 2 390 340 710
+preplace netloc axi_pcie3_0_axi_aresetn 1 1 2 420 340 750
 preplace netloc axi_bram_ctrl_0_BRAM_PORTA 1 3 1 N
 preplace netloc axi_bram_ctrl_0_BRAM_PORTB 1 3 1 N
 preplace netloc refclk_1 1 0 1 NJ
-preplace netloc axi_pcie3_0_axi_periph_M00_AXI 1 2 1 690
-preplace netloc axi_pcie3_0_M_AXI 1 1 1 380
+preplace netloc axi_pcie3_0_axi_periph_M00_AXI 1 2 1 740
+preplace netloc axi_pcie3_0_M_AXI 1 1 1 410
 preplace netloc intx_msi_request_1 1 0 1 NJ
 preplace netloc msi_vector_num_1 1 0 1 NJ
 preplace netloc pcie_perstn_1 1 0 1 NJ
 preplace netloc axi_pcie3_0_pcie_7x_mgt 1 1 4 NJ 390 NJ 390 NJ 390 NJ
-preplace netloc axi_pcie3_0_axi_aclk 1 0 3 20 640 400 380 700
+preplace netloc axi_pcie3_0_axi_aclk 1 0 3 0 640 400 320 730
 preplace netloc sys_clk_gt_1 1 0 1 NJ
-preplace netloc axi_pcie3_0_axi_periph_M01_AXI 1 2 1 680
-levelinfo -pg 1 0 200 540 840 1080 1200 -top 0 -bot 670
+preplace netloc axi_pcie3_0_axi_periph_M01_AXI 1 2 1 720
+levelinfo -pg 1 -20 200 570 890 1140 1270 -top -10 -bot 670
 ",
 }
 {

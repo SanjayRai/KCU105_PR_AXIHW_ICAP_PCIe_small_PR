@@ -1,16 +1,16 @@
 #-----------------------------------------------------------
-# Vivado v2016.2 (64-bit)
-# SW Build 1577090 on Thu Jun  2 16:32:35 MDT 2016
-# IP Build 1577682 on Fri Jun  3 12:00:54 MDT 2016
-# Start of session at: Sun Jul 31 19:43:08 2016
-# Process ID: 18176
-# Current directory: /home/sanjayr/projects/Vivado_PR/GIT_TEST/KCU105_PR_AXIHW_ICAP_PCIe_small_PR/IP
+# Vivado v2017.1 (64-bit)
+# SW Build 1846317 on Fri Apr 14 18:54:47 MDT 2017
+# IP Build 1846188 on Fri Apr 14 20:52:08 MDT 2017
+# Start of session at: Wed Jun  7 13:31:57 2017
+# Process ID: 30776
+# Current directory: /home/sanjayr/projects/KCU105/KCU105_PR_AXIHW_ICAP_PCIe_small_PR/IP
 # Command line: vivado -source vivado_project.tcl
-# Log file: /home/sanjayr/projects/Vivado_PR/GIT_TEST/KCU105_PR_AXIHW_ICAP_PCIe_small_PR/IP/vivado.log
-# Journal file: /home/sanjayr/projects/Vivado_PR/GIT_TEST/KCU105_PR_AXIHW_ICAP_PCIe_small_PR/IP/vivado.jou
+# Log file: /home/sanjayr/projects/KCU105/KCU105_PR_AXIHW_ICAP_PCIe_small_PR/IP/vivado.log
+# Journal file: /home/sanjayr/projects/KCU105/KCU105_PR_AXIHW_ICAP_PCIe_small_PR/IP/vivado.jou
 #-----------------------------------------------------------
 start_gui
 source vivado_project.tcl
 update_compile_order -fileset sources_1
-update_compile_order -fileset sim_1
 update_compile_order -fileset sources_1
+open_bd_design {/home/sanjayr/projects/KCU105/KCU105_PR_AXIHW_ICAP_PCIe_small_PR/IP/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.bd}

@@ -72,7 +72,8 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gtwizard_top #
     parameter integer PHY_LANE = 1
 )
 (    
-                                                                                                      
+
+
     //--------------------------------------------------------------------------
     //  Clock Ports
     //--------------------------------------------------------------------------
@@ -81,7 +82,18 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gtwizard_top #
     input       [PHY_LANE-1:0]          GT_RXUSRCLK,  
     input       [PHY_LANE-1:0]          GT_TXUSRCLK2, 
     input       [PHY_LANE-1:0]          GT_RXUSRCLK2,    
+    //--------------------------------------------------------------------------   
+    //  IBERT ports 
+    //--------------------------------------------------------------------------                   
+    input       [PHY_LANE-1:0]          GT_EYESCANRESET,
+    input       [(PHY_LANE* 2)-1:0]     GT_RATE,  
+    input       [(PHY_LANE* 4)-1:0]     GT_TXDIFFCTRL,
+    input       [(PHY_LANE* 5)-1:0]     GT_TXPRECURSOR,  
+    input       [(PHY_LANE* 5)-1:0]     GT_TXPOSTCURSOR,      
+    input       [PHY_LANE-1:0]          GT_RXLPMEN,
 
+    output      [PHY_LANE-1:0]          GT_PCIERATEGEN3,   
+    //--------------------------------------------------------------------------                   
     //--------------------------------------------------------------------------   
     //  BUFG_GT Controller Ports                                                                        
     //--------------------------------------------------------------------------                   
@@ -182,7 +194,6 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gtwizard_top #
     input       [PHY_LANE-1:0]          GT_TXCOMPLIANCE, 
     input       [PHY_LANE-1:0]          GT_RXPOLARITY,
     input       [(PHY_LANE* 2)-1:0]     GT_POWERDOWN,      
-    input       [(PHY_LANE* 2)-1:0]     GT_RATE,  
       
     //--------------------------------------------------------------------------
     //  PHY Status Ports
@@ -204,9 +215,7 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gtwizard_top #
     //--------------------------------------------------------------------------
     //  TX Equalization Ports (Gen3)
     //--------------------------------------------------------------------------
-    input       [(PHY_LANE* 5)-1:0]     GT_TXPRECURSOR,  
     input       [(PHY_LANE* 7)-1:0]     GT_TXMAINCURSOR,  
-    input       [(PHY_LANE* 5)-1:0]     GT_TXPOSTCURSOR,      
     
     //--------------------------------------------------------------------------
     //  PCIe PCS Ports
@@ -221,7 +230,6 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gtwizard_top #
     output      [(PHY_LANE* 2)-1:0]     GT_PCIERATEQPLLRESET,                
     output      [PHY_LANE-1:0]          GT_PCIERATEIDLE,          
     output      [PHY_LANE-1:0]          GT_PCIESYNCTXSYNCDONE,                      
-    output      [PHY_LANE-1:0]          GT_PCIERATEGEN3,   
     output      [PHY_LANE-1:0]          GT_PCIEUSERGEN3RDY, 
     output      [PHY_LANE-1:0]          GT_PCIEUSERRATESTART,  
    
@@ -250,23 +258,200 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gtwizard_top #
     //  GT Status Ports
     //--------------------------------------------------------------------------                                                     
     output      [PHY_LANE-1:0]          GT_CPLLLOCK,       
-    output      [PHY_LANE-1:0]          GT_RXCDRLOCK                                                                 
+    output      [PHY_LANE-1:0]          GT_RXCDRLOCK,                                                                 
+    output      [PHY_LANE-1:0]          GT_RXRATEDONE,  
+    input       [PHY_LANE-1:0]          GT_RXRATEMODE 
 );
 
-//-------------------------------------------------------------------------------------------------
-//  CPLL CALibration ports
-//-------------------------------------------------------------------------------------------------- 
-    wire [PHY_LANE-1:0] cpllpd_in              ;                                          
-    wire [PHY_LANE-1:0] cpllreset_in           ;                                          
-    wire [(PHY_LANE* 1)-1:0]  drpclk_in;
-    assign drpclk_in = GT_DRPCLK;
-
-    assign GT_DRPDO = {PHY_LANE{16'b0}};
-    assign GT_DRPRDY = {PHY_LANE{1'b0}};
-
-    wire gtwiz_userclk_tx_reset_in;
+//
+// Wire/Signals when GT Wizard is in the Core
+//
     wire [(PHY_LANE* 3)-1:0]    bufgtce_out ;
-    wire [(PHY_LANE* 3)-1:0]    bufgtreset_out          ;
+    wire [(PHY_LANE* 3)-1:0]    bufgtcemask_out ;
+    wire [(PHY_LANE* 9)-1:0]    bufgtdiv_out ;
+    wire [(PHY_LANE* 3)-1:0]    bufgtreset_out ;
+    wire [(PHY_LANE* 3)-1:0]    bufgtrstmask_out ;
+    wire [PHY_LANE-1:0]         cplllock_out;  
+    wire [PHY_LANE-1:0]         cpllpd_in;                                          
+    wire [PHY_LANE-1:0]         cpllreset_in;                                          
+    wire [PHY_LANE-1:0]         dmonfiforeset_in;
+    wire [PHY_LANE-1:0]         dmonitorclk_in;
+    wire [(PHY_LANE*17)-1:0]    dmonitorout_out;
+
+    wire [(PHY_LANE* 1)-1:0]    drpclk_in;
+    wire [(PHY_LANE* 9)-1:0]    drpaddr_in;
+    wire [(PHY_LANE* 16)-1:0]   drpdi_in;
+    wire [(PHY_LANE* 1)-1:0]    drpen_in;
+    wire [(PHY_LANE* 1)-1:0]    drpwe_in;
+    wire [(PHY_LANE* 16)-1:0]   drpdo_out;
+    wire [(PHY_LANE* 1)-1:0]    drprdy_out;
+
+    wire [PHY_LANE-1:0]         eyescandataerror_out;
+    wire [PHY_LANE-1:0]         eyescanreset_in;
+
+    wire [PHY_LANE-1:0]         gthrxn_in;                                          
+    wire [PHY_LANE-1:0]         gthrxp_in;                                          
+    wire [PHY_LANE-1:0]         gthtxn_out;
+    wire [PHY_LANE-1:0]         gthtxp_out;
+
+    wire [PHY_LANE-1:0]         gtpowergood_out;
+    wire [PHY_LANE-1:0]         gtrefclk0_in;
+    wire [PHY_LANE-1:0]         gtrxreset_in;                                          
+    wire [PHY_LANE-1:0]         gttxreset_in;                                          
+    wire                        gtwiz_reset_rx_done_in;                                                                                      
+    wire                        gtwiz_reset_tx_done_in;                                                
+    wire                        gtwiz_userclk_rx_active_in ;                                                
+    wire                        gtwiz_userclk_tx_active_in ;                                                
+    wire                        gtwiz_userclk_tx_reset_in;
+    wire [(PHY_LANE* 3)-1:0]    loopback_in;                                               
+    wire [PHY_LANE-1:0]         pcieeqrxeqadaptdone_in ;                                          
+    wire [PHY_LANE-1:0]         pcierategen3_out;  
+    wire [PHY_LANE-1:0]         pcierateidle_out;       
+    wire [(PHY_LANE*2)-1:0]     pcierateqpllpd_out;              
+    wire [(PHY_LANE*2)-1:0]     pcierateqpllreset_out;
+    wire [PHY_LANE-1:0]         pcierstidle_in;                                          
+    wire [PHY_LANE-1:0]         pciersttxsyncstart_in;                                          
+    wire [PHY_LANE-1:0]         pciesynctxsyncdone_out;                      
+    wire [PHY_LANE-1:0]         pcieusergen3rdy_out; 
+    wire [PHY_LANE-1:0]         pcieuserphystatusrst_out;  
+    wire [PHY_LANE-1:0]         pcieuserratedone_in;                                          
+    wire [PHY_LANE-1:0]         pcieuserratestart_out;  
+    wire [(PHY_LANE*16)-1:0]    pcsrsvdin_in;
+    wire [(PHY_LANE*12)-1:0]    pcsrsvdout_out;
+    wire [PHY_LANE-1:0]         phystatus_out;
+    wire [PHY_LANE-1:0]         rx8b10ben_in;                                                          
+    wire [PHY_LANE-1:0]         rxbufreset_in;                                                
+    wire [(PHY_LANE*3)-1:0]     rxbufstatus_out;
+    wire [PHY_LANE-1 : 0]       rxbyteisaligned_out; 
+    wire [PHY_LANE-1 : 0]       rxbyterealign_out; 
+    wire [PHY_LANE-1:0]         rxcdrhold_in;                                          
+    wire [PHY_LANE-1:0]         rxcdrlock_out;                                                          
+    wire [(PHY_LANE * 2)-1 : 0] rxclkcorcnt_out; 
+    wire [PHY_LANE-1:0]         rxcommadet_out;
+    wire [PHY_LANE-1:0]         rxcommadeten_in;
+    wire [(PHY_LANE*16)-1:0]    rxctrl0_out;  
+    wire [(PHY_LANE*16)-1:0]    rxctrl1_out;  
+    wire [(PHY_LANE*8)-1:0]     rxctrl2_out;  
+    wire [(PHY_LANE*8)-1:0]     rxctrl3_out;  
+    wire [(PHY_LANE*128)-1:0]   rxdata_out;  
+    wire [PHY_LANE-1:0]         rxdlysresetdone_out;     
+    wire [PHY_LANE-1:0]         rxelecidle_out;
+    wire [PHY_LANE-1:0]         rxlpmen_in;                                                            
+    wire [PHY_LANE-1:0]         rxmcommaalignen_in;                                                    
+    wire [PHY_LANE-1 : 0]       rxoutclk_out; 
+    wire [PHY_LANE-1:0]         rxpcommaalignen_in;                                                    
+    wire [(PHY_LANE* 2)-1:0]    rxpd_in;                                              
+    wire [PHY_LANE-1:0]         rxphaligndone_out;
+    wire [PHY_LANE-1:0]         rxpmaresetdone_out;           
+    wire [PHY_LANE-1:0]         rxpolarity_in;                                          
+    wire [PHY_LANE-1:0]         rxprbscntreset_in; 
+    wire [PHY_LANE-1:0]         rxprbserr_out;                                        
+    wire [PHY_LANE-1:0]         rxprbslocked_out;
+    wire [(PHY_LANE* 4)-1:0]    rxprbssel_in;                                               
+    wire [PHY_LANE-1:0]         rxprgdivresetdone_out;    
+    wire [PHY_LANE-1:0]         rxprogdivreset_in;                                          
+    wire [(PHY_LANE* 3)-1:0]    rxrate_in;
+    wire [PHY_LANE-1:0]         rxratedone_out;
+    wire [PHY_LANE-1:0]         rxratemode_in;
+    wire [PHY_LANE-1:0]         rxresetdone_out;              
+    wire [PHY_LANE-1:0]         rxslide_in;                                                
+    wire [(PHY_LANE* 3)-1:0]    rxstatus_out;
+    wire [PHY_LANE-1:0]         rxsyncdone_out;
+    wire [PHY_LANE-1:0]         rxuserrdy_in;                                          
+    wire [PHY_LANE-1:0]         rxusrclk2_in;                                          
+    wire [PHY_LANE-1:0]         rxusrclk_in;                                          
+    wire [PHY_LANE-1:0]         rxvalid_out;
+    wire [PHY_LANE-1:0]         tx8b10ben_in;                                                          
+    wire [(PHY_LANE*16)-1:0]    txctrl0_in;
+    wire [(PHY_LANE*16)-1:0]    txctrl1_in;
+    wire [(PHY_LANE* 8)-1:0]    txctrl2_in;
+    wire [(PHY_LANE*128)-1:0]   txdata_in; 
+    wire [PHY_LANE-1:0]         txdeemph_in;                                          
+    wire [PHY_LANE-1:0]         txdetectrx_in;                                          
+    wire [(PHY_LANE*4)-1:0]     txdiffctrl_in;
+    wire [PHY_LANE-1:0]         txdlybypass_in;                                                
+    wire [PHY_LANE-1:0]         txdlyen_in;                                                
+    wire [PHY_LANE-1:0]         txdlyhold_in;                                                
+    wire [PHY_LANE-1:0]         txdlyovrden_in;                                                
+    wire [PHY_LANE-1:0]         txdlysreset_in;                                                
+    wire [PHY_LANE-1:0]         txdlysresetdone_out;     
+    wire [PHY_LANE-1:0]         txdlyupdown_in;                                                
+    wire [PHY_LANE-1:0]         txelecidle_in;                                          
+    wire [PHY_LANE-1:0]         txinhibit_in;                                          
+    wire [(PHY_LANE* 7)-1:0]    txmaincursor_in;                                               
+    wire [(PHY_LANE* 3)-1:0]    txmargin_in;                                              
+    wire [PHY_LANE-1:0]         txoutclk_out;
+    wire [(PHY_LANE* 3)-1:0]    txoutclksel_in;                                           
+    wire [(PHY_LANE* 2)-1:0]    txpd_in;                                              
+    wire [PHY_LANE-1:0]         txphalign_in;                                                
+    wire [PHY_LANE-1:0]         txphaligndone_out;  
+    wire [PHY_LANE-1:0]         txphalignen_in;                                                
+    wire [PHY_LANE-1:0]         txphdlypd_in;                                                
+    wire [PHY_LANE-1:0]         txphdlyreset_in;                                                
+    wire [PHY_LANE-1:0]         txphdlytstclk_in ;                                                
+    wire [PHY_LANE-1:0]         txphinit_in;                                                
+    wire [PHY_LANE-1:0]         txphinitdone_out;
+    wire [PHY_LANE-1:0]         txphovrden_in;                                                
+    wire [PHY_LANE-1 : 0]       txpmaresetdone_out; 
+    wire [(PHY_LANE* 5)-1:0]    txpostcursor_in;                                               
+    wire [PHY_LANE-1:0]         txprbsforceerr_in;                                          
+    wire [(PHY_LANE* 4)-1:0]    txprbssel_in;                                               
+    wire [(PHY_LANE* 5)-1:0]    txprecursor_in;                                               
+    wire [PHY_LANE-1:0]         txprgdivresetdone_out;  
+    wire [PHY_LANE-1:0]         txprogdivreset_in;                                          
+    wire [(PHY_LANE* 3)-1:0]    txrate_in;
+    wire [PHY_LANE-1:0]         txresetdone_out;
+    wire [PHY_LANE-1:0]         txswing_in;                                          
+    wire [(PHY_LANE-1) : 0]     txsyncallin_in; 
+    wire [PHY_LANE-1 : 0]       txsyncdone_out; 
+    wire [(PHY_LANE-1) : 0]     txsyncin_in;   
+    wire [PHY_LANE-1:0]         txsyncmode_in;
+    wire [PHY_LANE-1:0]         txsyncout_out;  
+    wire [PHY_LANE-1:0]         txuserrdy_in;                                          
+    wire [PHY_LANE-1:0]         txusrclk2_in;                                          
+    wire [PHY_LANE-1:0]         txusrclk_in;                                          
+
+    wire [PHY_LANE-1 : 0]       qpll0clk_in; 
+    wire [PHY_LANE-1 : 0]       qpll0refclk_in;
+
+    wire [(PHY_LANE-1)>>2:0]    gtrefclk01_in;
+    wire [(PHY_LANE-1)>>2:0]    qpll1pd_in;
+    wire [(PHY_LANE-1)>>2:0]    qpll1reset_in;
+    wire [((((PHY_LANE-1)>>2)+1)* 5)-1:0] qpllrsvd2_in;
+    wire [((((PHY_LANE-1)>>2)+1)* 5)-1:0] qpllrsvd3_in;
+    wire [(PHY_LANE-1)>>2:0]     qpll1lock_out;
+    wire [(PHY_LANE-1)>>2:0]     qpll1outclk_out;
+    wire [(PHY_LANE-1)>>2:0]     qpll1outrefclk_out;
+
+//
+//
+    assign drpclk_in = GT_DRPCLK;
+//
+//
+
+genvar m;                                                                                                      
+
+generate for (m=0; m<PHY_LANE; m=m+1)                                                      
+                                                                                                    
+    begin : drp_sigs
+                                 
+    assign drpaddr_in[(9*m)+8:(9*m)] = GT_DRPADDR[(9 * ((PHY_LANE - 1) - m)) + 8 : (9 * ((PHY_LANE - 1) - m))];
+    assign drpdi_in[(16*m)+15:(16*m)] = GT_DRPDI[(16 * ((PHY_LANE - 1) - m)) + 15 : (16 * ((PHY_LANE - 1) - m))];
+    assign drpen_in[m] = GT_DRPEN[((PHY_LANE-1)-m)];
+    assign drpwe_in[m] = GT_DRPWE[((PHY_LANE-1)-m)];
+    assign GT_DRPDO[(16*m)+15:(16*m)] = drpdo_out[(16 * ((PHY_LANE - 1) - m)) + 15 : (16 * ((PHY_LANE - 1) - m))];
+    assign GT_DRPRDY[m] = drprdy_out[((PHY_LANE-1)-m)];
+
+    end
+endgenerate
+
+  //  assign drpaddr_in = {PHY_LANE{9'b0}};
+  //  assign drpdi_in = {PHY_LANE{16'b0}};
+  //  assign drpen_in = {PHY_LANE{1'b0}};
+  //  assign drpwe_in = {PHY_LANE{1'b0}};
+  //  assign GT_DRPDO = {PHY_LANE{16'b0}};
+  //  assign GT_DRPRDY = {PHY_LANE{1'b0}};
+
     wire [(PHY_LANE* 18)-1:0] gtwiz_gthe3_cpll_cal_txoutclk_period_in;
     wire [(PHY_LANE* 18)-1:0] gtwiz_gthe3_cpll_cal_cnt_tol_in;
     wire [(PHY_LANE*  1)-1:0] gtwiz_gthe3_cpll_cal_bufg_ce_in;
@@ -278,155 +463,19 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gtwizard_top #
 //-------------------------------------------------------------------------------------------------
 //  Internal Signals
 //-------------------------------------------------------------------------------------------------- 
-    wire        [PHY_LANE-1 : 0] qpll0clk_in; 
-    wire        [PHY_LANE-1 : 0] qpll0refclk_in;
-    wire        [PHY_LANE-1 : 0] rxbyteisaligned_out; 
-    wire        [PHY_LANE-1 : 0] rxbyterealign_out; 
-    wire        [(PHY_LANE * 2)-1 : 0] rxclkcorcnt_out; 
-    wire        [(PHY_LANE*16)-1:0]     rxctrl1_out;  
-    wire        [(PHY_LANE*8)-1:0]     rxctrl2_out;  
-    wire        [(PHY_LANE*8)-1:0]     rxctrl3_out;  
-    wire        [PHY_LANE-1 : 0] rxoutclk_out; 
-    wire        [PHY_LANE-1 : 0] txpmaresetdone_out; 
-    wire        [PHY_LANE-1 : 0] txsyncdone_out; 
-//-------------------------------------------------------------------------------------------------- 
     wire        [(PHY_LANE* 3)-1:0]     rate;
-    wire        [(PHY_LANE*128)-1:0]    txdata_in; 
-    wire        [(PHY_LANE-1)>>2:0]     qpll1lock_out;
-    wire        [(PHY_LANE-1)>>2:0]     qpll1outclk_out;
-    wire        [(PHY_LANE-1)>>2:0]     qpll1outrefclk_out;
-    wire        [PHY_LANE-1:0]          pcierategen3_out;  
-    wire        [(PHY_LANE*2)-1:0]      pcierateqpllpd_out;              
-    wire        [(PHY_LANE*2)-1:0]      pcierateqpllreset_out;
-    wire        [(PHY_LANE*12)-1:0]     pcsrsvdout_out;
-    wire        [(PHY_LANE*16)-1:0]     rxctrl0_out;  
-    wire        [(PHY_LANE*128)-1:0]    rxdata_out;  
-    wire        [PHY_LANE-1:0]          txphaligndone_out;  
-    wire        [PHY_LANE-1:0]          txsyncout_out;  
 //--------------------------------------------------------------------------------------------------
 //  Signals converted from per lane
 //--------------------------------------------------------------------------------------------------
     wire                                qpll1lock_all;    
     wire                                txsyncallin_all;
 //--------------------------------------------------------------------------------------------------
-    wire        [(PHY_LANE*16)-1:0]     txctrl0_in;
-    wire        [(PHY_LANE*16)-1:0]     txctrl1_in;
-    wire        [(PHY_LANE* 8)-1:0]     txctrl2_in;
-    wire        [   (PHY_LANE-1)>>2          :0] qpll1pd_in;
     wire        [((((PHY_LANE-1)>>2)+1)* 5)-1:0] qpllrsvd2_3;
-    wire        [(PHY_LANE*16)-1:0]     pcsrsvdin_in;
-    wire        [PHY_LANE-1:0]          txsyncmode_in;
-    wire        [PHY_LANE-1:0]          cplllock_out;  
- 
-    wire [PHY_LANE-1:0]         rxphaligndone_out       ;
-    wire [PHY_LANE-1:0]         rxdlysresetdone_out     ;     
-    wire [PHY_LANE-1:0]         rxsyncdone_out          ;
-    wire [PHY_LANE-1:0]         eyescandataerror_out    ;
-    wire [(PHY_LANE*17)-1:0]    dmonitorout_out         ;
-    wire [PHY_LANE-1:0]         dmonitorclk_in          ;
-    wire [PHY_LANE-1:0]         dmonfiforeset_in        ;
-    wire [(PHY_LANE* 3)-1:0]    bufgtcemask_out         ;
-    wire [(PHY_LANE* 9)-1:0]    bufgtdiv_out            ;
-    wire [(PHY_LANE* 3)-1:0]    bufgtrstmask_out        ;
-    wire [PHY_LANE-1:0]         gthtxn_out              ;
-    wire [PHY_LANE-1:0]         gthtxp_out              ;
-    wire [PHY_LANE-1:0]         gtpowergood_out         ;
-    wire [PHY_LANE-1:0]         pcierateidle_out        ;       
-    wire [PHY_LANE-1:0]         pciesynctxsyncdone_out  ;                      
-    wire [PHY_LANE-1:0]         pcieusergen3rdy_out     ; 
-    wire [PHY_LANE-1:0]         pcieuserphystatusrst_out;  
-    wire [PHY_LANE-1:0]         pcieuserratestart_out   ;  
-    wire [PHY_LANE-1:0]         phystatus_out           ;
-    wire [(PHY_LANE*3)-1:0]     rxbufstatus_out         ;
-    wire [PHY_LANE-1:0]         rxcdrlock_out           ;                                                          
-    wire [PHY_LANE-1:0]         rxcommadet_out          ;
-    wire [PHY_LANE-1:0]         rxelecidle_out          ;
-    wire [PHY_LANE-1:0]         rxpmaresetdone_out      ;           
-    wire [PHY_LANE-1:0]         rxprbserr_out           ;                                        
-    wire [PHY_LANE-1:0]         rxprbslocked_out        ;
-    wire [PHY_LANE-1:0]         rxprgdivresetdone_out   ;    
-    wire [PHY_LANE-1:0]         rxresetdone_out         ;              
-    wire [(PHY_LANE* 3)-1:0]    rxstatus_out            ;
-    wire [PHY_LANE-1:0]         rxvalid_out             ;
-    wire [PHY_LANE-1:0]         txdlysresetdone_out     ;     
-    wire [PHY_LANE-1:0]         txoutclk_out            ;
-    wire [PHY_LANE-1:0]         txphinitdone_out        ;
-    wire [PHY_LANE-1:0]         txprgdivresetdone_out   ;  
-    wire [PHY_LANE-1:0]         txresetdone_out         ;
-    wire [(PHY_LANE-1)>>2:0] gtrefclk01_in;
-    wire [PHY_LANE-1:0] gtrefclk0_in;
-    wire [PHY_LANE-1:0] txusrclk_in            ;                                          
-    wire [PHY_LANE-1:0] rxusrclk_in            ;                                          
-    wire [PHY_LANE-1:0] txusrclk2_in           ;                                          
-    wire [PHY_LANE-1:0] rxusrclk2_in           ;                                          
-    wire [PHY_LANE-1:0] txprogdivreset_in      ;                                          
-    wire [PHY_LANE-1:0] rxprogdivreset_in      ;                                          
-    wire [PHY_LANE-1:0] gttxreset_in           ;                                          
-    wire [PHY_LANE-1:0] gtrxreset_in           ;                                          
-    wire [PHY_LANE-1:0] txuserrdy_in           ;                                          
-    wire [PHY_LANE-1:0] rxuserrdy_in           ;                                          
-    wire [PHY_LANE-1:0] gthrxn_in              ;                                          
-    wire [PHY_LANE-1:0] gthrxp_in              ;                                          
-    wire [PHY_LANE-1:0] txdetectrx_in          ;                                          
-    wire [PHY_LANE-1:0] txelecidle_in          ;                                          
-    wire [PHY_LANE-1:0] rxpolarity_in          ;                                          
-    wire [(PHY_LANE* 2)-1:0]rxpd_in            ;                                              
-    wire [(PHY_LANE* 2)-1:0]txpd_in            ;                                              
-    wire [(PHY_LANE* 3)-1:0]txmargin_in        ;                                              
-    wire [(PHY_LANE* 3)-1:0]txoutclksel_in     ;                                           
-    wire [PHY_LANE-1:0] txswing_in             ;                                          
-    wire [PHY_LANE-1:0] txdeemph_in            ;                                          
-    wire [PHY_LANE-1:0] rxcdrhold_in           ;                                          
-    wire [(PHY_LANE* 5)-1:0] txprecursor_in    ;                                               
-    wire [(PHY_LANE* 7)-1:0] txmaincursor_in   ;                                               
-    wire [(PHY_LANE* 5)-1:0] txpostcursor_in   ;                                               
-    wire [PHY_LANE-1:0] pcierstidle_in         ;                                          
-    wire [PHY_LANE-1:0] pciersttxsyncstart_in  ;                                          
-    wire [PHY_LANE-1:0] pcieeqrxeqadaptdone_in ;                                          
-    wire [PHY_LANE-1:0] pcieuserratedone_in    ;                                          
-    wire [(PHY_LANE* 3)-1:0] loopback_in       ;                                               
-    wire [(PHY_LANE* 4)-1:0] rxprbssel_in      ;                                               
-    wire [(PHY_LANE* 4)-1:0] txprbssel_in      ;                                               
-    wire [PHY_LANE-1:0] txprbsforceerr_in      ;                                          
-    wire [PHY_LANE-1:0] txinhibit_in      ;                                          
-    wire [PHY_LANE-1:0] rxprbscntreset_in      ; 
-
-    wire gtwiz_userclk_tx_active_in ;                                                
-    wire gtwiz_userclk_rx_active_in ;                                                
-    wire gtwiz_reset_tx_done_in     ;                                                
-    wire gtwiz_reset_rx_done_in     ;                                                                                      
-    wire [PHY_LANE-1:0] rx8b10ben_in;                                                          
-    wire [PHY_LANE-1:0] rxlpmen_in;                                                            
-    wire [PHY_LANE-1:0] rxmcommaalignen_in;                                                    
-    wire [PHY_LANE-1:0] rxpcommaalignen_in;                                                    
-    wire [PHY_LANE-1:0] tx8b10ben_in;                                                          
-    wire [PHY_LANE-1:0] rxbufreset_in    ;                                                
-    wire [PHY_LANE-1:0] rxcommadeten_in  ;
-    wire [PHY_LANE-1:0] rxslide_in       ;                                                
-    wire [PHY_LANE-1:0] txdlybypass_in   ;                                                
-    wire [PHY_LANE-1:0] txdlyen_in       ;                                                
-    wire [PHY_LANE-1:0] txdlyhold_in     ;                                                
-    wire [PHY_LANE-1:0] txdlyovrden_in   ;                                                
-    wire [PHY_LANE-1:0] txdlysreset_in   ;                                                
-    wire [PHY_LANE-1:0] txdlyupdown_in   ;                                                
-    wire [PHY_LANE-1:0] txphalign_in     ;                                                
-    wire [PHY_LANE-1:0] txphalignen_in   ;                                                
-    wire [PHY_LANE-1:0] txphdlypd_in     ;                                                
-    wire [PHY_LANE-1:0] txphdlyreset_in  ;                                                
-    wire [PHY_LANE-1:0] txphdlytstclk_in ;                                                
-    wire [PHY_LANE-1:0] txphinit_in      ;                                                
-    wire [PHY_LANE-1:0] txphovrden_in    ;                                                
-    wire [(PHY_LANE-1) : 0] txsyncallin_in; 
-    wire [(PHY_LANE-1) : 0] txsyncin_in;   
-    wire [((((PHY_LANE-1)>>2)+1)* 5)-1:0] qpllrsvd2_in;
-    wire [((((PHY_LANE-1)>>2)+1)* 5)-1:0] qpllrsvd3_in;
-    wire [   (PHY_LANE-1)>>2          :0] qpll1reset_in;
-    wire [(PHY_LANE* 3)-1:0]     rxrate_in;
-    wire [(PHY_LANE* 3)-1:0]     txrate_in;
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     assign qpll0clk_in = 0; 
     assign qpll0refclk_in = 0;
+//    assign rxlpmen_in = GT_RXLPMEN; 
 
     assign qpll1lock_all   = &qpll1lock_out;
     assign txsyncallin_all = &txphaligndone_out;    
@@ -438,7 +487,6 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gtwizard_top #
     assign gtrefclk01_in         = ({(((PHY_LANE-1)>>2)+1){GT_GTREFCLK0}});                                                  
     assign gtrefclk0_in          = ({PHY_LANE{GT_GTREFCLK0}});                                                    
     assign rx8b10ben_in          = (~pcierategen3_out);                                                
-    assign rxlpmen_in            = (~pcierategen3_out);                                                
     assign rxmcommaalignen_in    = (~pcierategen3_out);                                                
     assign rxpcommaalignen_in    = (~pcierategen3_out);                                                
     assign tx8b10ben_in          = (~pcierategen3_out);                                                
@@ -453,7 +501,9 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gtwizard_top #
     assign txdlyupdown_in        = ({PHY_LANE{1'd0}});                                                
     assign txphalign_in          = ({PHY_LANE{1'd0}});                                                
     assign txphalignen_in        = ({PHY_LANE{1'd0}});                                                
-    assign txphdlypd_in          = ({PHY_LANE{1'd0}});                                                
+    assign txphdlypd_in          = {1'b0, !txpmaresetdone_out[1], !txpmaresetdone_out[2], !txpmaresetdone_out[3], !txpmaresetdone_out[4], !txpmaresetdone_out[5], !txpmaresetdone_out[6], !txpmaresetdone_out[7] };
+    assign rxlpmen_in            = {(GT_RATE[1:0]==2'b10)?GT_RXLPMEN[0]:1'b1,(GT_RATE[3:2]==2'b10)?GT_RXLPMEN[1]:1'b1,(GT_RATE[5:4]==2'b10)?GT_RXLPMEN[2]:1'b1,(GT_RATE[7:6]==2'b10)?GT_RXLPMEN[3]:1'b1,(GT_RATE[9:8]==2'b10)?GT_RXLPMEN[4]:1'b1,(GT_RATE[11:10]==2'b10)?GT_RXLPMEN[5]:1'b1,(GT_RATE[13:12]==2'b10)?GT_RXLPMEN[6]:1'b1,(GT_RATE[15:14]==2'b10)?GT_RXLPMEN[7]:1'b1};   // [STG - RXLPMEN based on rate now]
+ 
     assign txphdlyreset_in       = ({PHY_LANE{1'd0}});                                                
     assign txphdlytstclk_in      = ({PHY_LANE{1'd0}});                                                
     assign txphinit_in           = ({PHY_LANE{1'd0}});                                                
@@ -479,8 +529,15 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gtwizard_top #
    .dmonfiforeset_in(dmonfiforeset_in),
    .dmonitorclk_in(dmonitorclk_in),
    .dmonitorout_out(dmonitorout_out),
+   .drpaddr_in(drpaddr_in),
    .drpclk_in(drpclk_in),
+   .drpdi_in(drpdi_in),
+   .drpdo_out(drpdo_out),
+   .drpen_in(drpen_in),
+   .drprdy_out(drprdy_out),
+   .drpwe_in(drpwe_in),
    .eyescandataerror_out(eyescandataerror_out),
+   .eyescanreset_in(eyescanreset_in),
    .gthrxn_in(gthrxn_in),
    .gthrxp_in(gthrxp_in),
    .gthtxn_out(gthtxn_out),
@@ -550,6 +607,8 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gtwizard_top #
    .rxprgdivresetdone_out(rxprgdivresetdone_out),
    .rxprogdivreset_in(rxprogdivreset_in),
    .rxrate_in(rxrate_in),
+   .rxratedone_out(rxratedone_out),
+   .rxratemode_in(rxratemode_in),
    .rxresetdone_out(rxresetdone_out),
    .rxslide_in(rxslide_in),
    .rxstatus_out(rxstatus_out),
@@ -565,6 +624,7 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gtwizard_top #
    .txdata_in(txdata_in),
    .txdeemph_in(txdeemph_in),
    .txdetectrx_in(txdetectrx_in),
+   .txdiffctrl_in(txdiffctrl_in),
    .txdlybypass_in(txdlybypass_in),
    .txdlyen_in(txdlyen_in),
    .txdlyhold_in(txdlyhold_in),
@@ -618,8 +678,11 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gtwizard_top #
     assign gthrxp_in              = {GT_RXP[0],GT_RXP[1],GT_RXP[2],GT_RXP[3],GT_RXP[4],GT_RXP[5],GT_RXP[6],GT_RXP[7]};
     assign GT_TXN                 = {gthtxn_out[0],gthtxn_out[1],gthtxn_out[2],gthtxn_out[3],gthtxn_out[4],gthtxn_out[5],gthtxn_out[6],gthtxn_out[7]};                                      
     assign GT_TXP                 = {gthtxp_out[0],gthtxp_out[1],gthtxp_out[2],gthtxp_out[3],gthtxp_out[4],gthtxp_out[5],gthtxp_out[6],gthtxp_out[7]};                                      
+    assign rxratemode_in          = {GT_RXRATEMODE[0],GT_RXRATEMODE[1],GT_RXRATEMODE[2],GT_RXRATEMODE[3],GT_RXRATEMODE[4],GT_RXRATEMODE[5],GT_RXRATEMODE[6],GT_RXRATEMODE[7]};
     assign cpllpd_in              = {GT_CPLLPD[0],GT_CPLLPD[1],GT_CPLLPD[2],GT_CPLLPD[3],GT_CPLLPD[4],GT_CPLLPD[5],GT_CPLLPD[6],GT_CPLLPD[7]};
     assign cpllreset_in           = {GT_CPLLRESET[0],GT_CPLLRESET[1],GT_CPLLRESET[2],GT_CPLLRESET[3],GT_CPLLRESET[4],GT_CPLLRESET[5],GT_CPLLRESET[6],GT_CPLLRESET[7]};
+    assign eyescanreset_in        = {GT_EYESCANRESET[0],GT_EYESCANRESET[1],GT_EYESCANRESET[2],GT_EYESCANRESET[3],GT_EYESCANRESET[4],GT_EYESCANRESET[5],GT_EYESCANRESET[6],GT_EYESCANRESET[7]};
+    assign txdiffctrl_in          = {GT_TXDIFFCTRL[3:0],GT_TXDIFFCTRL[7:4],GT_TXDIFFCTRL[11:8],GT_TXDIFFCTRL[15:12],GT_TXDIFFCTRL[19:16],GT_TXDIFFCTRL[23:20],GT_TXDIFFCTRL[27:24],GT_TXDIFFCTRL[31:28]};
     assign dmonitorclk_in         = {GT_DMONITORCLK[0],GT_DMONITORCLK[1],GT_DMONITORCLK[2],GT_DMONITORCLK[3],GT_DMONITORCLK[4],GT_DMONITORCLK[5],GT_DMONITORCLK[6],GT_DMONITORCLK[7]};
     assign dmonfiforeset_in       = {GT_DMONFIFORESET[0],GT_DMONFIFORESET[1],GT_DMONFIFORESET[2],GT_DMONFIFORESET[3],GT_DMONFIFORESET[4],GT_DMONFIFORESET[5],GT_DMONFIFORESET[6],GT_DMONFIFORESET[7]};
     assign txswing_in             = {GT_TXSWING[0],GT_TXSWING[1],GT_TXSWING[2],GT_TXSWING[3],GT_TXSWING[4],GT_TXSWING[5],GT_TXSWING[6],GT_TXSWING[7]};
@@ -803,4 +866,12 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gtwizard_top #
     assign GTCOM_QPLL1OUTREFCLK = qpll1outrefclk_out;
     assign GTCOM_DRPRDY = 0;    
     assign GTCOM_DRPDO  = 0;         
+
+genvar k;                                                                                                      
+generate for (k=0; k<PHY_LANE; k=k+1)                                                      
+  begin : new_sigs
+    assign GT_RXRATEDONE[k]     = rxratedone_out[((PHY_LANE-1)-k)];
+  end
+endgenerate
+
 endmodule

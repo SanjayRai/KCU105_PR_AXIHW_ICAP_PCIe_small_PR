@@ -60,6 +60,7 @@
 ###############################################################################
 # User Physical Constraints
 ###############################################################################
+
 ###############################################################################
 # Pinout and Related I/O Constraints
 ###############################################################################
@@ -148,19 +149,23 @@ set_case_analysis 0 [get_pins gt_top_i/phy_clk_i/bufg_gt_coreclk/DIV[2]]
 #
  
 #
+
 #------------------------------------------------------------------------------
 # CDC Registers
 #------------------------------------------------------------------------------
 # This path is crossing clock domains between pipe_clk and sys_clk
-set_false_path -from [get_pins {gt_top_i/phy_rst_i/prst_n_r_reg[7]/C}] -to [get_pins {gt_top_i/phy_rst_i/sync_prst_n/sync_vec[0].sync_cell_i/sync_reg[0]/D}]
+set_false_path -from [get_pins {gt_top_i/phy_rst_i/prst_n_r_reg_reg/C}] -to [get_pins {gt_top_i/phy_rst_i/sync_prst_n/sync_vec[0].sync_cell_i/sync_reg[0]/D}]
+set_false_path -from [get_pins {gt_top_i/phy_rst_i/idle_reg/C}] -to [get_pins {pcie3_uscale_top_inst/init_ctrl_inst/reg_phy_rdy_reg[0]/D}]
 # These paths are crossing clock domains between sys_clk and user_clk
-set_false_path -from [get_pins {gt_top_i/phy_rst_i/idle_reg/C}] -to [get_pins {pcie3_uscale_top_inst/init_ctrl_inst/reg_phy_rdy_reg[*]/PRE}]
-set_false_path -from [get_pins {gt_top_i/phy_rst_i/idle_reg/C}] -to [get_pins {pcie3_uscale_top_inst/init_ctrl_inst/reg_reset_timer_reg[*]/CLR}]
 set_false_path -from [get_pins {gt_top_i/gt_wizard.gtwizard_top_i/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gt_i/inst/gen_gtwizard_gthe3_top.PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gt_gtwizard_gthe3_inst/gen_gtwizard_gthe3.gen_channel_container[*].gen_enabled_channel.gthe3_channel_wrapper_inst/channel_inst/gthe3_channel_gen.gen_gthe3_channel_inst[*].GTHE3_CHANNEL_PRIM_INST/RXUSRCLK2}] -to [get_pins {gt_top_i/phy_rst_i/sync_phystatus/sync_vec[*].sync_cell_i/sync_reg[0]/D}]
 set_false_path -from [get_pins {gt_top_i/gt_wizard.gtwizard_top_i/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gt_i/inst/gen_gtwizard_gthe3_top.PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gt_gtwizard_gthe3_inst/gen_gtwizard_gthe3.gen_channel_container[*].gen_enabled_channel.gthe3_channel_wrapper_inst/channel_inst/gthe3_channel_gen.gen_gthe3_channel_inst[*].GTHE3_CHANNEL_PRIM_INST/RXUSRCLK2}] -to [get_pins {gt_top_i/phy_rst_i/sync_rxresetdone/sync_vec[*].sync_cell_i/sync_reg[0]/D}]
 set_false_path -from [get_pins {gt_top_i/gt_wizard.gtwizard_top_i/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gt_i/inst/gen_gtwizard_gthe3_top.PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gt_gtwizard_gthe3_inst/gen_gtwizard_gthe3.gen_channel_container[*].gen_enabled_channel.gthe3_channel_wrapper_inst/channel_inst/gthe3_channel_gen.gen_gthe3_channel_inst[*].GTHE3_CHANNEL_PRIM_INST/TXUSRCLK2}] -to [get_pins {gt_top_i/phy_rst_i/sync_txresetdone/sync_vec[*].sync_cell_i/sync_reg[0]/D}]
  
-
+# Async reset registers
+set_false_path -to [get_pins user_lnk_up_reg/CLR]
+set_false_path -to [get_pins user_reset_reg/PRE]
+#
+ 
 #------------------------------------------------------------------------------
 # Asynchronous Pins
 #------------------------------------------------------------------------------
@@ -174,6 +179,7 @@ set_false_path -through [get_pins -hierarchical -filter {NAME=~*/PCIESYNCTXSYNCD
 set_false_path -through [get_pins -hierarchical -filter {NAME=~*/GTPOWERGOOD}]
 set_false_path -through [get_pins -hierarchical -filter {NAME=~*/CPLLLOCK}]
 set_false_path -through [get_pins -hierarchical -filter {NAME=~*/QPLL1LOCK}]
+ 
  
  
 

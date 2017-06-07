@@ -109,8 +109,10 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_phy_rst #
     //-------------------------------------------------------------------------- 
     //  Reset Synchronized Signals
     //-------------------------------------------------------------------------- 
-    (* ASYNC_REG = "TRUE", SHIFT_EXTRACT = "NO" *) reg [ 7:0] rrst_n_r = 8'd0;
-    (* ASYNC_REG = "TRUE", SHIFT_EXTRACT = "NO" *) reg [ 7:0] prst_n_r = 8'd0;
+    (* ASYNC_REG = "TRUE", SHIFT_EXTRACT = "NO" *) reg [ 6:0] rrst_n_r = 7'd0;
+    (* SHIFT_EXTRACT = "NO", max_fanout = 500 *) reg rrst_n_r_reg;
+    (* ASYNC_REG = "TRUE", SHIFT_EXTRACT = "NO" *) reg [ 6:0] prst_n_r = 7'd0;
+    (* SHIFT_EXTRACT = "NO", keep = "true", max_fanout = 500 *) reg prst_n_r_reg;
 
     wire                                rrst_n;                                     
     wire                                prst_n;  
@@ -197,14 +199,16 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_phy_rst #
 always @ (posedge RST_REFCLK or negedge RST_N)
 begin
 
-    if (!RST_N) 
-        rrst_n_r <= 8'd0;
-    else
-        rrst_n_r <= {rrst_n_r[6:0], 1'd1}; 
-          
+    if (!RST_N) begin
+        rrst_n_r <= 7'd0;
+        rrst_n_r_reg <= 1'd0;
+    end else begin
+        rrst_n_r <= {rrst_n_r[5:0], 1'd1};
+        rrst_n_r_reg <= rrst_n_r[6]; 
+    end      
 end   
  
-assign rrst_n = rrst_n_r[7];
+assign rrst_n = rrst_n_r_reg;
 
 
 
@@ -214,14 +218,16 @@ assign rrst_n = rrst_n_r[7];
 always @ (posedge RST_PCLK or negedge RST_N)
 begin
 
-    if (!RST_N) 
-        prst_n_r <= 8'd0;
-    else
-        prst_n_r <= {prst_n_r[6:0], 1'd1};
-          
+    if (!RST_N) begin
+        prst_n_r <= 7'd0;
+        prst_n_r_reg <= 1'd0;
+    end else begin
+        prst_n_r <= {prst_n_r[5:0], 1'd1};
+        prst_n_r_reg <= prst_n_r[6];
+    end      
 end   
 
-assign prst_n = prst_n_r[7];
+assign prst_n = prst_n_r_reg;
 
 
 

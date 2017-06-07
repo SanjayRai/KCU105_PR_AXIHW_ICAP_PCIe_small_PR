@@ -1,4 +1,4 @@
--- (c) Copyright 1995-2016 Xilinx, Inc. All rights reserved.
+-- (c) Copyright 1995-2017 Xilinx, Inc. All rights reserved.
 -- 
 -- This file contains confidential and proprietary information
 -- of Xilinx, Inc. and is protected under U.S. and
@@ -47,14 +47,14 @@
 -- DO NOT MODIFY THIS FILE.
 
 -- IP VLNV: xilinx.com:ip:axi_hwicap:3.0
--- IP Revision: 13
+-- IP Revision: 16
 
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 
-LIBRARY axi_hwicap_v3_0_13;
-USE axi_hwicap_v3_0_13.axi_hwicap;
+LIBRARY axi_hwicap_v3_0_16;
+USE axi_hwicap_v3_0_16.axi_hwicap;
 
 ENTITY PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_hwicap_0_0 IS
   PORT (
@@ -151,11 +151,11 @@ ARCHITECTURE PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_hwicap_0_0_arch OF PCIe_AXI_BRID
     );
   END COMPONENT axi_hwicap;
   ATTRIBUTE X_CORE_INFO : STRING;
-  ATTRIBUTE X_CORE_INFO OF PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_hwicap_0_0_arch: ARCHITECTURE IS "axi_hwicap,Vivado 2016.2";
+  ATTRIBUTE X_CORE_INFO OF PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_hwicap_0_0_arch: ARCHITECTURE IS "axi_hwicap,Vivado 2017.1";
   ATTRIBUTE CHECK_LICENSE_TYPE : STRING;
   ATTRIBUTE CHECK_LICENSE_TYPE OF PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_hwicap_0_0_arch : ARCHITECTURE IS "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_hwicap_0_0,axi_hwicap,{}";
   ATTRIBUTE CORE_GENERATION_INFO : STRING;
-  ATTRIBUTE CORE_GENERATION_INFO OF PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_hwicap_0_0_arch: ARCHITECTURE IS "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_hwicap_0_0,axi_hwicap,{x_ipProduct=Vivado 2016.2,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=axi_hwicap,x_ipVersion=3.0,x_ipCoreRevision=13,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,C_S_AXI_DATA_WIDTH=32,C_SHARED_STARTUP=0,C_ICAP_EXTERNAL=0,C_INCLUDE_STARTUP=0,C_ENABLE_ASYNC=1,C_S_AXI_ADDR_WIDTH=9,C_WRITE_FIFO_DEPTH=64,C_READ_FIFO_DEPTH=128,C_ICAP_WIDTH_S=X32,C_DEVICE_ID=0x04224093,C_MODE=0,C_NOREAD=0,C_SIMULATION=2,C_BRAM_SRL_FIFO_TYPE=1,C_FAMILY=kintexu,C_" & 
+  ATTRIBUTE CORE_GENERATION_INFO OF PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_hwicap_0_0_arch: ARCHITECTURE IS "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_hwicap_0_0,axi_hwicap,{x_ipProduct=Vivado 2017.1,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=axi_hwicap,x_ipVersion=3.0,x_ipCoreRevision=16,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,C_S_AXI_DATA_WIDTH=32,C_SHARED_STARTUP=0,C_ICAP_EXTERNAL=0,C_INCLUDE_STARTUP=0,C_ENABLE_ASYNC=1,C_S_AXI_ADDR_WIDTH=9,C_WRITE_FIFO_DEPTH=64,C_READ_FIFO_DEPTH=128,C_ICAP_WIDTH_S=X32,C_DEVICE_ID=0x04224093,C_MODE=0,C_NOREAD=0,C_SIMULATION=2,C_BRAM_SRL_FIFO_TYPE=1,C_FAMILY=kintexu,C_" & 
 "OPERATION=0}";
   ATTRIBUTE X_INTERFACE_INFO : STRING;
   ATTRIBUTE X_INTERFACE_INFO OF icap_clk: SIGNAL IS "xilinx.com:signal:clock:1.0 ICAP_CLK CLK";

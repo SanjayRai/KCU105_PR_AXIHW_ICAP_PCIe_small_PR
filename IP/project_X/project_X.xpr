@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Product Version: Vivado v2016.2 (64-bit)              -->
+<!-- Product Version: Vivado v2017.1 (64-bit)              -->
 <!--                                                         -->
-<!-- Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.   -->
+<!-- Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.   -->
 
-<Project Version="7" Minor="14" Path="/home/sanjayr/projects/Vivado_PR/GIT_TEST/KCU105_PR_AXIHW_ICAP_PCIe_small_PR/IP/project_X/project_X.xpr">
+<Project Version="7" Minor="20" Path="/home/sanjayr/projects/KCU105/KCU105_PR_AXIHW_ICAP_PCIe_small_PR/IP/project_X/project_X.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
-    <Option Name="Id" Val="b22acbae1ca84995a2d47326fe4d490a"/>
+    <Option Name="Id" Val="6eda46b1677748eaab72eda37a7f5fa3"/>
     <Option Name="Part" Val="xcku040-ffva1156-2-e"/>
     <Option Name="CompiledLibDir" Val="$PCACHEDIR/compile_simlib"/>
     <Option Name="CompiledLibDirXSim" Val=""/>
@@ -19,12 +19,16 @@
     <Option Name="BoardPart" Val="xilinx.com:kcu105:part0:1.1"/>
     <Option Name="ActiveSimSet" Val="sim_1"/>
     <Option Name="DefaultLib" Val="xil_defaultlib"/>
+    <Option Name="IPOutputRepo" Val="$PCACHEDIR/ip"/>
+    <Option Name="IPCachePermission" Val="read"/>
+    <Option Name="IPCachePermission" Val="write"/>
     <Option Name="EnableCoreContainer" Val="FALSE"/>
     <Option Name="CreateRefXciForCoreContainers" Val="FALSE"/>
-    <Option Name="IPUserFilesDir" Val="$PPRDIR/project_X.ip_user_files"/>
-    <Option Name="IPStaticSourceDir" Val="$PPRDIR/project_X.ip_user_files/ipstatic"/>
+    <Option Name="IPUserFilesDir" Val="$PIPUSERFILESDIR"/>
+    <Option Name="IPStaticSourceDir" Val="$PIPUSERFILESDIR/ipstatic"/>
     <Option Name="EnableBDX" Val="FALSE"/>
     <Option Name="DSABoardId" Val="kcu105"/>
+    <Option Name="DSANumComputeUnits" Val="16"/>
     <Option Name="WTXSimLaunchSim" Val="0"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
@@ -39,6 +43,11 @@
     <Option Name="WTVcsExportSim" Val="0"/>
     <Option Name="WTRivieraExportSim" Val="0"/>
     <Option Name="WTActivehdlExportSim" Val="0"/>
+    <Option Name="GenerateIPUpgradeLog" Val="TRUE"/>
+    <Option Name="XSimRadix" Val="hex"/>
+    <Option Name="XSimTimeUnit" Val="ns"/>
+    <Option Name="XSimArrayDisplayLimit" Val="64"/>
+    <Option Name="XSimTraceLimit" Val="65536"/>
   </Configuration>
   <FileSets Version="1" Minor="31">
     <FileSet Name="sources_1" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
@@ -65,26 +74,6 @@
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
-        <CompFileExtendedInfo CompFileName="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.bd" FileRelPathName="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_hwicap_0_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_hwicap_0_0.xci"/>
-        <CompFileExtendedInfo CompFileName="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.bd" FileRelPathName="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_axi_periph_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_axi_periph_0.xci"/>
-        <CompFileExtendedInfo CompFileName="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.bd" FileRelPathName="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_bram_ctrl_0_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_bram_ctrl_0_0.xci"/>
-        <CompFileExtendedInfo CompFileName="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.bd" FileRelPathName="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0.xci"/>
-        <CompFileExtendedInfo CompFileName="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.bd" FileRelPathName="hdl/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.hwdef"/>
-        <CompFileExtendedInfo CompFileName="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.bd" FileRelPathName="hw_handoff/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_bd.tcl"/>
-        <CompFileExtendedInfo CompFileName="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.bd" FileRelPathName="hw_handoff/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.hwh"/>
-        <CompFileExtendedInfo CompFileName="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.bd" FileRelPathName="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_ooc.xdc"/>
-        <CompFileExtendedInfo CompFileName="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.bd" FileRelPathName="hdl/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.v"/>
-        <CompFileExtendedInfo CompFileName="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.bd" FileRelPathName="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_w_1/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_w_1.xci"/>
-        <CompFileExtendedInfo CompFileName="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.bd" FileRelPathName="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_1/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_1.xci"/>
-        <CompFileExtendedInfo CompFileName="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.bd" FileRelPathName="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_ds_1/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_ds_1.xci"/>
-        <CompFileExtendedInfo CompFileName="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.bd" FileRelPathName="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_w_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_w_0.xci"/>
-        <CompFileExtendedInfo CompFileName="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.bd" FileRelPathName="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_rs_0.xci"/>
-        <CompFileExtendedInfo CompFileName="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.bd" FileRelPathName="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_pc_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_pc_0.xci"/>
-        <CompFileExtendedInfo CompFileName="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.bd" FileRelPathName="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_ds_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_ds_0.xci"/>
-        <CompFileExtendedInfo CompFileName="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.bd" FileRelPathName="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_xbar_1/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_xbar_1.xci"/>
-        <CompFileExtendedInfo CompFileName="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.bd" FileRelPathName="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_blk_mem_gen_0_1/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_blk_mem_gen_0_1.xci"/>
-        <CompFileExtendedInfo CompFileName="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.bd" FileRelPathName="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_ila_ICAPHW_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_ila_ICAPHW_0.xci"/>
-        <CompFileExtendedInfo CompFileName="PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.bd" FileRelPathName="ip/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_ila_0_0/PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_ila_0_0.xci"/>
       </File>
       <Config>
         <Option Name="DesignMode" Val="RTL"/>
@@ -134,15 +123,17 @@
   <Runs Version="1" Minor="10">
     <Run Id="synth_1" Type="Ft3:Synth" SrcSet="sources_1" Part="xcku040-ffva1156-2-e" ConstrsSet="constrs_1" Description="Vivado Synthesis Defaults" State="current" IncludeInArchive="true">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2016">
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2017">
           <Desc>Vivado Synthesis Defaults</Desc>
         </StratHandle>
         <Step Id="synth_design"/>
       </Strategy>
+      <ReportStrategy/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
     </Run>
     <Run Id="impl_1" Type="Ft2:EntireDesign" Part="xcku040-ffva1156-2-e" ConstrsSet="constrs_1" Description="Default settings for Implementation." State="current" SynthRun="synth_1" IncludeInArchive="true">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2016">
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2017">
           <Desc>Default settings for Implementation.</Desc>
         </StratHandle>
         <Step Id="init_design"/>
@@ -155,6 +146,8 @@
         <Step Id="post_route_phys_opt_design"/>
         <Step Id="write_bitstream"/>
       </Strategy>
+      <ReportStrategy/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
     </Run>
   </Runs>
 </Project>

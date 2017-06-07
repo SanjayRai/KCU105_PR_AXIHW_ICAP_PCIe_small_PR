@@ -68,22 +68,22 @@
 module clk_100Mhz_out_clk_wiz 
 
  (// Clock in ports
-  input         clk_in_300Mhz_p,
-  input         clk_in_300Mhz_n,
   // Clock out ports
   output        clk_out_100Mhz,
   // Status and control signals
   input         resetn,
-  output        locked
+  output        locked,
+  input         clk_in1_p,
+  input         clk_in1_n
  );
   // Input buffering
   //------------------------------------
-wire clk_in_300Mhz_clk_100Mhz_out;
+wire clk_in1_clk_100Mhz_out;
 wire clk_in2_clk_100Mhz_out;
   IBUFDS clkin1_ibufds
-   (.O  (clk_in_300Mhz_clk_100Mhz_out),
-    .I  (clk_in_300Mhz_p),
-    .IB (clk_in_300Mhz_n));
+   (.O  (clk_in1_clk_100Mhz_out),
+    .I  (clk_in1_p),
+    .IB (clk_in1_n));
 
 
   // Clocking PRIMITIVE
@@ -156,7 +156,7 @@ wire clk_in2_clk_100Mhz_out;
     .CLKOUT6             (clkout6_unused),
      // Input clock control
     .CLKFBIN             (clkfbout_clk_100Mhz_out),
-    .CLKIN1              (clk_in_300Mhz_clk_100Mhz_out),
+    .CLKIN1              (clk_in1_clk_100Mhz_out),
     .CLKIN2              (1'b0),
      // Tied to always select the primary input clock
     .CLKINSEL            (1'b1),
@@ -181,7 +181,6 @@ wire clk_in2_clk_100Mhz_out;
     .CLKFBSTOPPED        (clkfbstopped_unused),
     .PWRDWN              (1'b0),
     .RST                 (reset_high));
-
   assign reset_high = ~resetn; 
 
   assign locked = locked_int;

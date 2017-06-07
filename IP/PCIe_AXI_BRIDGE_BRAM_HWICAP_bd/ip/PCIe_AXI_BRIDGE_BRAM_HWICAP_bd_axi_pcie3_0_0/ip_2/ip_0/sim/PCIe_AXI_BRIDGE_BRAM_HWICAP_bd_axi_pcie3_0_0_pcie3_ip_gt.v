@@ -1,4 +1,4 @@
-// (c) Copyright 1995-2016 Xilinx, Inc. All rights reserved.
+// (c) Copyright 1995-2017 Xilinx, Inc. All rights reserved.
 // 
 // This file contains confidential and proprietary information
 // of Xilinx, Inc. and is protected under U.S. and
@@ -71,7 +71,12 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gt (
   cpllreset_in,
   dmonfiforeset_in,
   dmonitorclk_in,
+  drpaddr_in,
   drpclk_in,
+  drpdi_in,
+  drpen_in,
+  drpwe_in,
+  eyescanreset_in,
   gthrxn_in,
   gthrxp_in,
   gtrefclk0_in,
@@ -96,6 +101,7 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gt (
   rxprbssel_in,
   rxprogdivreset_in,
   rxrate_in,
+  rxratemode_in,
   rxslide_in,
   rxuserrdy_in,
   rxusrclk_in,
@@ -107,6 +113,7 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gt (
   txdata_in,
   txdeemph_in,
   txdetectrx_in,
+  txdiffctrl_in,
   txdlybypass_in,
   txdlyen_in,
   txdlyhold_in,
@@ -146,6 +153,8 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gt (
   bufgtrstmask_out,
   cplllock_out,
   dmonitorout_out,
+  drpdo_out,
+  drprdy_out,
   eyescandataerror_out,
   gthtxn_out,
   gthtxp_out,
@@ -179,6 +188,7 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_pcie3_ip_gt (
   rxprbserr_out,
   rxprbslocked_out,
   rxprgdivresetdone_out,
+  rxratedone_out,
   rxresetdone_out,
   rxstatus_out,
   rxsyncdone_out,
@@ -211,7 +221,12 @@ input wire [7 : 0] cpllpd_in;
 input wire [7 : 0] cpllreset_in;
 input wire [7 : 0] dmonfiforeset_in;
 input wire [7 : 0] dmonitorclk_in;
+input wire [71 : 0] drpaddr_in;
 input wire [7 : 0] drpclk_in;
+input wire [127 : 0] drpdi_in;
+input wire [7 : 0] drpen_in;
+input wire [7 : 0] drpwe_in;
+input wire [7 : 0] eyescanreset_in;
 input wire [7 : 0] gthrxn_in;
 input wire [7 : 0] gthrxp_in;
 input wire [7 : 0] gtrefclk0_in;
@@ -236,6 +251,7 @@ input wire [7 : 0] rxprbscntreset_in;
 input wire [31 : 0] rxprbssel_in;
 input wire [7 : 0] rxprogdivreset_in;
 input wire [23 : 0] rxrate_in;
+input wire [7 : 0] rxratemode_in;
 input wire [7 : 0] rxslide_in;
 input wire [7 : 0] rxuserrdy_in;
 input wire [7 : 0] rxusrclk_in;
@@ -247,6 +263,7 @@ input wire [63 : 0] txctrl2_in;
 input wire [1023 : 0] txdata_in;
 input wire [7 : 0] txdeemph_in;
 input wire [7 : 0] txdetectrx_in;
+input wire [31 : 0] txdiffctrl_in;
 input wire [7 : 0] txdlybypass_in;
 input wire [7 : 0] txdlyen_in;
 input wire [7 : 0] txdlyhold_in;
@@ -286,6 +303,8 @@ output wire [23 : 0] bufgtreset_out;
 output wire [23 : 0] bufgtrstmask_out;
 output wire [7 : 0] cplllock_out;
 output wire [135 : 0] dmonitorout_out;
+output wire [127 : 0] drpdo_out;
+output wire [7 : 0] drprdy_out;
 output wire [7 : 0] eyescandataerror_out;
 output wire [7 : 0] gthtxn_out;
 output wire [7 : 0] gthtxp_out;
@@ -319,6 +338,7 @@ output wire [7 : 0] rxpmaresetdone_out;
 output wire [7 : 0] rxprbserr_out;
 output wire [7 : 0] rxprbslocked_out;
 output wire [7 : 0] rxprgdivresetdone_out;
+output wire [7 : 0] rxratedone_out;
 output wire [7 : 0] rxresetdone_out;
 output wire [23 : 0] rxstatus_out;
 output wire [7 : 0] rxsyncdone_out;
@@ -564,12 +584,12 @@ output wire [7 : 0] txsyncout_out;
     .cpllreset_in(cpllreset_in),
     .dmonfiforeset_in(dmonfiforeset_in),
     .dmonitorclk_in(dmonitorclk_in),
-    .drpaddr_in(72'H000000000000000000),
+    .drpaddr_in(drpaddr_in),
     .drpclk_in(drpclk_in),
-    .drpdi_in(128'H00000000000000000000000000000000),
-    .drpen_in(8'H00),
+    .drpdi_in(drpdi_in),
+    .drpen_in(drpen_in),
     .drprst_in(1'B0),
-    .drpwe_in(8'H00),
+    .drpwe_in(drpwe_in),
     .elpcaldvorwren_in(1'B0),
     .elpcalpaorwren_in(1'B0),
     .evoddphicaldone_in(8'H00),
@@ -579,7 +599,7 @@ output wire [7 : 0] txsyncout_out;
     .evoddphixrden_in(8'H00),
     .evoddphixwren_in(8'H00),
     .eyescanmode_in(8'H00),
-    .eyescanreset_in(8'H00),
+    .eyescanreset_in(eyescanreset_in),
     .eyescantrigger_in(8'H00),
     .gtgrefclk_in(8'H00),
     .gthrxn_in(gthrxn_in),
@@ -724,7 +744,7 @@ output wire [7 : 0] txsyncout_out;
     .rxprogdivreset_in(rxprogdivreset_in),
     .rxqpien_in(8'H00),
     .rxrate_in(rxrate_in),
-    .rxratemode_in(8'H00),
+    .rxratemode_in(rxratemode_in),
     .rxslide_in(rxslide_in),
     .rxslipoutclk_in(8'H00),
     .rxslippma_in(8'H00),
@@ -753,7 +773,7 @@ output wire [7 : 0] txsyncout_out;
     .txdccreset_in(1'B0),
     .txdeemph_in(txdeemph_in),
     .txdetectrx_in(txdetectrx_in),
-    .txdiffctrl_in(32'HCCCCCCCC),
+    .txdiffctrl_in(txdiffctrl_in),
     .txdiffpd_in(8'H00),
     .txdlybypass_in(txdlybypass_in),
     .txdlyen_in(txdlyen_in),
@@ -827,8 +847,8 @@ output wire [7 : 0] txsyncout_out;
     .cpllrefclklost_out(),
     .dmonitorout_out(dmonitorout_out),
     .dmonitoroutclk_out(),
-    .drpdo_out(),
-    .drprdy_out(),
+    .drpdo_out(drpdo_out),
+    .drprdy_out(drprdy_out),
     .eyescandataerror_out(eyescandataerror_out),
     .gthtxn_out(gthtxn_out),
     .gthtxp_out(gthtxp_out),
@@ -894,7 +914,7 @@ output wire [7 : 0] txsyncout_out;
     .rxprgdivresetdone_out(rxprgdivresetdone_out),
     .rxqpisenn_out(),
     .rxqpisenp_out(),
-    .rxratedone_out(),
+    .rxratedone_out(rxratedone_out),
     .rxrecclkout_out(),
     .rxresetdone_out(rxresetdone_out),
     .rxsliderdy_out(),

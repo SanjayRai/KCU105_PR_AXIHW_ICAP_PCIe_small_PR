@@ -70,12 +70,12 @@
 
   clk_100Mhz_out instance_name
    (
-   // Clock in ports
-    .clk_in_300Mhz_p(clk_in_300Mhz_p),    // input clk_in_300Mhz_p
-    .clk_in_300Mhz_n(clk_in_300Mhz_n),    // input clk_in_300Mhz_n
     // Clock out ports
     .clk_out_100Mhz(clk_out_100Mhz),     // output clk_out_100Mhz
     // Status and control signals
     .resetn(resetn), // input resetn
-    .locked(locked));      // output locked
+    .locked(locked),       // output locked
+   // Clock in ports
+    .clk_in1_p(clk_in1_p),    // input clk_in1_p
+    .clk_in1_n(clk_in1_n));    // input clk_in1_n
 // INST_TAG_END ------ End INSTANTIATION Template ---------

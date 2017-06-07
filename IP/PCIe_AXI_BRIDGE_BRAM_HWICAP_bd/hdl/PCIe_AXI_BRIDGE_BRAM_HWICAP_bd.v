@@ -1,8 +1,8 @@
-//Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
+//Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
-//Tool Version: Vivado v.2016.2 (lin64) Build 1577090 Thu Jun  2 16:32:35 MDT 2016
-//Date        : Tue Jun 28 15:22:11 2016
-//Host        : centosMC running 64-bit CentOS release 6.8 (Final)
+//Tool Version: Vivado v.2017.1 (lin64) Build 1846317 Fri Apr 14 18:54:47 MDT 2017
+//Date        : Tue Jun  6 22:41:24 2017
+//Host        : MC32GBLNX running 64-bit CentOS release 6.9 (Final)
 //Command     : generate_target PCIe_AXI_BRIDGE_BRAM_HWICAP_bd.bd
 //Design      : PCIe_AXI_BRIDGE_BRAM_HWICAP_bd
 //Purpose     : IP block netlist
@@ -514,7 +514,7 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd
         .probe7(axi_pcie3_0_axi_periph_M01_AXI_WVALID),
         .probe8(axi_pcie3_0_axi_periph_M01_AXI_ARVALID),
         .probe9(axi_pcie3_0_axi_periph_M01_AXI_ARREADY));
-  PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_ila_0_0 ila_ICAPHW
+  PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_ila_BRAM_0 ila_ICAP
        (.clk(axi_pcie3_0_axi_aclk),
         .probe0(axi_pcie3_0_axi_periph_M00_AXI_WREADY),
         .probe1(axi_pcie3_0_axi_periph_M00_AXI_AWADDR[8:0]),
@@ -1238,7 +1238,7 @@ module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_axi_periph_0
         .S_AXI_wstrb(axi_pcie3_0_axi_periph_to_s00_couplers_WSTRB),
         .S_AXI_wuser(axi_pcie3_0_axi_periph_to_s00_couplers_WUSER),
         .S_AXI_wvalid(axi_pcie3_0_axi_periph_to_s00_couplers_WVALID));
-  PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_xbar_1 xbar
+  PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_xbar_0 xbar
        (.aclk(axi_pcie3_0_axi_periph_ACLK_net),
         .aresetn(axi_pcie3_0_axi_periph_ARESETN_net),
         .m_axi_araddr({xbar_to_m01_couplers_ARADDR,xbar_to_m00_couplers_ARADDR}),

@@ -20,7 +20,7 @@ set script_folder [_tcl::get_script_folder]
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2016.2
+set scripts_vivado_version 2017.1
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
@@ -56,7 +56,16 @@ set design_name PCIe_AXI_BRIDGE_BRAM_HWICAP_bd
 
 set run_remote_bd_flow 1
 if { $run_remote_bd_flow == 1 } {
-  set str_bd_folder /home/sanjayr/projects/Vivado_PR/KCU105_PR_AXIHW_ICAP_PCIe/temp_app/IP
+  # Set the reference directory for source file relative paths (by default 
+  # the value is script directory path)
+  set origin_dir ./IP
+
+  # Use origin directory path location variable, if specified in the tcl shell
+  if { [info exists ::origin_dir_loc] } {
+     set origin_dir $::origin_dir_loc
+  }
+
+  set str_bd_folder [file normalize ${origin_dir}]
   set str_bd_filepath ${str_bd_folder}/${design_name}/${design_name}.bd
 
   # Check if remote design exists on disk
@@ -79,7 +88,7 @@ if { $run_remote_bd_flow == 1 } {
   }
 
   # Check if design exists on disk within project
-  set list_existing_designs [get_files */${design_name}.bd]
+  set list_existing_designs [get_files -quiet */${design_name}.bd]
   if { $list_existing_designs ne "" } {
      catch {common::send_msg_id "BD_TCL-112" "ERROR" "The design <$design_name> already exists in this project at location:
     $list_existing_designs"}
@@ -91,6 +100,7 @@ if { $run_remote_bd_flow == 1 } {
   }
 
   # Now can create the remote BD
+  # NOTE - usage of <-dir> will create <$str_bd_folder/$design_name/$design_name.bd>
   create_bd_design -dir $str_bd_folder $design_name
 } else {
 
@@ -162,11 +172,15 @@ CONFIG.HAS_WSTRB {1} \
 CONFIG.ID_WIDTH {0} \
 CONFIG.MAX_BURST_LENGTH {1} \
 CONFIG.NUM_READ_OUTSTANDING {1} \
+CONFIG.NUM_READ_THREADS {1} \
 CONFIG.NUM_WRITE_OUTSTANDING {1} \
+CONFIG.NUM_WRITE_THREADS {1} \
 CONFIG.PROTOCOL {AXI4LITE} \
 CONFIG.READ_WRITE_MODE {READ_WRITE} \
+CONFIG.RUSER_BITS_PER_BYTE {0} \
 CONFIG.RUSER_WIDTH {0} \
 CONFIG.SUPPORTS_NARROW_BURST {0} \
+CONFIG.WUSER_BITS_PER_BYTE {0} \
 CONFIG.WUSER_WIDTH {0} \
  ] $S_AXI_CTL
   set pci_express_x8 [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:pcie_7x_mgt_rtl:1.0 pci_express_x8 ]
@@ -193,23 +207,29 @@ CONFIG.POLARITY {ACTIVE_LOW} \
   set axi_hwicap_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_hwicap:3.0 axi_hwicap_0 ]
 
   # Create instance: axi_pcie3_0, and set properties
-  set axi_pcie3_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_pcie3:2.1 axi_pcie3_0 ]
+  set axi_pcie3_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_pcie3:3.0 axi_pcie3_0 ]
   set_property -dict [ list \
+CONFIG.AXIBAR_NUM {1} \
+CONFIG.BASEADDR {00001000} \
+CONFIG.HIGHADDR {00001FFF} \
 CONFIG.PCIE_BOARD_INTERFACE {pci_express_x8} \
 CONFIG.SYS_RST_N_BOARD_INTERFACE {pcie_perstn} \
+CONFIG.axi_aclk_loopback {true} \
 CONFIG.axi_data_width {256_bit} \
 CONFIG.axibar_0 {0x0000000000000000} \
 CONFIG.axibar_1 {0x0000000000000000} \
 CONFIG.axibar_highaddr_0 {0x000000000000FFFF} \
 CONFIG.axibar_highaddr_1 {0x0000000000000000} \
-CONFIG.axibar_num {1} \
 CONFIG.axisten_freq {250} \
 CONFIG.coreclk_freq {500} \
 CONFIG.en_axi_slave_if {false} \
 CONFIG.pf0_bar0_size {64} \
 CONFIG.pf0_device_id {8038} \
 CONFIG.pl_link_cap_max_link_speed {8.0_GT/s} \
+CONFIG.pl_link_cap_max_link_width {X8} \
 CONFIG.plltype {QPLL1} \
+CONFIG.select_quad {GTH_Quad_225} \
+CONFIG.sys_reset_polarity {ACTIVE_LOW} \
  ] $axi_pcie3_0
 
   # Create instance: axi_pcie3_0_axi_periph, and set properties
@@ -224,60 +244,29 @@ CONFIG.S00_HAS_REGSLICE {3} \
   # Create instance: blk_mem_gen_0, and set properties
   set blk_mem_gen_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen:8.3 blk_mem_gen_0 ]
   set_property -dict [ list \
+CONFIG.Enable_B {Use_ENB_Pin} \
 CONFIG.Memory_Type {True_Dual_Port_RAM} \
-CONFIG.use_bram_block {BRAM_Controller} \
- ] $blk_mem_gen_0
-
-  # Need to retain value_src of defaults
-  set_property -dict [ list \
-CONFIG.use_bram_block.VALUE_SRC {DEFAULT} \
+CONFIG.Port_B_Clock {100} \
+CONFIG.Port_B_Enable_Rate {100} \
+CONFIG.Port_B_Write_Rate {50} \
+CONFIG.Use_RSTB_Pin {true} \
  ] $blk_mem_gen_0
 
   # Create instance: ila_BRAM, and set properties
-  set ila_BRAM [ create_bd_cell -type ip -vlnv xilinx.com:ip:ila:6.1 ila_BRAM ]
+  set ila_BRAM [ create_bd_cell -type ip -vlnv xilinx.com:ip:ila:6.2 ila_BRAM ]
   set_property -dict [ list \
+CONFIG.C_ENABLE_ILA_AXI_MON {true} \
 CONFIG.C_MONITOR_TYPE {AXI} \
+CONFIG.C_NUM_OF_PROBES {44} \
  ] $ila_BRAM
 
-  # Need to retain value_src of defaults
+  # Create instance: ila_ICAP, and set properties
+  set ila_ICAP [ create_bd_cell -type ip -vlnv xilinx.com:ip:ila:6.2 ila_ICAP ]
   set_property -dict [ list \
-CONFIG.C_MONITOR_TYPE.VALUE_SRC {DEFAULT} \
- ] $ila_BRAM
-
-  # Create instance: ila_ICAPHW, and set properties
-  set ila_ICAPHW [ create_bd_cell -type ip -vlnv xilinx.com:ip:ila:6.1 ila_ICAPHW ]
-  set_property -dict [ list \
-CONFIG.ALL_PROBE_SAME_MU_CNT {4} \
-CONFIG.C_ADV_TRIGGER {true} \
-CONFIG.C_DATA_DEPTH {32768} \
-CONFIG.C_EN_STRG_QUAL {1} \
-CONFIG.C_INPUT_PIPE_STAGES {4} \
+CONFIG.C_ENABLE_ILA_AXI_MON {true} \
 CONFIG.C_MONITOR_TYPE {AXI} \
-CONFIG.C_PROBE0_MU_CNT {4} \
-CONFIG.C_PROBE10_MU_CNT {4} \
-CONFIG.C_PROBE11_MU_CNT {4} \
-CONFIG.C_PROBE12_MU_CNT {4} \
-CONFIG.C_PROBE13_MU_CNT {4} \
-CONFIG.C_PROBE14_MU_CNT {4} \
-CONFIG.C_PROBE15_MU_CNT {4} \
-CONFIG.C_PROBE16_MU_CNT {4} \
-CONFIG.C_PROBE17_MU_CNT {4} \
-CONFIG.C_PROBE18_MU_CNT {4} \
-CONFIG.C_PROBE1_MU_CNT {4} \
-CONFIG.C_PROBE2_MU_CNT {4} \
-CONFIG.C_PROBE3_MU_CNT {4} \
-CONFIG.C_PROBE4_MU_CNT {4} \
-CONFIG.C_PROBE5_MU_CNT {4} \
-CONFIG.C_PROBE6_MU_CNT {4} \
-CONFIG.C_PROBE7_MU_CNT {4} \
-CONFIG.C_PROBE8_MU_CNT {4} \
-CONFIG.C_PROBE9_MU_CNT {4} \
- ] $ila_ICAPHW
-
-  # Need to retain value_src of defaults
-  set_property -dict [ list \
-CONFIG.C_MONITOR_TYPE.VALUE_SRC {DEFAULT} \
- ] $ila_ICAPHW
+CONFIG.C_NUM_OF_PROBES {19} \
+ ] $ila_ICAP
 
   # Create interface connections
   connect_bd_intf_net -intf_net S_AXI_CTL_1 [get_bd_intf_ports S_AXI_CTL] [get_bd_intf_pins axi_pcie3_0/S_AXI_CTL]
@@ -285,13 +274,13 @@ CONFIG.C_MONITOR_TYPE.VALUE_SRC {DEFAULT} \
   connect_bd_intf_net -intf_net axi_bram_ctrl_0_BRAM_PORTB [get_bd_intf_pins axi_bram_ctrl_0/BRAM_PORTB] [get_bd_intf_pins blk_mem_gen_0/BRAM_PORTB]
   connect_bd_intf_net -intf_net axi_pcie3_0_M_AXI [get_bd_intf_pins axi_pcie3_0/M_AXI] [get_bd_intf_pins axi_pcie3_0_axi_periph/S00_AXI]
   connect_bd_intf_net -intf_net axi_pcie3_0_axi_periph_M00_AXI [get_bd_intf_pins axi_hwicap_0/S_AXI_LITE] [get_bd_intf_pins axi_pcie3_0_axi_periph/M00_AXI]
-connect_bd_intf_net -intf_net [get_bd_intf_nets axi_pcie3_0_axi_periph_M00_AXI] [get_bd_intf_pins axi_pcie3_0_axi_periph/M00_AXI] [get_bd_intf_pins ila_ICAPHW/SLOT_0_AXI]
+connect_bd_intf_net -intf_net [get_bd_intf_nets axi_pcie3_0_axi_periph_M00_AXI] [get_bd_intf_pins axi_pcie3_0_axi_periph/M00_AXI] [get_bd_intf_pins ila_ICAP/SLOT_0_AXI]
   connect_bd_intf_net -intf_net axi_pcie3_0_axi_periph_M01_AXI [get_bd_intf_pins axi_bram_ctrl_0/S_AXI] [get_bd_intf_pins axi_pcie3_0_axi_periph/M01_AXI]
 connect_bd_intf_net -intf_net [get_bd_intf_nets axi_pcie3_0_axi_periph_M01_AXI] [get_bd_intf_pins axi_pcie3_0_axi_periph/M01_AXI] [get_bd_intf_pins ila_BRAM/SLOT_0_AXI]
   connect_bd_intf_net -intf_net axi_pcie3_0_pcie_7x_mgt [get_bd_intf_ports pci_express_x8] [get_bd_intf_pins axi_pcie3_0/pcie_7x_mgt]
 
   # Create port connections
-  connect_bd_net -net axi_pcie3_0_axi_aclk [get_bd_pins axi_bram_ctrl_0/s_axi_aclk] [get_bd_pins axi_hwicap_0/s_axi_aclk] [get_bd_pins axi_pcie3_0/axi_aclk] [get_bd_pins axi_pcie3_0/axi_ctl_aclk] [get_bd_pins axi_pcie3_0_axi_periph/ACLK] [get_bd_pins axi_pcie3_0_axi_periph/M00_ACLK] [get_bd_pins axi_pcie3_0_axi_periph/M01_ACLK] [get_bd_pins axi_pcie3_0_axi_periph/S00_ACLK] [get_bd_pins ila_BRAM/clk] [get_bd_pins ila_ICAPHW/clk]
+  connect_bd_net -net axi_pcie3_0_axi_aclk [get_bd_pins axi_bram_ctrl_0/s_axi_aclk] [get_bd_pins axi_hwicap_0/s_axi_aclk] [get_bd_pins axi_pcie3_0/axi_aclk] [get_bd_pins axi_pcie3_0/axi_ctl_aclk] [get_bd_pins axi_pcie3_0_axi_periph/ACLK] [get_bd_pins axi_pcie3_0_axi_periph/M00_ACLK] [get_bd_pins axi_pcie3_0_axi_periph/M01_ACLK] [get_bd_pins axi_pcie3_0_axi_periph/S00_ACLK] [get_bd_pins ila_BRAM/clk] [get_bd_pins ila_ICAP/clk]
   connect_bd_net -net axi_pcie3_0_axi_aresetn [get_bd_pins axi_bram_ctrl_0/s_axi_aresetn] [get_bd_pins axi_hwicap_0/s_axi_aresetn] [get_bd_pins axi_pcie3_0/axi_aresetn] [get_bd_pins axi_pcie3_0_axi_periph/ARESETN] [get_bd_pins axi_pcie3_0_axi_periph/M00_ARESETN] [get_bd_pins axi_pcie3_0_axi_periph/M01_ARESETN] [get_bd_pins axi_pcie3_0_axi_periph/S00_ARESETN]
   connect_bd_net -net icap_clk_1 [get_bd_ports icap_clk] [get_bd_pins axi_hwicap_0/icap_clk]
   connect_bd_net -net intx_msi_request_1 [get_bd_ports intx_msi_request] [get_bd_pins axi_pcie3_0/intx_msi_request]
@@ -305,43 +294,6 @@ connect_bd_intf_net -intf_net [get_bd_intf_nets axi_pcie3_0_axi_periph_M01_AXI] 
   create_bd_addr_seg -range 0x00008000 -offset 0x00000000 [get_bd_addr_spaces axi_pcie3_0/M_AXI] [get_bd_addr_segs axi_hwicap_0/S_AXI_LITE/Reg] SEG_axi_hwicap_0_Reg
   create_bd_addr_seg -range 0x00001000 -offset 0x00000000 [get_bd_addr_spaces S_AXI_CTL] [get_bd_addr_segs axi_pcie3_0/S_AXI_CTL/CTL0] SEG_axi_pcie3_0_CTL0
 
-  # Perform GUI Layout
-  regenerate_bd_layout -layout_string {
-   guistr: "# # String gsaved with Nlview 6.5.12  2016-01-29 bk=1.3547 VDI=39 GEI=35 GUI=JA:1.6
-#  -string -flagsOSRD
-preplace port pci_express_x8 -pg 1 -y 390 -defaultsOSRD
-preplace port icap_clk -pg 1 -y 280 -defaultsOSRD
-preplace port sys_clk_gt -pg 1 -y 480 -defaultsOSRD
-preplace port refclk -pg 1 -y 540 -defaultsOSRD
-preplace port pcie_perstn -pg 1 -y 440 -defaultsOSRD
-preplace port intx_msi_request -pg 1 -y 500 -defaultsOSRD
-preplace port S_AXI_CTL -pg 1 -y 420 -defaultsOSRD
-preplace portBus msi_vector_num -pg 1 -y 520 -defaultsOSRD
-preplace inst ila_BRAM -pg 1 -lvl 3 -y 50 -defaultsOSRD -resize 120 80
-preplace inst axi_pcie3_0 -pg 1 -lvl 1 -y 480 -defaultsOSRD
-preplace inst blk_mem_gen_0 -pg 1 -lvl 4 -y 160 -defaultsOSRD
-preplace inst ila_ICAPHW -pg 1 -lvl 3 -y 450 -defaultsOSRD
-preplace inst axi_pcie3_0_axi_periph -pg 1 -lvl 2 -y 530 -defaultsOSRD
-preplace inst axi_hwicap_0 -pg 1 -lvl 3 -y 300 -defaultsOSRD
-preplace inst axi_bram_ctrl_0 -pg 1 -lvl 3 -y 160 -defaultsOSRD
-preplace netloc icap_clk_1 1 0 3 NJ 280 NJ 280 NJ
-preplace netloc S_AXI_CTL_1 1 0 1 N
-preplace netloc axi_pcie3_0_axi_aresetn 1 1 2 390 340 710
-preplace netloc axi_bram_ctrl_0_BRAM_PORTA 1 3 1 N
-preplace netloc axi_bram_ctrl_0_BRAM_PORTB 1 3 1 N
-preplace netloc refclk_1 1 0 1 NJ
-preplace netloc axi_pcie3_0_axi_periph_M00_AXI 1 2 1 690
-preplace netloc axi_pcie3_0_M_AXI 1 1 1 380
-preplace netloc intx_msi_request_1 1 0 1 NJ
-preplace netloc msi_vector_num_1 1 0 1 NJ
-preplace netloc pcie_perstn_1 1 0 1 NJ
-preplace netloc axi_pcie3_0_pcie_7x_mgt 1 1 4 NJ 390 NJ 390 NJ 390 NJ
-preplace netloc axi_pcie3_0_axi_aclk 1 0 3 20 640 400 380 700
-preplace netloc sys_clk_gt_1 1 0 1 NJ
-preplace netloc axi_pcie3_0_axi_periph_M01_AXI 1 2 1 680
-levelinfo -pg 1 0 200 540 840 1080 1200 -top 0 -bot 670
-",
-}
 
   # Restore current instance
   current_bd_instance $oldCurInst

@@ -55,6 +55,9 @@ set_false_path -to [get_pins -hier *cdc_to*/D]
 # For WR FIFO
 set_false_path -from [get_cells -hierarchical -filter {NAME =~*HWICAP_CTRL_I/IPIC_IF_I/WRFIFO.WRDATA_FIFO_I/USE_2N_DEPTH.V6_S6_AND_LATER.I_ASYNC_FIFO_BRAM/*rstblk*/*rst_reg_reg[*]}]
 set_false_path -to [get_pins -hierarchical -filter {NAME =~*HWICAP_CTRL_I/IPIC_IF_I/WRFIFO.WRDATA_FIFO_I/USE_2N_DEPTH.V6_S6_AND_LATER.I_ASYNC_FIFO_BRAM/*rstblk*/*PRE}]
+set_false_path -from [get_cells -hierarchical -filter {NAME =~ *gsckt_wrst.gic_rst.sckt_wrst_i_reg}] -to [get_cells -hierarchical -filter {NAME =~ *gsckt_wrst.gic_rst.garst_sync_ic[1].rd_rst_inst/Q_reg_reg[0]}]
+set_false_path -from [get_cells -hierarchical -filter {NAME =~ *gsckt_wrst.gic_rst.garst_sync_ic[3].rd_rst_inst/Q_reg_reg[0]}] -to [get_cells -hierarchical -filter {NAME =~ *gsckt_wrst.gic_rst.garst_sync_ic[1].rd_rst_wr_inst/Q_reg_reg[0]}]
+
 ##set_false_path -to [get_pins -hierarchical -filter {NAME =~*/*rstblk*/*CLR}]
 
 
@@ -67,6 +70,8 @@ set_false_path -to [get_pins -hierarchical -filter {NAME =~*HWICAP_CTRL_I/IPIC_I
 set_false_path -from [get_cells -hierarchical -filter {NAME =~*HWICAP_CTRL_I/IPIC_IF_I/RD_FIFO.RDDATA_FIFO_I/USE_2N_DEPTH.V6_S6_AND_LATER.I_ASYNC_FIFO_BRAM/*rstblk*/*rst_reg_reg[*]}]
 set_false_path -to [get_pins -hierarchical -filter {NAME =~*HWICAP_CTRL_I/IPIC_IF_I/RD_FIFO.RDDATA_FIFO_I/USE_2N_DEPTH.V6_S6_AND_LATER.I_ASYNC_FIFO_BRAM/*rstblk*/*PRE}]
 ##set_false_path -to [get_pins -hierarchical -filter {NAME =~*/*rstblk*/*CLR}]
+set_false_path -from [get_cells -hierarchical -filter {NAME =~ *gsckt_wrst.gic_rst.sckt_wrst_i_reg}] -to [get_cells -hierarchical -filter {NAME =~ *gsckt_wrst.gic_rst.garst_sync_ic[1].rd_rst_inst/Q_reg_reg[0]}]
+set_false_path -from [get_cells -hierarchical -filter {NAME =~ *gsckt_wrst.gic_rst.garst_sync_ic[3].rd_rst_inst/Q_reg_reg[0]}] -to [get_cells -hierarchical -filter {NAME =~ *gsckt_wrst.gic_rst.garst_sync_ic[1].rd_rst_wr_inst/Q_reg_reg[0]}]
 
 
 

@@ -1,4 +1,4 @@
-// (c) Copyright 1995-2016 Xilinx, Inc. All rights reserved.
+// (c) Copyright 1995-2017 Xilinx, Inc. All rights reserved.
 // 
 // This file contains confidential and proprietary information
 // of Xilinx, Inc. and is protected under U.S. and
@@ -47,8 +47,8 @@
 // DO NOT MODIFY THIS FILE.
 
 
-// IP VLNV: xilinx.com:ip:axi_pcie3:2.1
-// IP Revision: 1
+// IP VLNV: xilinx.com:ip:axi_pcie3:3.0
+// IP Revision: 2
 
 `timescale 1ns/1ps
 
@@ -279,7 +279,7 @@ output wire [1 : 0] int_qpll1outrefclk_out;
 output wire [1 : 0] int_qpll1outclk_out;
 
   PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_axi_pcie3_0_0_core_top #(
-    .COMPONENT_NAME("axi_pcie3_v2_1"),
+    .COMPONENT_NAME("axi_pcie3_v3_0"),
     .PL_UPSTREAM_FACING("true"),
     .TL_LEGACY_MODE_ENABLE("false"),
     .PCIE_BLK_LOCN(0),
@@ -349,8 +349,12 @@ output wire [1 : 0] int_qpll1outclk_out;
     .C_AXIBAR2PCIEBAR_4(64'H0000000000000000),
     .C_AXIBAR2PCIEBAR_5(64'H0000000000000000),
     .C_INCLUDE_BAROFFSET_REG(1),
-    .C_BASEADDR(32'H00000000),
-    .C_HIGHADDR(32'H00000FFF),
+    .C_BASEADDR(32'H00001000),
+    .C_HIGHADDR(32'H00001FFF),
+    .VU9P_BOARD("FALSE"),
+    .VCU118_BOARD("FALSE"),
+    .ENABLE_JTAG_DBG("FALSE"),
+    .ENABLE_IBERT("false"),
     .C_S_AXI_ID_WIDTH(4),
     .C_M_AXI_ID_WIDTH(3),
     .SHARED_LOGIC(1),
@@ -364,8 +368,9 @@ output wire [1 : 0] int_qpll1outclk_out;
     .C_M_AXI_NUM_WRITE(8),
     .IS_BOARD_PROJECT(1),
     .EN_GT_SELECTION("false"),
-    .SELECT_QUAD("GTH_Quad_224"),
+    .SELECT_QUAD("GTH_Quad_225"),
     .ULTRASCALE("TRUE"),
+    .ULTRASCALE_PLUS("FALSE"),
     .MSI_ENABLED("TRUE"),
     .DEV_PORT_TYPE(0),
     .MSIX_EN("FALSE"),
@@ -373,7 +378,12 @@ output wire [1 : 0] int_qpll1outclk_out;
     .RX_DETECT(0),
     .C_ATS_ENABLE("FALSE"),
     .C_ATS_CAP_NEXTPTR(12'H000),
-    .C_PRI_ENABLE("FALSE")
+    .C_PRI_ENABLE("FALSE"),
+    .AXI_ACLK_LOOPBACK("TRUE"),
+    .CFG_EXT_IF("FALSE"),
+    .C_S_AXI_SUPPORTS_NARROW_BURST(0),
+    .xlnx_ref_board("KCU105"),
+    .NO_SLV_ERR("FALSE")
   ) inst (
     .sys_rst_n(sys_rst_n),
     .cfg_ltssm_state(cfg_ltssm_state),
@@ -505,6 +515,14 @@ output wire [1 : 0] int_qpll1outclk_out;
     .pipe_rx_5_sigs(84'B0),
     .pipe_rx_6_sigs(84'B0),
     .pipe_rx_7_sigs(84'B0),
+    .pipe_rx_8_sigs(84'B0),
+    .pipe_rx_9_sigs(84'B0),
+    .pipe_rx_10_sigs(84'B0),
+    .pipe_rx_11_sigs(84'B0),
+    .pipe_rx_12_sigs(84'B0),
+    .pipe_rx_13_sigs(84'B0),
+    .pipe_rx_14_sigs(84'B0),
+    .pipe_rx_15_sigs(84'B0),
     .common_commands_out(),
     .pipe_tx_0_sigs(),
     .pipe_tx_1_sigs(),
@@ -514,6 +532,14 @@ output wire [1 : 0] int_qpll1outclk_out;
     .pipe_tx_5_sigs(),
     .pipe_tx_6_sigs(),
     .pipe_tx_7_sigs(),
+    .pipe_tx_8_sigs(),
+    .pipe_tx_9_sigs(),
+    .pipe_tx_10_sigs(),
+    .pipe_tx_11_sigs(),
+    .pipe_tx_12_sigs(),
+    .pipe_tx_13_sigs(),
+    .pipe_tx_14_sigs(),
+    .pipe_tx_15_sigs(),
     .pipe_pclk_in(1'B0),
     .pipe_rxusrclk_in(1'B0),
     .pipe_rxoutclk_in(8'B0),
@@ -703,6 +729,15 @@ output wire [1 : 0] int_qpll1outclk_out;
     .cfg_status_set_rf(1'B0),
     .cfg_status_set_s(1'B0),
     .cfg_status_clr_s(1'B0),
-    .cfg_status_ost_pr_alloc()
+    .cfg_status_ost_pr_alloc(),
+    .cfg_ext_read_received(),
+    .cfg_ext_write_received(),
+    .cfg_ext_register_number(),
+    .cfg_ext_function_number(),
+    .cfg_ext_write_data(),
+    .cfg_ext_write_byte_enable(),
+    .cfg_ext_read_data(32'B0),
+    .cfg_ext_read_data_valid(1'B0),
+    .free_run_clock(1'B0)
   );
 endmodule

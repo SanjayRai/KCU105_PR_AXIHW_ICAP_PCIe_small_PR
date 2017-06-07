@@ -1,4 +1,4 @@
-// (c) Copyright 1995-2016 Xilinx, Inc. All rights reserved.
+// (c) Copyright 1995-2017 Xilinx, Inc. All rights reserved.
 // 
 // This file contains confidential and proprietary information
 // of Xilinx, Inc. and is protected under U.S. and
@@ -48,12 +48,12 @@
 
 
 // IP VLNV: xilinx.com:ip:axi_dwidth_converter:2.1
-// IP Revision: 9
+// IP Revision: 12
 
-(* X_CORE_INFO = "axi_dwidth_converter_v2_1_9_top,Vivado 2016.2" *)
-(* CHECK_LICENSE_TYPE = "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_ds_1,axi_dwidth_converter_v2_1_9_top,{}" *)
-(* CORE_GENERATION_INFO = "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_ds_1,axi_dwidth_converter_v2_1_9_top,{x_ipProduct=Vivado 2016.2,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=axi_dwidth_converter,x_ipVersion=2.1,x_ipCoreRevision=9,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,C_FAMILY=kintexu,C_AXI_PROTOCOL=0,C_S_AXI_ID_WIDTH=3,C_SUPPORTS_ID=1,C_AXI_ADDR_WIDTH=15,C_S_AXI_DATA_WIDTH=256,C_M_AXI_DATA_WIDTH=32,C_AXI_SUPPORTS_WRITE=1,C_AXI_SUPPORTS_READ=1,C_FIFO_MODE=0,C_S_AXI_ACLK_RATIO=1,C_M_AXI_ACLK_RATIO=2,C_AXI_IS_ACLK_ASYNC=\
-0,C_MAX_SPLIT_BEATS=256,C_PACKING_LEVEL=1,C_SYNCHRONIZER_STAGE=3}" *)
+(* X_CORE_INFO = "axi_dwidth_converter_v2_1_12_top,Vivado 2017.1" *)
+(* CHECK_LICENSE_TYPE = "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_ds_1,axi_dwidth_converter_v2_1_12_top,{}" *)
+(* CORE_GENERATION_INFO = "PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_ds_1,axi_dwidth_converter_v2_1_12_top,{x_ipProduct=Vivado 2017.1,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=axi_dwidth_converter,x_ipVersion=2.1,x_ipCoreRevision=12,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,C_FAMILY=kintexu,C_AXI_PROTOCOL=0,C_S_AXI_ID_WIDTH=3,C_SUPPORTS_ID=1,C_AXI_ADDR_WIDTH=15,C_S_AXI_DATA_WIDTH=256,C_M_AXI_DATA_WIDTH=32,C_AXI_SUPPORTS_WRITE=1,C_AXI_SUPPORTS_READ=1,C_FIFO_MODE=0,C_S_AXI_ACLK_RATIO=1,C_M_AXI_ACLK_RATIO=2,C_AXI_IS_ACLK_ASYN\
+C=0,C_MAX_SPLIT_BEATS=256,C_PACKING_LEVEL=1,C_SYNCHRONIZER_STAGE=3}" *)
 (* DowngradeIPIdentifiedWarnings = "yes" *)
 module PCIe_AXI_BRIDGE_BRAM_HWICAP_bd_auto_ds_1 (
   s_axi_aclk,
@@ -287,7 +287,7 @@ input wire m_axi_rvalid;
 (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 M_AXI RREADY" *)
 output wire m_axi_rready;
 
-  axi_dwidth_converter_v2_1_9_top #(
+  axi_dwidth_converter_v2_1_12_top #(
     .C_FAMILY("kintexu"),
     .C_AXI_PROTOCOL(0),
     .C_S_AXI_ID_WIDTH(3),
